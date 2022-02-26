@@ -23,7 +23,7 @@ function bucket(arry, numBuckets) {
   //-------------------1. Calculate min and max--------------------------
   let min = Math.min(...arry);
   let max = Math.max(...arry) + 1;
-  //Add one so that the max is not sorted to n + 1 bucket
+  //Add one so that the max is not sorted to n + 1 bucket (which won't exist)
 
   //-------------------2. Calculate size of each bucket--------------------------
   let size = (max - min)/numBuckets;
@@ -52,7 +52,7 @@ function bucket(arry, numBuckets) {
   }
   console.log("Done sorting into buckets!")
 
-  //-------------------3. Combine Buckets--------------------------
+  //-------------------5. Combine Buckets--------------------------
   let result = []
   for (let k=0; k < numBuckets; k++) {
     result.push(...allBuckets[k]);
