@@ -144,11 +144,3 @@ list1.read();
 
 //Print List after methods
 list1.read();
-
-
-
-
-//   sort() {
-//     // sort the Linked List in ascending order of data values
-//   }
-// }
