@@ -1,5 +1,6 @@
 //Implement a Singly Linked List
 
+// ---  Individual Node Class  ---
 class Node {
   constructor(data, next=null) {
     this.data = data
@@ -7,14 +8,14 @@ class Node {
   }
 }
 
+// ---  Linked List Class  ---
 class LinkedList {
   constructor(head=null) {
-    this.head = head
+    this.head = head;
   }
 
-  read() {
+  read(node = this.head) {
     console.log("Iterating through linked list:")
-    let node = this.head;
     while (node) {
       console.log(`At Node ${node.data}.`)
       node = node.next
@@ -105,18 +106,102 @@ class LinkedList {
     return false;
   }
 
-  sort() {
-    
+  //Helper function for mergeSort
+  findMiddle(node) {
+    let slow = node;
+    let fast = node.next;
+
+    while (fast != null && fast.data != null && fast.next != null) {
+      // console.log(`Slow is ${slow.data} and fast is ${fast.data}`);
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    // console.log(`Fast reached null. Returning slow @ ${slow.data}`);
+    return slow;
+  }
+
+  //Helper function for mergeSort
+  merge(nodeA, nodeB) {
+    //Declare 
+    let listC = null;
+    let pointerC = null;
+
+    //While both nodes lists are not exhausted
+    while (nodeA != null && nodeB != null) {
+      if (nodeA.data <= nodeB.data) {
+        if (listC === null) {
+          listC = nodeA;
+          pointerC = nodeA;
+          nodeA = nodeA.next;
+        } else {
+          pointerC.next = nodeA;
+          pointerC = nodeA;
+          nodeA = nodeA.next;
+        }
+      } else {
+        if (listC === null) {
+          listC = nodeB;
+          pointerC = nodeB;
+          nodeB = nodeB.next;
+        } else {
+          pointerC.next = nodeB;
+          pointerC = nodeB;
+          nodeB = nodeB.next;
+        }
+      }
+      console.log(`Adding ${pointerC.data} to merged list`);
+    }
+
+    //While one of the lists is exhausted but the other is not
+    while (nodeA != null) {
+      pointerC.next = nodeA;
+      pointerC = nodeA;
+      nodeA = nodeA.next;
+      console.log(`Adding ${pointerC.data} to merged list`);
+    }
+
+    while (nodeB != null) {
+      pointerC.next = nodeB;
+      pointerC = nodeB;      
+      nodeB = nodeB.next;
+      console.log(`Adding ${pointerC.data} to merged list`);
+    }
+
+    //Return our newly sorted List
+    return listC
+  }
+
+  mergeSort(leftStart = this.head) {
+    //Base Case
+    if (leftStart.next === null) {
+      return leftStart;
+    }
+
+    //Seperate the existing list into two lists
+    let leftEnd = this.findMiddle(leftStart);
+    let rightStart = leftEnd.next;
+    leftEnd.next = null;
+    console.log(`New lists from ${leftStart.data} - ${leftEnd.data} and ${rightStart.data} - null.`)
+
+    //Recursive call on the start of the two lists
+    let listA = this.mergeSort(leftStart);
+    let listB = this.mergeSort(rightStart)
+
+    return this.merge(listA, listB);
   }
   
+  sort() {
+    this.head = this.mergeSort();
+  }
 }
 
 //Create some Nodes
-const node1 = new Node(4);
-const node2 = new Node(5);
+const node1 = new Node(8);
+const node2 = new Node(7);
 const node3 = new Node(6);
-const node4 = new Node(7);
-const node5 = new Node(8);
+const node4 = new Node(5);
+const node5 = new Node(4);
 
 node1.next = node2;
 node2.next = node3;
@@ -140,7 +225,24 @@ list1.read();
 // list1.removeAt(2);
 // console.log(list1.search(7));
 // console.log(list1.search("not here"));
+list1.sort();
+
 
 
 //Print List after methods
 list1.read();
+
+// const leftNode = list1.head;
+// const leftEnd = list1.findMiddle(leftNode);
+// const rightNode = leftEnd.next;
+// leftEnd.next = null;
+
+// console.log("Left List:")
+// list1.read(leftNode);
+
+// console.log("Right List:")
+// list1.read(rightNode);
+
+// const mergedNode = list1.merge(leftNode, rightNode);
+// list1.read(mergedNode);
+

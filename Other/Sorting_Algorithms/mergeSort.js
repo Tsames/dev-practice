@@ -1,3 +1,5 @@
+/* Merge Sort has time complexity O(n log(n)) */
+
 //Helper Sorting Function
 function merge(arrayA, arrayB) {
   let arrayC = [];
@@ -37,8 +39,8 @@ function mergeSort(arr) {
 
   let n = arr.length
 
-  let arrayA = mergeSort(arr.slice(0,n/2));
-  let arrayB = mergeSort(arr.slice(n/2,n));
+  let arrayA = mergeSort(arr.slice(0, n / 2));
+  let arrayB = mergeSort(arr.slice(n / 2, n));
 
   return merge(arrayA, arrayB);
 }
