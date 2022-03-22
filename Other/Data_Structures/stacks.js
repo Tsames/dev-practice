@@ -1,4 +1,4 @@
-//Building a Array Stack
+//Building an Array Stack
 class ArrayStack {
   constructor() {
     this.items = [];
