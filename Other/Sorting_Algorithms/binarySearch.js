@@ -4,17 +4,17 @@
 
 function binarySearch(arr, element) {
   let leftSide = 0;
-  let rightSide = arr.length - 1
-  let pivot = (rightSide/ 2) | 0
-  console.log(`left side is ${leftSide}`);
-  console.log(`right side is ${rightSide}`);
-  console.log(`pivot is ${pivot}`);
-  while (leftSide < pivot < rightSide) {
-    if (leftSide === rightSide) {
-      return -1
-    }
-     else if (arr[pivot] === element) {
-      return pivot
+  let rightSide = arr.length - 1;
+  let pivot = (rightSide/ 2) | 0;
+  let result = false;
+
+  console.log(`left side index is ${leftSide}, element at leftSide is ${arr[leftSide]}`);
+  console.log(`right side index is ${rightSide}, element at rightSide is ${arr[rightSide]}`);
+  console.log(`pivot index is ${pivot}, element at pivot is ${arr[pivot]}`);
+
+  while (leftSide >= rightSide) {
+    if (arr[pivot] === element) {
+      result = true;
     } else if (arr[pivot] < element) {
       leftSide = pivot
       pivot += Math.round((rightSide - leftSide)/2)
@@ -22,13 +22,15 @@ function binarySearch(arr, element) {
       rightSide = pivot;
       pivot -= Math.round((rightSide - leftSide) / 2)
     }
-    console.log(`left side is ${leftSide}`);
-    console.log(`right side is ${rightSide}`);
-    console.log(`pivot is ${pivot}`);
+    console.log(`left side index is ${leftSide}, element at leftSide is ${arr[leftSide]}`);
+    console.log(`right side index is ${rightSide}, element at rightSide is ${arr[rightSide]}`);
+    console.log(`pivot index is ${pivot}, element at pivot is ${arr[pivot]}`);
   }
+  
+  return result
 }
 
 //Expected Output - 0
-console.log(binarySearch([0,1,2,3,4,5,6,7,8,9,10], 0));
+console.log(binarySearch([1,0,3,4,5], 0));
 //Expected Output - 4
-console.log(binarySearch([0,1,13,85,113,187,1191,2041], 113))
+console.log(binarySearch([2,113], 113))
