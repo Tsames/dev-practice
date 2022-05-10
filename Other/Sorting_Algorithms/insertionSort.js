@@ -38,6 +38,3 @@ console.log(insertionSortTwo([12, 6, 3, 7, 13, 8]));
 //Expected Output - [-3, -1, 5, 100]
 console.log(insertionSort([-3, -1, 5, 100]));
 console.log(insertionSortTwo([-3, -1, 5, 100]));
-
-//The big O time complexity for insertion sort is O(n * (n-1)/2)
- //which falls under the n^2 family.
