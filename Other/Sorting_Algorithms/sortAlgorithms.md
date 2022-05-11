@@ -1,5 +1,15 @@
 # Sorting Algorithms
 
+## O(n^2) time complexity Algorithms
+
+### Bubble Sort - O(n^2) / Stable / In-place
+
+###### The Idea
+Start at the beginning of an unsorted array. Iterate through the array comparing the element of the current index with the element of the next index. If the current index has a smaller element swap them. Continue iterating through the array for as long as you made a swap on the previous iteration.
+
+###### Details
+The big O time complexity of Bubble Sort is O(n^2). The algorithm is stable. The algorithm is categorized as in-place because it does not require an additional data structure.
+
 ### Insertion Sort - O(n^2) / Stable / In-place
 
 ###### The Idea
@@ -14,4 +24,4 @@ The big O time complexity of Insertion Sort is O(n * (n-1)/2) which simplifies t
 Start at the beginning of an unsorted array. Set a temporary variable beginning with the current index. Iterate through all elements that come after, comparing the elements at those indexes to that of the element at the index recorded in the temporary variable. If the element at a given index is smaller than the one at the index in the temp variable overwrite the temp variable with the index of the smaller element. After you've iterated through the entire array and found the smallest element and recorded its index in your temp variable switch the element of the current index with the smallest element. Repeat for each index.
 
 ###### Details
-The big O time complexity of Insertion Sort is O(n * (n + 1)/2) which simplifies to the n^2 family. The algorithm is not stable. The algorithm is categorized as in-place because it does not require an additional data structure.
+The big O time complexity of Selection Sort is O(n * (n + 1)/2) which simplifies to the n^2 family. The algorithm is not stable. The algorithm is categorized as in-place because it does not require an additional data structure.
