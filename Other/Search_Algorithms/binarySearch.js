@@ -35,11 +35,14 @@ function binarySearch(arr, element) {
       console.log(`right side index is ${rightPtr}, element at rightPtr is ${arr[rightPtr]}`);
     }
   }
-  
+
+  //If we get here it means we didn't find the element before our pointers crossed
   return -1
 }
 
-//Expected Output - 0
-console.log(binarySearch([0,1,2,3,4,5], 1));
+
+//Tests
 //Expected Output - 4
+console.log(binarySearch([0,1,2,3,4,5], 4));
+//Expected Output - 1
 console.log(binarySearch([2,113], 113))
