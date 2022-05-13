@@ -10,8 +10,7 @@ function binarySearch(arr, element) {
   let leftPtr = 0, rightPtr = arr.length - 1, mid = 0;
 
   //Log Initial Variables
-  console.log(`left side index is ${leftPtr}, element at leftPtr is ${arr[leftPtr]}`);
-  console.log(`right side index is ${rightPtr}, element at rightPtr is ${arr[rightPtr]}`);
+  console.log(`left-pointer is at ${arr[leftPtr]} (I${leftPtr}). right-pointer is at ${arr[rightPtr]} (I${rightPtr}).`);
 
   //Loop as long as the pointers don't cross
   while (leftPtr <= rightPtr) {
@@ -27,12 +26,14 @@ function binarySearch(arr, element) {
     //Else if the element at mid is less than our desired element shift the left pointer
     } else if (arr[mid] < element) {
       leftPtr = mid + 1;
-      console.log(`left side index is ${leftPtr}, element at leftPtr is ${arr[leftPtr]}`);
+      console.log(`moving left-pointer to (I${mid + 1})`);
+      console.log(`left-pointer is at ${arr[leftPtr]} (I${leftPtr}). right-pointer is at ${arr[rightPtr]} (I${rightPtr}).`);
 
     //Else the element at mid is greater than our desired element, so shift the right pointer
     } else {
       rightPtr = mid - 1;
-      console.log(`right side index is ${rightPtr}, element at rightPtr is ${arr[rightPtr]}`);
+      console.log(`moving right-pointer to (I${mid - 1})`);
+      console.log(`left-pointer is at ${arr[leftPtr]} (I${leftPtr}). right-pointer is at ${arr[rightPtr]} (I${rightPtr}).`);
     }
   }
 

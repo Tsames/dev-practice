@@ -16,8 +16,7 @@ function binarySearchBoundary(arr) {
   let leftPtr = 0, rightPtr = arr.length - 1, mid = 0; leftmost = -1;
 
   //Log Initial Variables
-  console.log(`left side index is ${leftPtr}, element at leftPtr is ${arr[leftPtr]}`);
-  console.log(`right side index is ${rightPtr}, element at rightPtr is ${arr[rightPtr]}`);
+  console.log(`left-pointer is at ${arr[leftPtr]} (I${leftPtr}). right-pointer is at ${arr[rightPtr]} (I${rightPtr}).`);
 
   //Loop as long as the pointers don't cross
   while (leftPtr <= rightPtr) {
@@ -30,12 +29,14 @@ function binarySearchBoundary(arr) {
     if (arr[mid] === true) {
       leftmost = mid;
       rightPtr = mid - 1;
-      console.log(`left side index is ${rightPtr}, element at rightPtr is ${arr[rightPtr]}`);
+      console.log(`moving right-pointer to (I${mid - 1})`);
+      console.log(`left-pointer is at ${arr[leftPtr]} (I${leftPtr}). right-pointer is at ${arr[rightPtr]} (I${rightPtr}).`);
 
       //Else we found a false, so move and log leftPtr.
     } else {
       leftPtr = mid + 1;
-      console.log(`left side index is ${leftPtr}, element at leftPtr is ${arr[leftPtr]}`);
+      console.log(`moving left-pointer to (I${mid + 1})`);
+      console.log(`left-pointer is at ${arr[leftPtr]} (I${leftPtr}). right-pointer is at ${arr[rightPtr]} (I${rightPtr}).`);
     }
   }
 
@@ -52,8 +53,7 @@ function binarySearchBoundaryTwo(arr) {
   let leftPtr = 0, rightPtr = arr.length - 1, mid = 0;
 
   //Log Initial Variables
-  console.log(`left side index is ${leftPtr}, element at leftPtr is ${arr[leftPtr]}`);
-  console.log(`right side index is ${rightPtr}, element at rightPtr is ${arr[rightPtr]}`);
+  console.log(`left-pointer is at ${arr[leftPtr]} (I${leftPtr}). right-pointer is at ${arr[rightPtr]} (I${rightPtr}).`);
 
   //Loop as long as the pointers don't cross
   while (leftPtr <= rightPtr) {
@@ -70,12 +70,14 @@ function binarySearchBoundaryTwo(arr) {
     //If mid is on true then we can move the rightPtr to mid and log it.
     } else if (arr[mid] === true) {
       rightPtr = mid;
-      console.log(`left side index is ${rightPtr}, element at rightPtr is ${arr[rightPtr]}`);
+      console.log(`moving right-pointer to (I${mid})`);
+      console.log(`left-pointer is at ${arr[leftPtr]} (I${leftPtr}). right-pointer is at ${arr[rightPtr]} (I${rightPtr}).`);
 
       //Else we found a false, so move and log leftPtr.
     } else {
       leftPtr = mid + 1;
-      console.log(`left side index is ${leftPtr}, element at leftPtr is ${arr[leftPtr]}`);
+      console.log(`moving left-pointer to (I${mid + 1})`);
+      console.log(`left-pointer is at ${arr[leftPtr]} (I${leftPtr}). right-pointer is at ${arr[rightPtr]} (I${rightPtr}).`);
     }
   }
 
@@ -107,4 +109,4 @@ console.log(binarySearchBoundaryTwo([false, true, true, true, true]));
 //Expected Output - -1
 console.log(binarySearchBoundaryTwo([false, false, false, false, false]));
 //Expected Output - 0
-console.log(binarySearchBoundaryTwo([true, true, true, true, true]))
+console.log(binarySearchBoundaryTwo([true, true, true, true, true]));
