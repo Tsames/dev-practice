@@ -1,7 +1,21 @@
+//Import Binary Tree Data Structure and create example tree
 const bt = require('./binaryTree');
 
-const newTree = new bt.BinaryTree();
-newTree.buildTree([1,2,3]);
+const exampleTree = new bt.BinaryTree(10);
+exampleTree.buildTree([1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20]);
 
-console.log(newTree.root.data);
-console.log(newTree.root.left);
+//Max depths function
+function maxDepth(root) {
+
+  //Base Case - If we reach a null then just return 0;
+  if(root === null) {
+    return 0;
+  }
+
+  /* Since its max-depth we would return the the maximum of either left or right subtree.
+   We add one to account for the current node that our recursive function is called on. */
+  return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+}
+
+//Test
+console.log(maxDepth(exampleTree.root));

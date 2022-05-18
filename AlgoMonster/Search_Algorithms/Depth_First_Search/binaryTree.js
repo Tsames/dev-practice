@@ -123,14 +123,4 @@ class BinaryTree {
   }
 }
 
-
-//Tests
-const exampleTree = new BinaryTree();
-exampleTree.buildTree([1,2,3]);
-
-console.log(exampleTree.root.data);
-console.log(exampleTree.root.left);
-console.log(exampleTree.root.right);
-
-
 module.exports = { Node, BinaryTree}
