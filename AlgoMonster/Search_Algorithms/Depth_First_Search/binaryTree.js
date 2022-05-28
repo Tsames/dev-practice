@@ -9,8 +9,8 @@ class Node {
 
 class BinaryTree {
 
-  constructor() {
-    this.root = null;
+  constructor(data = null) {
+    data != null ? this.root = new Node(data) : null;
   }
 
   buildTree(dataArray) {
@@ -119,7 +119,7 @@ class BinaryTree {
   }
 
   prettyPrint() {
-    console.log("not yet")
+    
   }
 }
 
