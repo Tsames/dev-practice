@@ -7,10 +7,11 @@ class Node {
   }
 }
 
+//Binary Tree Class
 class BinaryTree {
 
   constructor(data = null) {
-    data != null ? this.root = new Node(data) : null;
+    data !== null ? this.root = new Node(data) : null;
   }
 
   buildTree(dataArray) {
@@ -119,8 +120,40 @@ class BinaryTree {
   }
 
   prettyPrint() {
-    
+    if (this.root === undefined) {
+      console.log("Tree is empty.");
+      return
+    }
+
+    //Helper variables - one queue data structure and 2 counters;
+    const queue = [this.root];
+    let output, current, levelCount, currentCount = 1;
+
+    while (queue.length > 0) {
+      levelCount = currentCount;
+      currentCount = 0;
+      output = "";
+
+      while (levelCount > 0) {
+        current = queue.shift();
+
+        if (current.left !== null) {
+          queue.push(current.left);
+          currentCount ++;
+        }
+
+        if (current.right !== null) {
+          queue.push(current.right);
+          currentCount++
+        }
+        output = output + `${current.data} `;
+        levelCount --;
+      }
+
+      console.log(output);
+    }
   }
 }
 
-module.exports = { Node, BinaryTree}
+
+module.exports = { Node, BinaryTree }
