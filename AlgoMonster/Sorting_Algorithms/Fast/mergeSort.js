@@ -72,7 +72,7 @@ function mergeSort(unsortedArray) {
   const n = unsortedArray.length;
 
   //Base Case
-  if (n === 1) {
+  if (n <= 1) {
     return unsortedArray;
   }
 
