@@ -91,7 +91,7 @@ function binarySearchBoundaryTwo(arr) {
 
 //Method One
 
-//Expected Output - 4
+// //Expected Output - 4
 // console.log(binarySearchBoundary([false, false, false, false, true, true, true, true]));
 // //Expected Output - 1
 // console.log(binarySearchBoundary([false, true, true, true, true]));
@@ -102,11 +102,11 @@ function binarySearchBoundaryTwo(arr) {
 
 //Method Two
 
-//Expected Output - 4
-console.log(binarySearchBoundaryTwo([false, false, false, false, true, true, true, true]));
-//Expected Output - 1
-console.log(binarySearchBoundaryTwo([false, true, true, true, true]));
-//Expected Output - -1
-console.log(binarySearchBoundaryTwo([false, false, false, false, false]));
-//Expected Output - 0
-console.log(binarySearchBoundaryTwo([true, true, true, true, true]));
+// //Expected Output - 4
+// console.log(binarySearchBoundaryTwo([false, false, false, false, true, true, true, true]));
+// //Expected Output - 1
+// console.log(binarySearchBoundaryTwo([false, true, true, true, true]));
+// //Expected Output - -1
+// console.log(binarySearchBoundaryTwo([false, false, false, false, false]));
+// //Expected Output - 0
+// console.log(binarySearchBoundaryTwo([true, true, true, true, true]));

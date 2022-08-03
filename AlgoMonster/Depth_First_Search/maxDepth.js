@@ -1,8 +1,9 @@
 //Import Binary Tree Data Structure and create example tree
-const bt = require('./binaryTree');
+const trees = require('./Trees');
 
-const exampleTree = new bt.BinaryTree(10, 10);
-exampleTree.buildTree([1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20]);
+const exampleTree = new trees.BinarySearchTree(10);
+exampleTree.buildTree([5, 8, 7, 6, 9, 3, 4, 2, 1, 15, 18, 17, 16, 19, 13, 14, 12, 11, 20]);
+exampleTree.prettyPrint();
 
 //Max depths function
 function maxDepth(currentNode) {

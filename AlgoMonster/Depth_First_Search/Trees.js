@@ -8,7 +8,7 @@ class Node {
 }
 
 //Binary Tree Class
-class BinaryTree {
+class BinarySearchTree {
 
   constructor(data = null) {
     data !== null ? this.root = new Node(data) : null;
@@ -156,4 +156,4 @@ class BinaryTree {
 }
 
 
-module.exports = { Node, BinaryTree }
+module.exports = { Node, BinarySearchTree }
