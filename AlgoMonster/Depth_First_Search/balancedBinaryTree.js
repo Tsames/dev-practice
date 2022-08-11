@@ -1,4 +1,4 @@
-const trees = require('./Trees');
+const trees = require('./binaryTree');
 
 const exampleTree = new trees.BinarySearchTree(10);
 exampleTree.buildTree([5, 8, 7, 6, 9, 3, 4, 2, 1, 15, 18, 17, 16, 19, 13, 14, 12, 11, 20]);
