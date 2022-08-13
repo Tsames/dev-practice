@@ -59,30 +59,28 @@ nums is sorted in non - decreasing order.
 //Replace duplicates in the array with null
 const removeDuplicates = (nums) => {
   let helper = null;
-  for (let i=0; i < nums.length; i++ ){
+  for (let i = nums.length; i >= 0; i--){
+    //Run into a duplicate
     if (nums[i] === helper) {
+      //Set to null
       nums[i] = null;
+
+      //Sort Array (insertion sort like method or sorting)
+      let j = i;
+      while (j < nums.length - 1 && nums[j + 1] !== null) {
+        nums[j] = nums[j + 1];
+        nums[j + 1] = null;
+        j++
+      }
+
+    //Run into non-duplicate
     } else {
       helper = nums[i];
     }
   }
-  sort(nums);
-  return nums;
-}
 
-//Insertion Sort method of organizing the array of non duplicates
-const sort = (nums) => {
-  for (let i = nums.length - 1; i >= 0; i--) {
-    if (nums[i] === null) {
-      let j = i;
-      while (j < nums.length - 1 && nums[j + 1] !== null) {
-        // console.log(`iterating at i equals ${i}`);
-        nums[j] = nums[j+1];
-        nums[j+1] = null;
-        j++
-      }
-    }
-  }
+  //Return our array
+  return nums;
 }
 
 //Tests
