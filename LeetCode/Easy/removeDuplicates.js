@@ -59,13 +59,13 @@ nums is sorted in non - decreasing order.
 //Replace duplicates in the array with null
 const removeDuplicates = (nums) => {
   let helper = null;
-  for (let i = nums.length; i >= 0; i--){
+  for (let i = nums.length - 1; i >= 0; i--){
     //Run into a duplicate
     if (nums[i] === helper) {
       //Set to null
       nums[i] = null;
 
-      //Sort Array (insertion sort like method or sorting)
+      //Sort Array (insertion sort like method of sorting)
       let j = i;
       while (j < nums.length - 1 && nums[j + 1] !== null) {
         nums[j] = nums[j + 1];
