@@ -18,13 +18,12 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Print LL ------------------------ 
-  print() {
+  print(node = this.head) {
     let output = "";
-    let node = this.head;
 
     //Loop through the LinkedList
-    while (node) {
-      if (node === this.head) {
+    for (let i=0; node; i++) {
+      if (i=0) {
         output = output + `${node.data} `
       } else {
         output = output + `-> ${node.data} `
@@ -187,14 +186,13 @@ class SinglyLinkedList {
     return node;
   }
 
-  //---- Finds the middle node of the list (if even number of nodes returns the smaller of the two) ----
-  findMiddle() {
-    let slow = this.head;
+  //---- Finds the middle node of the list (if even number of nodes, returns the smaller of the two) ----
+  findMiddle(slow = this.head) {
     if (!slow) return null;
 
-    let fast = this.head.next;
+    let fast = slow.next;
 
-    while(fast && fast.next) {
+    while(fast && fast.data && fast.next) {
       slow = slow.next;
       fast = fast.next.next;
     }
@@ -202,29 +200,77 @@ class SinglyLinkedList {
     return slow;
   }
 
-  //---- Sorts the nodes in ascending order ----
+  //---- Sorts the nodes in ascending order (with the help of helpers) ----
   sort() {
-    
+    this.head = this.#mergeSort();
+  }
+
+  // ------------------------ Recursive Merge Sort (Returns a single node) ------------------------ 
+  #mergeSort(leftHead = this.head) {
+
+    //Base Case - If the list head is just a single node, then return it.
+    if (!leftHead.next) return leftHead;
+
+    //Else Divide the list into two segments - use findMiddle to find the leftEnd. Then use .next property to find the rightHead (don't need to know right end).
+    let leftEnd = this.findMiddle(leftHead);
+    let rightHead = leftEnd.next;
+    leftEnd.next = null;
+
+    //Recursive calls on each segment
+    console.log(`Recursive calls on [${leftHead.data} - ${leftEnd.data}] and [${rightHead.data} - end].`)
+    let leftList = this.#mergeSort(leftHead);
+    let rightList = this.#mergeSort(rightHead);
+
+    //Reconstruct them in order by calling our helper
+    return this.#merge(leftList, rightList);
+  }
+
+  // ------------------------ Recursive Merge Sort Helper ------------------------
+  #merge(leftHead, rightHead) {
+    //Helper variables
+    let newListHead = new SinglyLinkedListNode(null);
+    let currentNode = newListHead;
+
+    //leftHead and rightHead are not null
+    while (leftHead && rightHead) {
+      //leftHead is smaller - Assign leftHead to the currentNode's next property, then make it the new currentNode, then finally replace leftHead with leftHead's next node.
+      if (leftHead.data <= rightHead.data) {
+        currentNode.next = leftHead;
+        currentNode = leftHead
+        leftHead = leftHead.next;
+      } else {
+        //rightHead is smaller - Same process as above but with the righthead
+        currentNode.next = rightHead;
+        currentNode = rightHead
+        rightHead = rightHead.next;
+      }
+    }
+
+    //leftHead has elements but right list does not
+    while (leftHead && !rightHead) {
+      currentNode.next = leftHead;
+      currentNode = leftHead
+      leftHead = leftHead.next;
+    }
+
+    //rightHead has elements but left list does not
+    while (rightHead && !leftHead) {
+      currentNode.next = rightHead;
+      currentNode = rightHead
+      rightHead = rightHead.next;
+    }
+
+    //Both lists have no elements - so return
+    console.log('Returning new merged list:');
+    this.print(newListHead.next);
+    return newListHead.next
   }
 
 }
 
-const emptyList = new SinglyLinkedList([]);
-console.log("--------- empty list -------------")
-emptyList.print();
-console.log(emptyList.search(3));
-emptyList.print();
-
-const singleList = new SinglyLinkedList([1]);
-console.log("--------- single list -------------")
-singleList.print();
-console.log(singleList.search(3));
-singleList.print();
-
-const normalList = new SinglyLinkedList([1,2,3,4,5,6]);
-console.log("--------- normal list -------------")
-normalList.print();
-console.log(normalList.findMiddle());
+// const normalList = new SinglyLinkedList([1,6,5,4,3,2]);
+// normalList.print();
+// console.log(normalList.sort());
 // normalList.print();
 
 
