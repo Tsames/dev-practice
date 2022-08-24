@@ -35,9 +35,8 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Get the total number of nodes in the LL ------------------------ 
-  getSize() {
+  getSize(node = this.head) {
     let count = 0;
-    let node = this.head;
 
     //Loop as long as the current node is not null
     while (node) {

@@ -18,14 +18,13 @@ class DoublyLinkedList {
     })
   }
 
-  // ------------------------ Print LL ------------------------ 
-  print() {
+  // ------------------------ Print DLL ------------------------ 
+  print(node = this.head) {
     let output = "";
-    let node = this.head;
 
     //Loop through the LinkedList
-    while (node) {
-      if (node === this.head) {
+    for (let i=0; node; i++) {
+      if (i === 0) {
         output = output + `${node.data} `
       } else {
         output = output + `<-> ${node.data} `
@@ -36,10 +35,9 @@ class DoublyLinkedList {
     console.log(output);
   }
 
-  // ------------------------ Get the total number of nodes in the LL ------------------------ 
-  getSize() {
+  // ------------------------ Get the total number of nodes in the DLL ------------------------ 
+  getSize(node = this.head) {
     let count = 0;
-    let node = this.head;
 
     //Loop as long as the current node is not null
     while (node) {
@@ -51,12 +49,11 @@ class DoublyLinkedList {
   }
 
   // ------------------------ Get the last node ------------------------ 
-  getLastNode() {
-    let node = this.head;
+  getLastNode(node = this.head) {
 
     //As long as there is a head node - loop through the list until you find the tail
     if (node) {
-      while (node.next != null) {
+      while (node.next) {
         node = node.next;
       }
     }
@@ -65,10 +62,9 @@ class DoublyLinkedList {
   }
 
   // ------------------------ Get the nth node ------------------------ 
-  getNode(n) {
-    let node = this.head;
+  getNode(n, node = this.head) {
 
-    for (let i = 1; i < n && node.next != null; i++) {
+    for (let i = 1; i < n && node.next; i++) {
       node = node.next;
     }
 
@@ -77,22 +73,21 @@ class DoublyLinkedList {
 
   // ------------------------ Add to front of LL ------------------------ 
   prepend(data) {
-    const newNode = new LinkedListNode(data, this.head);
+    const newNode = new LinkedListNode(data, null, this.head);
     this.head = newNode;
   }
 
   // ------------------------ Add to end of LL ------------------------ 
   append(data) {
-    //Create a new node from the passed data
-    const newNode = new LinkedListNode(data);
-
     //Get the last node
     const lastNode = this.getLastNode();
 
     //If the head is empty set head - otherwise set next of the last node
     if (!lastNode) {
+      const newNode = new DoublyLinkedListNode(data, null, null);
       this.head = newNode;
     } else {
+      const newNode = new DoublyLinkedListNode(data, lastNode, null);
       lastNode.next = newNode;
     }
   }
@@ -210,23 +205,9 @@ class DoublyLinkedList {
 
 }
 
-const emptyList = new DoublyLinkedList([]);
-console.log("--------- empty list -------------")
-emptyList.print();
-console.log(emptyList.search(3));
-emptyList.print();
-
-const singleList = new DoublyLinkedList([1]);
-console.log("--------- single list -------------")
-singleList.print();
-console.log(singleList.search(3));
-singleList.print();
-
 const normalList = new DoublyLinkedList([1, 2, 3, 4, 5, 6]);
-console.log("--------- normal list -------------")
+console.log("--------- Test List -------------")
 normalList.print();
-console.log(normalList.findMiddle());
-// normalList.print();
 
 
 
