@@ -48,8 +48,7 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Get the last node ------------------------ 
-  getLastNode() {
-    let node = this.head;
+  getLastNode(node = this.head) {
 
     //As long as there is a head node - loop through the list until you find the tail
     if (node) {
@@ -62,8 +61,7 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Get the nth node ------------------------ 
-  getNode(n) {
-    let node = this.head;
+  getNode(n, node = this.head) {
 
     for (let i=1; i < n && node.next != null; i++) {
       node = node.next;
@@ -95,20 +93,22 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Remove last node and return it ------------------------ 
-  pop() {
-    let node = this.head;
+  pop(node = this.head) {
 
     //If there is no head node - throw an error
     if (!node) {
 
       throw new Error('List is empty!');
 
-    //If there is only a head node - set the head to null and return the head
+    //If there is only one node and it is THE head node - call this.removeHead()
+    } else if (node && node === this.head && !node.next) {
+
+      return this.removeHead()
+
+    // If there is only one node and it is not THE head node = call this.removeHead(node)
     } else if (node && !node.next) {
 
-      const tail = this.head;
-      this.head = null;
-      return tail
+        return this.removeHead(node);
 
     //Else the list has atleast two nodes in it
     } else {
@@ -124,23 +124,27 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Remove first node and return it ------------------------ 
-  removeHead() {
-    const node = this.head;
+  removeHead(node = this.head) {
 
     //If head exists then set the new head to its next property, else return
-    if (node) {
+    if (node && node === this.head) {
       this.head = this.head.next;
       return node;
+    } else if (node) {
+      const prevNode = this.search(node.data, this.head, true);
+      prevNode.next = node.next;
+      return node
     }
   }
 
   // ------------------------ Remove the nth node and return it ------------------------ 
-  removeAt(n) {
+  removeAt(n, node = this.head) {
     //If there is no head return null
-    if (!this.head) return null;
+    if (!node) return null;
+    if (n <= 1) return this.removeHead(node);
 
-    //Get the n-1 th node (and then easily get the nth node)
-    const nodeBefore = this.getNode(n-1);
+    //Then there must be atleast one prior node to the target, so get the n-1 th node (and then easily get the nth node)
+    const nodeBefore = this.getNode(node, n-1);
     const nthNode = nodeBefore.next;
 
     //If the nth node exists - set the n-1th node's next property to n+1th node
@@ -153,35 +157,40 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Insert after node n ------------------------ 
-  insert(n, data) {
+  insert(n, data, node = this.head) {
 
     //If there is not an existing head, make a head regardless of the n argument
-    if (!this.head) {
+    if (!node && node === this.head) {
       const newHead = new SinglyLinkedListNode(data);
       this.head = newHead;
+    } else if (!node) {
+      throw new Error('Passed node was not a node!');
     }
 
     //Otherwise there must be at least one node - so get either the nth node or the tail node
-    const nodeBefore = this.getNode(n);
+    const nodeBefore = this.getNode(n, node);
 
     const newNode = new SinglyLinkedListNode(data, nodeBefore.next);
     nodeBefore.next = newNode;
   }
 
   // ------------------------ Search nodes for data -> O(n) ------------------------ 
-  search(targetData) {
-    let node = this.head
-
+  search(targetData, node = this.head, before = false) {
     if (!node) return null;
+    
+    let prevNode = null;
 
     while (node) {
       if (node.data === targetData) {
+        if (before) return prevNode;
         return node;
       } else {
+        prevNode = node;
         node = node.next;
       }
     }
 
+    if (before) return prevNode;
     return node;
   }
 
@@ -216,7 +225,7 @@ class SinglyLinkedList {
     leftEnd.next = null;
 
     //Recursive calls on each segment
-    console.log(`Recursive calls on [${leftHead.data} - ${leftEnd.data}] and [${rightHead.data} - end].`)
+    // console.log(`Recursive calls on [${leftHead.data} - ${leftEnd.data}] and [${rightHead.data} - end].`)
     let leftList = this.#mergeSort(leftHead);
     let rightList = this.#mergeSort(rightHead);
 
@@ -260,18 +269,14 @@ class SinglyLinkedList {
     }
 
     //Both lists have no elements - so return
-    console.log('Returning new merged list:');
-    this.print(newListHead.next);
+    // console.log('Returning new merged list:');
+    // this.print(newListHead.next);
     return newListHead.next
   }
 
 }
 
-// const normalList = new SinglyLinkedList([1,6,5,4,3,2]);
-// normalList.print();
-// console.log(normalList.sort());
-// normalList.print();
-
-
+/* I designed many of the methods within the SinglyLinkedList with some added flexibility. Originally many of the methods would
+assume that the starting point for the loops were the head node. I added the node that the methods begin from to be an optional argument.*/
 
 module.exports = { SinglyLinkedListNode, SinglyLinkedList }

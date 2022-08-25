@@ -71,13 +71,14 @@ class DoublyLinkedList {
     return node;
   }
 
-  // ------------------------ Add to front of LL ------------------------ 
+  // ------------------------ Add to front of DLL ------------------------ 
   prepend(data) {
-    const newNode = new LinkedListNode(data, null, this.head);
+    const newNode = new DoublyLinkedListNode(data, null, this.head);
+    this.head.prev = newNode;
     this.head = newNode;
   }
 
-  // ------------------------ Add to end of LL ------------------------ 
+  // ------------------------ Add to end of DLL ------------------------ 
   append(data) {
     //Get the last node
     const lastNode = this.getLastNode();
