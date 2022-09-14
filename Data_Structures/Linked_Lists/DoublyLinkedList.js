@@ -1,4 +1,4 @@
-// ---%*%*%*%*%*%*%*%*%%***%*%*%--- SINGLY LINKED LIST NODE CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
+// ---%*%*%*%*%*%*%*%*%%***%*%*%--- DOUBLY LINKED LIST NODE CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
 
 class DoublyLinkedListNode {
   constructor(data, prev = null, next = null) {
@@ -8,7 +8,7 @@ class DoublyLinkedListNode {
   }
 }
 
-// ---%*%*%*%*%*%*%*%*%%***%*%*%--- SINGLY LINKED LIST CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
+// ---%*%*%*%*%*%*%*%*%%***%*%*%--- DOUBLY LINKED LIST CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
 
 class DoublyLinkedList {
 
@@ -19,18 +19,31 @@ class DoublyLinkedList {
   }
 
   // ------------------------ Print LL ------------------------ 
-  print() {
+  print(reverse = false) {
     let output = "";
-    let node = this.head;
 
-    //Loop through the LinkedList
-    while (node) {
-      if (node === this.head) {
-        output = output + `${node.data} `
-      } else {
-        output = output + `<-> ${node.data} `
+    if (!reverse) {
+      let node = this.head;
+      //Loop forward through the LinkedList
+      while (node) {
+        if (node === this.head) {
+          output = output + `${node.data} `
+        } else {
+          output = output + `<-> ${node.data} `
+        }
+        node = node.next;
       }
-      node = node.next;
+    } else {
+      let node = this.getLastNode();
+      //Loop backwards through the LinkedList
+      while (node) {
+        if (node === this.getLastNode()) {
+          output = output + `${node.data} `
+        } else {
+          output = output + `<-> ${node.data} `
+        }
+        node = node.prev;
+      }
     }
 
     console.log(output);
@@ -77,14 +90,15 @@ class DoublyLinkedList {
 
   // ------------------------ Add to front of LL ------------------------ 
   prepend(data) {
-    const newNode = new LinkedListNode(data, this.head);
+    const newNode = new DoublyLinkedListNode(data, null, this.head);
+    this.head.prev = newNode;
     this.head = newNode;
   }
 
   // ------------------------ Add to end of LL ------------------------ 
   append(data) {
     //Create a new node from the passed data
-    const newNode = new LinkedListNode(data);
+    const newNode = new DoublyLinkedListNode(data);
 
     //Get the last node
     const lastNode = this.getLastNode();
@@ -94,6 +108,7 @@ class DoublyLinkedList {
       this.head = newNode;
     } else {
       lastNode.next = newNode;
+      newNode.prev = lastNode
     }
   }
 
@@ -116,13 +131,14 @@ class DoublyLinkedList {
       //Else the list has atleast two nodes in it
     } else {
 
-      while (node.next.next) {
+      while (node.next) {
         node = node.next;
       }
 
-      const tail = node.next;
-      node.next = null;
-      return tail;
+
+      const newTail = node.prev;
+      newTail.next = null;
+      return node;
     }
   }
 
@@ -133,26 +149,39 @@ class DoublyLinkedList {
     //If head exists then set the new head to its next property, else return
     if (node) {
       this.head = this.head.next;
+      this.head.prev = null
       return node;
     }
   }
 
   // ------------------------ Remove the nth node and return it ------------------------ 
   removeAt(n) {
-    //If there is no head return null
+    //If there is no head - return null
     if (!this.head) return null;
 
-    //Get the n-1 th node (and then easily get the nth node)
-    const nodeBefore = this.getNode(n - 1);
-    const nthNode = nodeBefore.next;
+    //Get the nth node
+    const nthNode = this.getNode(n);
 
-    //If the nth node exists - set the n-1th node's next property to n+1th node
-    if (nthNode) {
-      nodeBefore.next = nthNode.next;
-      return nthNode;
-    } else {
-      return null;
+    //If the nthNode is the head node (getNode gets the nth node OR the last node in the list if n > list length)
+    if (nthNode === this.head) {
+      this.head = null;
+
+    //If the nth node exists and is not the head node
+    } else if (nthNode) {
+      let nodeBefore = nthNode.prev;
+      let nodeAfter = nthNode.next;
+
+      //If the n+1th node exists
+      if (nodeAfter) {
+        nodeBefore.next = nodeAfter;
+        nodeAfter.prev = nodeBefore;
+      //Then there must be a n-1th node but no n+1th node (since there must at least be a head node)
+      } else {
+        nodeBefore.next = null;
+      }
     }
+
+    return nthNode;
   }
 
   // ------------------------ Insert after node n ------------------------ 
@@ -160,14 +189,17 @@ class DoublyLinkedList {
 
     //If there is not an existing head, make a head regardless of the n argument
     if (!this.head) {
-      const newHead = new LinkedListNode(data);
+      const newHead = new DoublyLinkedListNode(data);
       this.head = newHead;
     }
 
     //Otherwise there must be at least one node - so get either the nth node or the tail node
     const nodeBefore = this.getNode(n);
+    const nodeAfter = nodeBefore.next;
 
-    const newNode = new LinkedListNode(data, nodeBefore.next);
+    //Create newNode and set the prev and next properties of the surrounding nodes to accommodate the addition
+    const newNode = new DoublyLinkedListNode(data, nodeBefore, nodeAfter);
+    if (nodeAfter) nodeAfter.prev = newNode;
     nodeBefore.next = newNode;
   }
 
@@ -210,24 +242,11 @@ class DoublyLinkedList {
 
 }
 
-const emptyList = new DoublyLinkedList([]);
-console.log("--------- empty list -------------")
+const emptyList = new DoublyLinkedList([1,2,3,4,5,6,7]);
+console.log("--------- test -------------")
+emptyList.print(true);
 emptyList.print();
-console.log(emptyList.search(3));
-emptyList.print();
-
-const singleList = new DoublyLinkedList([1]);
-console.log("--------- single list -------------")
-singleList.print();
-console.log(singleList.search(3));
-singleList.print();
-
-const normalList = new DoublyLinkedList([1, 2, 3, 4, 5, 6]);
-console.log("--------- normal list -------------")
-normalList.print();
-console.log(normalList.findMiddle());
-// normalList.print();
-
+console.log(emptyList.findMiddle());
 
 
 module.exports = { DoublyLinkedListNode, DoublyLinkedList }

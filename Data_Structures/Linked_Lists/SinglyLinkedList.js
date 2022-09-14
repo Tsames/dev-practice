@@ -209,24 +209,4 @@ class SinglyLinkedList {
 
 }
 
-const emptyList = new SinglyLinkedList([]);
-console.log("--------- empty list -------------")
-emptyList.print();
-console.log(emptyList.search(3));
-emptyList.print();
-
-const singleList = new SinglyLinkedList([1]);
-console.log("--------- single list -------------")
-singleList.print();
-console.log(singleList.search(3));
-singleList.print();
-
-const normalList = new SinglyLinkedList([1,2,3,4,5,6]);
-console.log("--------- normal list -------------")
-normalList.print();
-console.log(normalList.findMiddle());
-// normalList.print();
-
-
-
 module.exports = { SinglyLinkedListNode, SinglyLinkedList }
