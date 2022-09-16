@@ -18,17 +18,14 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Print LL ------------------------ 
-  print() {
-    let output = "";
-    let node = this.head;
+  print(node = this.head) {
+    if (!node) return null;
+    let output = `${node.data}`;
+    node = node.next;
 
     //Loop through the LinkedList
     while (node) {
-      if (node === this.head) {
-        output = output + `${node.data} `
-      } else {
-        output = output + `-> ${node.data} `
-      }
+      output = output + ` => ${node.data}`
       node = node.next;
     }
 
@@ -36,9 +33,8 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Get the total number of nodes in the LL ------------------------ 
-  getSize() {
+  getSize(node = this.head) {
     let count = 0;
-    let node = this.head;
 
     //Loop as long as the current node is not null
     while (node) {
@@ -50,12 +46,11 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Get the last node ------------------------ 
-  getLastNode() {
-    let node = this.head;
+  getLastNode(node = this.head) {
 
     //As long as there is a head node - loop through the list until you find the tail
     if (node) {
-      while (node.next != null) {
+      while (node.next) {
         node = node.next;
       }
     }
@@ -64,8 +59,7 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Get the nth node ------------------------ 
-  getNode(n) {
-    let node = this.head;
+  getNode(n, node = this.head) {
 
     for (let i=1; i < n && node.next != null; i++) {
       node = node.next;
@@ -137,12 +131,12 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Remove the nth node and return it ------------------------ 
-  removeAt(n) {
+  removeAt(n, node = this.head) {
     //If there is no head return null
-    if (!this.head) return null;
+    if (!node) return null;
 
     //Get the n-1 th node (and then easily get the nth node)
-    const nodeBefore = this.getNode(n-1);
+    const nodeBefore = this.getNode(n-1, node);
     const nthNode = nodeBefore.next;
 
     //If the nth node exists - set the n-1th node's next property to n+1th node
@@ -155,7 +149,7 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Insert after node n ------------------------ 
-  insert(n, data) {
+  insert(n, data, node = this.head) {
 
     //If there is not an existing head, make a head regardless of the n argument
     if (!this.head) {
@@ -164,16 +158,14 @@ class SinglyLinkedList {
     }
 
     //Otherwise there must be at least one node - so get either the nth node or the tail node
-    const nodeBefore = this.getNode(n);
+    const nodeBefore = this.getNode(n, node);
 
     const newNode = new SinglyLinkedListNode(data, nodeBefore.next);
     nodeBefore.next = newNode;
   }
 
   // ------------------------ Search nodes for data -> O(n) ------------------------ 
-  search(targetData) {
-    let node = this.head
-
+  search(targetData, node = this.head) {
     if (!node) return null;
 
     while (node) {
@@ -188,13 +180,12 @@ class SinglyLinkedList {
   }
 
   //---- Finds the middle node of the list (if even number of nodes returns the smaller of the two) ----
-  findMiddle() {
-    let slow = this.head;
+  findMiddle(slow = this.head) {
     if (!slow) return null;
 
-    let fast = this.head.next;
+    let fast = slow.next;
 
-    while(fast && fast.next) {
+    while (fast && fast.next) {
       slow = slow.next;
       fast = fast.next.next;
     }
@@ -204,7 +195,74 @@ class SinglyLinkedList {
 
   //---- Sorts the nodes in ascending order ----
   sort() {
-    
+    this.head = this.mergeSort();
+    this.print();
+  }
+
+  //Recursive Merge Sort Engine
+  mergeSort(leftHead = this.head) {
+
+    //BASE CASE: If list has only a single node or no nodes, return the list
+    if (!leftHead || !leftHead.next) {
+      return leftHead;
+    }
+
+    /* If its not the base case, then there must be atleast two nodes.
+    Find the middle node of the list and from there make two lists. */
+    let leftEnd = this.findMiddle(leftHead);
+    let rightHead = leftEnd.next;
+    leftEnd.next = null;
+
+    //Save a recursive call on each list to a variable
+    const leftList = this.mergeSort(leftHead);
+    const rightList = this.mergeSort(rightHead);
+
+    //return the result of merge() of the two variables
+    return this.merge(leftList, rightList);
+  }
+
+  //Merge Sort Helper Function
+  merge(leftHead, rightHead) {
+
+    //Intialize Output List
+    let output = new SinglyLinkedListNode(null, null);
+    let pointer = output;
+
+    let leftPtr = leftHead;
+    let rightPtr = rightHead;
+
+    /* While the leftList and rightList still have nodes, compare them and add the
+    smaller of the two to the output list */
+    while (leftPtr !== null && rightPtr !== null) {
+      if (leftPtr.data <= rightPtr.data) {
+        pointer.next = leftPtr;
+        pointer = leftPtr;
+        leftPtr = leftPtr.next
+      } else {
+        pointer.next = rightPtr;
+        pointer = rightPtr;
+        rightPtr = rightPtr.next;
+      }
+    }
+
+    //While the leftList still has nodes, add them in order to the output list
+    while (leftPtr !== null) {
+      pointer.next = leftPtr;
+      pointer = leftPtr;
+      leftPtr = leftPtr.next;
+    }
+
+    //While the rightList still has nodes, add them in order to the output list
+    while (rightPtr !== null) {
+      pointer.next = rightPtr;
+      pointer = rightPtr;
+      rightPtr = rightPtr.next;
+    }
+
+    //Remove the head of the output list and return it.
+    let realOutput = output.next;
+    output.next = null;
+    return realOutput;
   }
 
 }
