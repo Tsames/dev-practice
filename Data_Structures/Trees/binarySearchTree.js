@@ -84,17 +84,6 @@ class BinarySearchTree {
     return 1 + Math.max(maxDepth(currentNode.left), maxDepth(currentNode.right));
   }
 
-  count(node = this.root, count = 0) {
-    if (!node) return 0;
-
-    count += 1;
-
-    if (node.left) count = this.count(node.left, count);
-    if (node.right) count = this.count(node.right, count);
-
-    return count;
-  }
-
   remove(data) {
 
     //If the passed data is not in array format - convert it
@@ -154,6 +143,17 @@ class BinarySearchTree {
         return node;
       }
     }
+  }
+
+  count(node = this.root, count = 0) {
+    if (!node) return 0;
+
+    count += 1;
+
+    if (node.left) count = this.count(node.left, count);
+    if (node.right) count = this.count(node.right, count);
+
+    return count;
   }
 
   search(target, node = this.root) {
@@ -229,8 +229,5 @@ class BinarySearchTree {
     }
   }
 }
-
-const exampleTree = new BinarySearchTree([10, 5, 8, 7, 6, 9, 3, 4, 2, 1, 15, 18, 17, 16, 19, 13, 14, 12, 11, 20]);
-exampleTree.prettyPrint();
 
 module.exports = { BinarySearchTreeNode, BinarySearchTree }
