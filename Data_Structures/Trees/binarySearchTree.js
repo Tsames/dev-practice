@@ -75,6 +75,26 @@ class BinarySearchTree {
     }
   }
 
+  findMaxDepth(node = this.root) {
+    //If the node is null
+    if (!node) return 0;
+
+    /* Since its max-depth we would return the the maximum of either left or right subtree.
+    We add one to account for the current node that our recursive function is called on. */
+    return 1 + Math.max(maxDepth(currentNode.left), maxDepth(currentNode.right));
+  }
+
+  count(node = this.root, count = 0) {
+    if (!node) return 0;
+
+    count += 1;
+
+    if (node.left) count = this.count(node.left, count);
+    if (node.right) count = this.count(node.right, count);
+
+    return count;
+  }
+
   remove(data) {
 
     //If the passed data is not in array format - convert it
@@ -136,40 +156,81 @@ class BinarySearchTree {
     }
   }
 
+  search(target, node = this.root) {
+    //If node is null then return null
+    if (!node) return null;
+
+    //If node has the target data then return it
+    if (node.data === target) return node;
+
+    //If target is less than the node's data then run a recursive call on the left child
+    if (node.data > target) return this.search(target, node.left);
+    return this.search(target, node.right);
+  }
+
   prettyPrint() {
-    if (this.root === undefined) {
+    if (!this.root) {
       console.log("Tree is empty.");
       return
     }
 
-    //Helper variables - one queue data structure and 2 counters;
-    const queue = [this.root];
-    let output, current, levelCount, currentCount = 1;
+    //Helper variables - two queue data structures, 4 temp variables, and 2 counters;
+    const nodeQueue = [this.root];
+    const parentNodeQueue = [];
 
-    while (queue.length > 0) {
-      levelCount = currentCount;
-      currentCount = 0;
+    /* 
+    output holds the string being printed. It holds one level of the tree at a time.
+    current holds the node being visited in our loops.
+
+    currentParent holds the parent node of current.
+    lastParent holds the parent of the previous iteration of current.
+
+    currentLevel holds the number of nodes on the current level that we are iterating on.
+    nextLevel holds the number of nodes that the current level (currentLevel) has as children. */
+
+    let output, current, currentParent, lastParent, currentLevel, nextLevel = 1;
+
+    //Loop as long as there are nodes in the nodeQueue
+    while (nodeQueue.length > 0) {
+      currentLevel = nextLevel;
+      nextLevel = 0;
       output = "";
 
-      while (levelCount > 0) {
-        current = queue.shift();
+      //Loop as long as there are nodes still to be visited on this level (kept track of by currentLevel)
+      while (currentLevel > 0) {
+        current = nodeQueue.shift();
+        if (parentNodeQueue.length > 0) currentParent = parentNodeQueue.shift();
 
-        if (current.left !== null) {
-          queue.push(current.left);
-          currentCount ++;
+        //If the current node has a left branch
+        if (current.left) {
+          nodeQueue.push(current.left);
+          parentNodeQueue.push(current);
+          nextLevel ++;
         }
 
-        if (current.right !== null) {
-          queue.push(current.right);
-          currentCount++
+        //If the current node has a right branch
+        if (current.right) {
+          nodeQueue.push(current.right);
+          parentNodeQueue.push(current);
+          nextLevel++
         }
-        output = output + `${current.data} `;
-        levelCount --;
+
+        if (currentParent !== lastParent) {
+          output = output + `[${currentParent.data}] -> ` + `${current.data} `;
+        } else {
+          output = output + `${current.data} `;
+        }
+
+        lastParent = currentParent;
+        currentLevel --;
       }
 
       console.log(output);
     }
   }
 }
+
+const exampleTree = new BinarySearchTree([10, 5, 8, 7, 6, 9, 3, 4, 2, 1, 15, 18, 17, 16, 19, 13, 14, 12, 11, 20]);
+exampleTree.prettyPrint();
 
 module.exports = { BinarySearchTreeNode, BinarySearchTree }
