@@ -81,7 +81,7 @@ class BinarySearchTree {
 
     /* Since its max-depth we would return the the maximum of either left or right subtree.
     We add one to account for the current node that our recursive function is called on. */
-    return 1 + Math.max(maxDepth(currentNode.left), maxDepth(currentNode.right));
+    return 1 + Math.max(this.findMaxDepth(node.left), this.findMaxDepth(node.right));
   }
 
   remove(data) {
@@ -168,7 +168,7 @@ class BinarySearchTree {
     return this.search(target, node.right);
   }
 
-  prettyPrint() {
+  print() {
     if (!this.root) {
       console.log("Tree is empty.");
       return

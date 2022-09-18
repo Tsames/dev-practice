@@ -4,7 +4,7 @@ const exampleTree = new trees.BinarySearchTree(10);
 exampleTree.buildTree([5, 8, 7, 6, 9, 3, 4, 2, 1, 15, 18, 17, 16, 19, 13, 14, 12, 11, 20]);
 
 const InOrder = (root) => {
-  if (root !== null) {
+  if (root) {
     InOrder(root.left);
     console.log(root.data);
     InOrder(root.right);
@@ -27,6 +27,6 @@ const postOrder = (root) => {
   }
 }
 
-// InOrder(exampleTree.root);
-// preOrder(exampleTree.root);
+InOrder(exampleTree.root);
+preOrder(exampleTree.root);
 postOrder(exampleTree.root);
