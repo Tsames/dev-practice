@@ -16,6 +16,8 @@ class BinarySearchTree {
     this.insert(data);
   }
 
+  // ------------------------ Insert new node(s) ------------------------
+
   insert(data) {
     //If the passed data is not in array format - convert it
     if (!Array.isArray(data)) data = [data];
@@ -35,12 +37,14 @@ class BinarySearchTree {
       
   }
 
+  // ------------------------ Insert new node(s) helper ------------------------
+
   insertNode(node, newNode) {
     //Determine which side the newNode belongs on
     if (newNode.data < node.data) {
 
-      /* If the left child is null replace it, otherwise run this function again with
-      left child as the node */
+      /* If the left subtree is null replace it, otherwise run this function again with
+      left subtree as the node */
       if (!node.left) {
         node.left = newNode;
       } else {
@@ -49,8 +53,8 @@ class BinarySearchTree {
 
     } else {
 
-      /* If the right child is null replace it, otherwise run this function again with
-      right child as the node */
+      /* If the right subtree is null replace it, otherwise run this function again with
+      right subtree as the node */
       if (!node.right) {
         node.right = newNode;
       } else {
@@ -58,6 +62,8 @@ class BinarySearchTree {
       }
     }
   }
+
+  // ------------------------ Find the node with the smallest number ------------------------
 
   findMinNode(node = this.root) {
     if (!node || !node.left) {
@@ -67,6 +73,8 @@ class BinarySearchTree {
     }
   }
 
+  // ------------------------ Find the node with the biggest number ------------------------
+
   findMaxNode(node = this.root) {
     if (!node || !node.right) {
       return node;
@@ -74,6 +82,8 @@ class BinarySearchTree {
       return this.findMaxNode(node.right);
     }
   }
+
+  // ------------------------ Find the depth of the deepest subtree ------------------------
 
   findMaxDepth(node = this.root) {
     //If the node is null
@@ -83,6 +93,8 @@ class BinarySearchTree {
     We add one to account for the current node that our recursive function is called on. */
     return 1 + Math.max(this.findMaxDepth(node.left), this.findMaxDepth(node.right));
   }
+
+  // ------------------------ Remove node(s) ------------------------
 
   remove(data) {
 
@@ -94,6 +106,8 @@ class BinarySearchTree {
     })
   }
 
+  // ------------------------ Remove node(s) helper ------------------------
+
   removeNode(node, key) {
 
     //Current Node is null
@@ -101,39 +115,39 @@ class BinarySearchTree {
 
       return null;
 
-    //Target is less than current node
+    //Target is less than the data of the current node
     } else if (key < node.data) {
 
       node.left = this.removeNode(node.left, key);
       return node;
     
-    //Target is greater than current node
+    //Target is greater than the data of the current node
     } else if (key > node.data) {
 
       node.right = this.removeNode(node.right, key);
       return node;
 
-    //Target is equal to current Node
+    //Target is equal to the data of the current Node
     } else {
 
-      //Delete a node with no children
+      //Delete a node with no subtrees
       if (!node.left && !node.right) {
         node = null;
         return node;
 
-      //Delete a node with only a left child
+      //Delete a node with only a left subtree
       } else if (!node.right) {
         node = node.left;
         return node;
       
-      //Delete a node with only a right child
+      //Delete a node with only a right subtree
       } else if (!node.left) {
         node = node.right;
         return node;
 
-      //Delete a node with both a right and a left child
+      //Delete a node with both a right and a left subtree
       } else {
-        /* Find the right sub-tree's minimum node and replace the value of the node-to-be-deleted
+        /* Find the right subtree's minimum node and replace the value of the node-to-be-deleted
         with it. Then use this function recursively to delete the node whose data you just used to replace
         the original node-to-be-deleted with. */
         let temp = this.findMinNode(node.right);
@@ -144,6 +158,8 @@ class BinarySearchTree {
       }
     }
   }
+
+  // ------------------------ Count the number of nodes in the tree ------------------------
 
   count(node = this.root, count = 0) {
     if (!node) return 0;
@@ -156,6 +172,8 @@ class BinarySearchTree {
     return count;
   }
 
+  // ------------------------ Search for a node with the target value ------------------------
+
   search(target, node = this.root) {
     //If node is null then return null
     if (!node) return null;
@@ -163,10 +181,12 @@ class BinarySearchTree {
     //If node has the target data then return it
     if (node.data === target) return node;
 
-    //If target is less than the node's data then run a recursive call on the left child
+    //If target is less than the node's data then run a recursive call on the left subtree, Otherwise return a recursive call on the right subtree
     if (node.data > target) return this.search(target, node.left);
     return this.search(target, node.right);
   }
+
+  // ------------------------ Print each level of the tree (prints parent of the nodes in brackets on the same line) ------------------------
 
   print() {
     if (!this.root) {

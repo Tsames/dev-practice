@@ -16,6 +16,8 @@ class BinaryTree {
     this.insert(data);
   }
 
+  // ------------------------ Insert new node(s) ------------------------ 
+
   insert(data) {
     //If the passed data is not in array format - convert it
     if (!Array.isArray(data)) data = [data];
@@ -35,7 +37,8 @@ class BinaryTree {
 
   }
 
-  //This insertion method tries to keep the binary tree balanced
+  // ------------------------ Insert new node(s) helper ------------------------
+  //This insertion method tries to keep the binary tree balanced 
 
   insertNode(newNode) {
     //Helper variable and queue
@@ -46,17 +49,17 @@ class BinaryTree {
     while (nodeQueue.length > 0) {
       current = nodeQueue.shift();
       
-      //If there is no left node - insert new node here
+      //If there is no left subtree - insert new node here
       if (!current.left) {
         current.left = newNode;
         return;
 
-      //If there is no right node - insert new node here
+      //If there is no right subtree - insert new node here
       } else if (!current.right) {
         current.right = newNode;
         return;
 
-      //Else add both left and right nodes to queue and iterate again  
+      //Else add both left and right subtrees to queue and iterate again  
       } else {
         nodeQueue.push(current.left);
         nodeQueue.push(current.right);
@@ -64,6 +67,8 @@ class BinaryTree {
     }
   }
 
+  // ------------------------ Find the node with the smallest number ------------------------
+  
   findMinNode(node = this.root, lowestNode = null, lowest = Number.POSITIVE_INFINITY) {
     //If current node is null, then return the node with the lowest data thats been found in this subtree.
     if (!node) return lowestNode;
@@ -82,6 +87,8 @@ class BinaryTree {
     if (leftSubTree.data <= rightSubTree.data) return leftSubTree;
     return rightSubTree
   }
+
+  // ------------------------ Find the node with the biggest number ------------------------
 
   findMaxNode(node = this.root, greatestNode = null, greatest = Number.NEGATIVE_INFINITY) {
     //If current node is null, then return the node with the greatest data thats been found in this subtree.
@@ -102,6 +109,8 @@ class BinaryTree {
     return rightSubTree
   }
 
+  // ------------------------ Find the depth of the deepest subtree ------------------------
+
   findMaxDepth(node = this.root) {
     //If the node is null
     if (!node) return 0;
@@ -111,60 +120,68 @@ class BinaryTree {
     return 1 + Math.max(this.findMaxDepth(node.left), this.findMaxDepth(node.right));
   }
 
+  // ------------------------ Remove node(s) ------------------------
+
   remove(data) {
 
     //If the passed data is not in array format - convert it
     if (!Array.isArray(data)) data = [data];
 
     data.forEach((element) => {
-      this.removeNode(element);
+      this.root = this.removeNode(this.root, element);
     })
   }
 
-  removeNode(target,) {
+  // ------------------------ Remove node(s) helper ------------------------
 
-    //Get both the parent node and the target node - use the left variable to track which subtree of the parent has the target node
-    let left = true, parentNode = this.search(target, true), targetNode = parentNode.left;
+  removeNode(node, target) {
 
-    //Correct initial variable settings if needed
-    if (parentNode.right && parentNode.right.data === target) {
-      targetNode = parentNode.right;
-      left = false;
-    } 
+    //Current Node is null
+    if (!node) {
 
-    //If target has no subtrees
-    if (!targetNode.left && !targetNode.right) {
+      return null;
 
-      if (left) parentNode.left = null;
-      else parentNode.right = null;
-
-    //If target only has a left subtree
-    } else if (!targetNode.right) {
-
-      if (left) parentNode.left = targetNode.left;
-      else parentNode.right = targetNode.left;
-
-    //If target only has a right subtree
-    } else if (!targetNode.left) {
-
-      if (left) parentNode.left = targetNode.right;
-      else parentNode.right = targetNode.right;
-
-    //Else target has left and right subtrees
+    //Current node's data is not equal to target
+    } else if (target !== node.data){
+      
+      node.left = this.removeNode(node.left, target);
+      node.right = this.removeNode(node.right, target);
+      return node;
+      
+    //Else the current node has data that is equal to target
     } else {
 
-      if (left) {
-        let temp = targetNode.right;
-        parentNode.left = targetNode.left;
-        targetNode.left.right = temp;
-      } else {
-        let temp = targetNode.right;
-        parentNode.right = targetNode.left;
-        targetNode.left. = temp;
-      }
+      //Delete a node with no subtrees
+      if (!node.left && !node.right) {
+        node = null;
+        return node;
 
+      //Delete a node with only a left subtree
+      } else if (!node.right) {
+        node = node.left;
+        return node;
+
+      //Delete a node with only a right subtree
+      } else if (!node.left) {
+        node = node.right;
+        return node;
+
+      //Delete a node with both a right and a left subtree
+      } else {
+        /* Replace the value of the node-to-be-deleted with the value of the first node in it's right subtree.
+        Then use this function recursively to delete the node whose data you just used to replace the original
+        node-to-be-deleted with. */
+
+        let temp = node.right;
+        node.data = temp.data;
+
+        node.right = this.removeNode(node.right, temp.data);
+        return node;
+      }
     }
   }
+
+  // ------------------------ Count the number of nodes in the tree ------------------------
 
   count(node = this.root, count = 0) {
     if (!node) return 0;
@@ -177,25 +194,25 @@ class BinaryTree {
     return count;
   }
 
+  // ------------------------ Search for a node with the target value ------------------------
   //Depth-First Search
 
-  search(target, getParent = false, node = this.root, parent = null) {
+  search(target, node = this.root) {
     //If node is null then return null
     if (!node) return null;
-
-    //If node has the target data and getParent was requested return the parent node
-    if (node.data === target && getParent) return parent;
 
     //If node has the target data then return it
     if (node.data === target) return node;
 
     //Search left subtree - if something non-null is found return it
-    let left = this.search(target, getParent, node.left, parent = node);
+    let left = this.search(target, node.left);
     if (left) return left;
 
     //Search right subtree - return it either way since if it is null then both left and right subtrees are null.
-    return this.search(target, getParent, node.right, parent = node);
+    return this.search(target, node.right);
   }
+
+  // ------------------------ Print each level of the tree (prints parent of the nodes in brackets on the same line) ------------------------
 
   print() {
     if (!this.root) {
@@ -209,7 +226,7 @@ class BinaryTree {
 
     /* 
     output holds the string being printed. It holds one level of the tree at a time.
-    current holds the node being visited in our loops.
+    current holds the node being visited in the nested while loop.
 
     currentParent holds the parent node of current.
     lastParent holds the parent of the previous iteration of current.
@@ -258,10 +275,5 @@ class BinaryTree {
     }
   }
 }
-
-const exampleTree = new BinaryTree([10, 5, 8, 7, 6, 9, 3, 4, 2, 1, 15, 18, 17, 16, 19, 13, 14, 12, 11, 20])
-exampleTree.print();
-console.log(exampleTree.search(7));
-console.log(exampleTree.search(7,true));
 
 module.exports = { BinaryTreeNode, BinaryTree }
