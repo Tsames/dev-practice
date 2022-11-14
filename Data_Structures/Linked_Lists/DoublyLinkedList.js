@@ -1,30 +1,30 @@
-// ---%*%*%*%*%*%*%*%*%%***%*%*%--- SINGLY LINKED LIST NODE CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
+// ---%*%*%*%*%*%*%*%*%%***%*%*%--- Doubly LINKED LIST NODE CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
 
 class DoublyLinkedListNode {
   constructor(data, prev = null, next = null) {
     this.data = data;
-    this.prev = prev
+    this.prev = prev;
     this.next = next;
   }
 }
 
-// ---%*%*%*%*%*%*%*%*%%***%*%*%--- SINGLY LINKED LIST CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
+// ---%*%*%*%*%*%*%*%*%%***%*%*%--- Doubly LINKED LIST CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
 
 class DoublyLinkedList {
 
-  constructor(nodes = []) {
+  constructor (nodes = []) {
     nodes.forEach((node) => {
       this.append(node);
     })
   }
 
-  // ------------------------ Print DLL ------------------------ 
+  // ------------------------ Print LL ------------------------ 
   print(node = this.head) {
     let output = "";
 
     //Loop through the LinkedList
     for (let i=0; node; i++) {
-      if (i === 0) {
+      if (i=0) {
         output = output + `${node.data} `
       } else {
         output = output + `<-> ${node.data} `
@@ -41,7 +41,7 @@ class DoublyLinkedList {
 
     //Loop as long as the current node is not null
     while (node) {
-      count++
+      count ++
       node = node.next;
     }
 
@@ -53,7 +53,7 @@ class DoublyLinkedList {
 
     //As long as there is a head node - loop through the list until you find the tail
     if (node) {
-      while (node.next) {
+      while (node.next != null) {
         node = node.next;
       }
     }
@@ -64,7 +64,7 @@ class DoublyLinkedList {
   // ------------------------ Get the nth node ------------------------ 
   getNode(n, node = this.head) {
 
-    for (let i = 1; i < n && node.next; i++) {
+    for (let i=1; i < n && node.next != null; i++) {
       node = node.next;
     }
 
@@ -94,52 +94,55 @@ class DoublyLinkedList {
   }
 
   // ------------------------ Remove last node and return it ------------------------ 
-  pop() {
-    let node = this.head;
+  pop(node = this.head) {
 
     //If there is no head node - throw an error
     if (!node) {
 
       throw new Error('List is empty!');
 
-      //If there is only a head node - set the head to null and return the head
+    //If there is only one node and it is THE head node - call this.removeHead()
+    } else if (node && node === this.head && !node.next) {
+
+      return this.removeHead()
+
+    // If there is only one node and it is not THE head node = call this.removeHead(node)
     } else if (node && !node.next) {
 
-      const tail = this.head;
-      this.head = null;
-      return tail
+        return this.removeHead(node);
 
-      //Else the list has atleast two nodes in it
+    //Else the list has atleast two nodes in it
     } else {
 
-      while (node.next.next) {
-        node = node.next;
-      }
-
-      const tail = node.next;
-      node.next = null;
+      let tail = this.getLastNode(node)
+      tail.prev.next = null;
       return tail;
+
     }
   }
 
   // ------------------------ Remove first node and return it ------------------------ 
-  removeHead() {
-    const node = this.head;
+  removeHead(node = this.head) {
 
     //If head exists then set the new head to its next property, else return
-    if (node) {
+    if (node && node === this.head) {
       this.head = this.head.next;
       return node;
+    } else if (node) {
+      
+      node.prev.next = node.next;
+      return node
     }
   }
 
   // ------------------------ Remove the nth node and return it ------------------------ 
-  removeAt(n) {
+  removeAt(n, node = this.head) {
     //If there is no head return null
-    if (!this.head) return null;
+    if (!node) return null;
+    if (n <= 1) return this.removeHead(node);
 
-    //Get the n-1 th node (and then easily get the nth node)
-    const nodeBefore = this.getNode(n - 1);
+    //Then there must be atleast one prior node to the target, so get the n-1 th node (and then easily get the nth node)
+    const nodeBefore = this.getNode(node, n-1);
     const nthNode = nodeBefore.next;
 
     //If the nth node exists - set the n-1th node's next property to n+1th node
@@ -152,25 +155,25 @@ class DoublyLinkedList {
   }
 
   // ------------------------ Insert after node n ------------------------ 
-  insert(n, data) {
+  insert(n, data, node = this.head) {
 
     //If there is not an existing head, make a head regardless of the n argument
-    if (!this.head) {
-      const newHead = new LinkedListNode(data);
+    if (!node && node === this.head) {
+      const newHead = new DoublyLinkedListNode(data);
       this.head = newHead;
+    } else if (!node) {
+      throw new Error('Passed node was not a node!');
     }
 
     //Otherwise there must be at least one node - so get either the nth node or the tail node
-    const nodeBefore = this.getNode(n);
+    const nodeBefore = this.getNode(n, node);
 
-    const newNode = new LinkedListNode(data, nodeBefore.next);
+    const newNode = new DoublyLinkedListNode(data, nodeBefore.next);
     nodeBefore.next = newNode;
   }
 
   // ------------------------ Search nodes for data -> O(n) ------------------------ 
-  search(targetData) {
-    let node = this.head
-
+  search(targetData, node = this.head) {
     if (!node) return null;
 
     while (node) {
@@ -184,14 +187,13 @@ class DoublyLinkedList {
     return node;
   }
 
-  //---- Finds the middle node of the list (if even number of nodes returns the smaller of the two) ----
-  findMiddle() {
-    let slow = this.head;
+  //---- Finds the middle node of the list (if even number of nodes, returns the smaller of the two) ----
+  findMiddle(slow = this.head) {
     if (!slow) return null;
 
-    let fast = this.head.next;
+    let fast = slow.next;
 
-    while (fast && fast.next) {
+    while(fast && fast.data && fast.next) {
       slow = slow.next;
       fast = fast.next.next;
     }
@@ -199,17 +201,75 @@ class DoublyLinkedList {
     return slow;
   }
 
-  //---- Sorts the nodes in ascending order ----
+  //---- Sorts the nodes in ascending order (with the help of helpers) ----
   sort() {
+    this.head = this.#mergeSort();
+  }
 
+  // ------------------------ Recursive Merge Sort (Returns a single node) ------------------------ 
+  #mergeSort(leftHead = this.head) {
+
+    //Base Case - If the list head is just a single node, then return it.
+    if (!leftHead.next) return leftHead;
+
+    //Else Divide the list into two segments - use findMiddle to find the leftEnd. Then use .next property to find the rightHead (don't need to know right end).
+    let leftEnd = this.findMiddle(leftHead);
+    let rightHead = leftEnd.next;
+    leftEnd.next = null;
+
+    //Recursive calls on each segment
+    // console.log(`Recursive calls on [${leftHead.data} - ${leftEnd.data}] and [${rightHead.data} - end].`)
+    let leftList = this.#mergeSort(leftHead);
+    let rightList = this.#mergeSort(rightHead);
+
+    //Reconstruct them in order by calling our helper
+    return this.#merge(leftList, rightList);
+  }
+
+  // ------------------------ Recursive Merge Sort Helper ------------------------
+  #merge(leftHead, rightHead) {
+    //Helper variables
+    let newListHead = new DoublyLinkedListNode(null);
+    let currentNode = newListHead;
+
+    //leftHead and rightHead are not null
+    while (leftHead && rightHead) {
+      //leftHead is smaller - Assign leftHead to the currentNode's next property, then make it the new currentNode, then finally replace leftHead with leftHead's next node.
+      if (leftHead.data <= rightHead.data) {
+        currentNode.next = leftHead;
+        currentNode = leftHead
+        leftHead = leftHead.next;
+      } else {
+        //rightHead is smaller - Same process as above but with the righthead
+        currentNode.next = rightHead;
+        currentNode = rightHead
+        rightHead = rightHead.next;
+      }
+    }
+
+    //leftHead has elements but right list does not
+    while (leftHead && !rightHead) {
+      currentNode.next = leftHead;
+      currentNode = leftHead
+      leftHead = leftHead.next;
+    }
+
+    //rightHead has elements but left list does not
+    while (rightHead && !leftHead) {
+      currentNode.next = rightHead;
+      currentNode = rightHead
+      rightHead = rightHead.next;
+    }
+
+    //Both lists have no elements - so return
+    // console.log('Returning new merged list:');
+    // this.print(newListHead.next);
+    return newListHead.next
   }
 
 }
 
-const normalList = new DoublyLinkedList([1, 2, 3, 4, 5, 6]);
-console.log("--------- Test List -------------")
-normalList.print();
-
-
+/* The classes and methods here borrow heavily from its SinglyLinkedList counterpart. However, I adjusted many of the methods to either be a bit smoother
+or accomodate doubly linked lists.*/
 
 module.exports = { DoublyLinkedListNode, DoublyLinkedList }
