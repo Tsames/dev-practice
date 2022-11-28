@@ -29,7 +29,7 @@ const reverseString = (s) => {
     pointerBack = s.length - 1;
 
     //Loop until the pointers are either pointing at the same letter or until the front pointer passes the back pointer
-    for (let i = 0; pointerFront < pointerBack; i++) {
+    while(pointerFront < pointerBack) {
 
         //Swap the elements located at the two seperate pointers within the given array
         let temp = s[pointerFront];
