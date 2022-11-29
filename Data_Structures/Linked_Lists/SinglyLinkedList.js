@@ -23,7 +23,7 @@ class SinglyLinkedList {
 
     //Loop through the LinkedList
     for (let i=0; node; i++) {
-      if (i=0) {
+      if (i === 0) {
         output = output + `${node.data} `
       } else {
         output = output + `-> ${node.data} `
