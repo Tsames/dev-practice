@@ -5,8 +5,6 @@ const listOne = new linkedList.SinglyLinkedList([1,2,3,4,5]);
 const listTwo = new linkedList.SinglyLinkedList([1]);
 const listThree = new linkedList.SinglyLinkedList([1,2]);
 
-//These Test are for the Third Version of twoSums.js where it is expected that the given array is sorted.
-
 test('Testing LeetCode example One', () => {
     //Example 1
     expect(removeNth(listOne, 2)).toEqual(3)

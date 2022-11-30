@@ -32,6 +32,7 @@ class SinglyLinkedList {
     }
 
     console.log(output);
+    return output;
   }
 
   // ------------------------ Get the total number of nodes in the LL ------------------------ 
