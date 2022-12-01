@@ -13,7 +13,7 @@ const treeHeight = (root) => {
 
   /* If either branch is unbalanced they are returning -1 so if either child 
   returns -1 pass -1 further up the call stack */
-  if (left === -1 || right === -1) return -1
+  if(left === -1 || right === -1) return -1
   if (Math.abs(left - right) > 1) return -1
 
   /* Finally if we've gone through all those conditionalities

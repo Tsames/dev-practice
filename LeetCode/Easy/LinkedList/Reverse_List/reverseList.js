@@ -18,14 +18,11 @@ const reverseList = (head) => {
         pointerA.next = pointerB;
         pointerB = pointerA;
         pointerA = temp;
-        
+
     }
 
     return pointerB;
 
 }
-
-newList.print();
-newList.print(reverseList(newListHead));
 
 exports.module = reverseList
