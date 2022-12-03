@@ -3,11 +3,12 @@
 class DoublyLinkedListNode {
   constructor(data, prev = null, next = null) {
     this.data = data;
-    this.prev = prev
+    this.prev = prev;
     this.next = next;
   }
 }
 
+// ---%*%*%*%*%*%*%*%*%%***%*%*%--- Doubly LINKED LIST CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
 // ---%*%*%*%*%*%*%*%*%%***%*%*%--- DOUBLY LINKED LIST CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
 
 class DoublyLinkedList {
@@ -58,7 +59,7 @@ class DoublyLinkedList {
 
     //Loop as long as the current node is not null
     while (node) {
-      count++
+      count ++
       node = node.next;
     }
 
@@ -88,14 +89,14 @@ class DoublyLinkedList {
     return node;
   }
 
-  // ------------------------ Add to front of LL ------------------------ 
+  // ------------------------ Add to front of DLL ------------------------ 
   prepend(data) {
     const newNode = new DoublyLinkedListNode(data, null, this.head);
     this.head.prev = newNode;
     this.head = newNode;
   }
 
-  // ------------------------ Add to end of LL ------------------------ 
+  // ------------------------ Add to end of DLL ------------------------ 
   append(data) {
     //Create a new node from the passed data
     const newNode = new DoublyLinkedListNode(data);
@@ -105,30 +106,34 @@ class DoublyLinkedList {
 
     //If the head is empty set head - otherwise set next of the last node
     if (!lastNode) {
+      const newNode = new DoublyLinkedListNode(data, null, null);
       this.head = newNode;
     } else {
+      const newNode = new DoublyLinkedListNode(data, lastNode, null);
       lastNode.next = newNode;
       newNode.prev = lastNode;
     }
   }
 
   // ------------------------ Remove last node and return it ------------------------ 
-  pop() {
-    let node = this.head;
+  pop(node = this.head) {
 
     //If there is no head node - throw an error
     if (!node) {
 
       throw new Error('List is empty!');
 
-      //If there is only a head node - set the head to null and return the head
+    //If there is only one node and it is THE head node - call this.removeHead()
+    } else if (node && node === this.head && !node.next) {
+
+      return this.removeHead()
+
+    // If there is only one node and it is not THE head node = call this.removeHead(node)
     } else if (node && !node.next) {
 
-      const tail = this.head;
-      this.head = null;
-      return tail
+        return this.removeHead(node);
 
-      //Else the list has atleast two nodes in it
+    //Else the list has atleast two nodes in it
     } else {
 
       while (node.next) {
@@ -143,14 +148,17 @@ class DoublyLinkedList {
   }
 
   // ------------------------ Remove first node and return it ------------------------ 
-  removeHead() {
-    const node = this.head;
+  removeHead(node = this.head) {
 
     //If head exists then set the new head to its next property, else return
-    if (node) {
+    if (node && node === this.head) {
       this.head = this.head.next;
       this.head.prev = null
       return node;
+    } else if (node) {
+      
+      node.prev.next = node.next;
+      return node
     }
   }
 
@@ -193,6 +201,8 @@ class DoublyLinkedList {
     if (!this.head) {
       const newHead = new DoublyLinkedListNode(data);
       this.head = newHead;
+    } else if (!node) {
+      throw new Error('Passed node was not a node!');
     }
 
     //Otherwise there must be at least one node - so get either the nth node or the tail node
@@ -226,7 +236,7 @@ class DoublyLinkedList {
 
     let fast = slow.next;
 
-    while (fast && fast.next) {
+    while(fast && fast.data && fast.next) {
       slow = slow.next;
       fast = fast.next.next;
     }
@@ -234,7 +244,7 @@ class DoublyLinkedList {
     return slow;
   }
 
-  //---- Sorts the nodes in ascending order ----
+  //---- Sorts the nodes in ascending order (with the help of helpers) ----
   sort() {
     this.head = this.mergeSort();
     this.print();
@@ -313,5 +323,8 @@ class DoublyLinkedList {
   }
 
 }
+
+/* The classes and methods here borrow heavily from its SinglyLinkedList counterpart. However, I adjusted many of the methods to either be a bit smoother
+or accomodate doubly linked lists.*/
 
 module.exports = { DoublyLinkedListNode, DoublyLinkedList }

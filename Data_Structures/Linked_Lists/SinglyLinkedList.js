@@ -91,20 +91,22 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Remove last node and return it ------------------------ 
-  pop() {
-    let node = this.head;
+  pop(node = this.head) {
 
     //If there is no head node - throw an error
     if (!node) {
 
       throw new Error('List is empty!');
 
-    //If there is only a head node - set the head to null and return the head
+    //If there is only one node and it is THE head node - call this.removeHead()
+    } else if (node && node === this.head && !node.next) {
+
+      return this.removeHead()
+
+    // If there is only one node and it is not THE head node = call this.removeHead(node)
     } else if (node && !node.next) {
 
-      const tail = this.head;
-      this.head = null;
-      return tail
+        return this.removeHead(node);
 
     //Else the list has atleast two nodes in it
     } else {
@@ -120,13 +122,16 @@ class SinglyLinkedList {
   }
 
   // ------------------------ Remove first node and return it ------------------------ 
-  removeHead() {
-    const node = this.head;
+  removeHead(node = this.head) {
 
     //If head exists then set the new head to its next property, else return
-    if (node) {
+    if (node && node === this.head) {
       this.head = this.head.next;
       return node;
+    } else if (node) {
+      const prevNode = this.search(node.data, this.head, true);
+      prevNode.next = node.next;
+      return node
     }
   }
 
@@ -152,9 +157,11 @@ class SinglyLinkedList {
   insert(n, data, node = this.head) {
 
     //If there is not an existing head, make a head regardless of the n argument
-    if (!this.head) {
+    if (!node && node === this.head) {
       const newHead = new SinglyLinkedListNode(data);
       this.head = newHead;
+    } else if (!node) {
+      throw new Error('Passed node was not a node!');
     }
 
     //Otherwise there must be at least one node - so get either the nth node or the tail node
@@ -167,15 +174,20 @@ class SinglyLinkedList {
   // ------------------------ Search nodes for data -> O(n) ------------------------ 
   search(targetData, node = this.head) {
     if (!node) return null;
+    
+    let prevNode = null;
 
     while (node) {
       if (node.data === targetData) {
+        if (before) return prevNode;
         return node;
       } else {
+        prevNode = node;
         node = node.next;
       }
     }
 
+    if (before) return prevNode;
     return node;
   }
 
@@ -193,7 +205,7 @@ class SinglyLinkedList {
     return slow;
   }
 
-  //---- Sorts the nodes in ascending order ----
+  //---- Sorts the nodes in ascending order (with the help of helpers) ----
   sort() {
     this.head = this.mergeSort();
     this.print();

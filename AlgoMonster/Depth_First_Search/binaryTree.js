@@ -11,7 +11,8 @@ class Node {
 class BinarySearchTree {
 
   constructor(data = null) {
-    if (Array.isArray(data)) this.buildTree(data)
+    console.log(typeof(data));
+    if (typeof(data) === !array) return
   }
 
   buildTree(dataArray) {
@@ -19,52 +20,41 @@ class BinarySearchTree {
   }
 
   insert(data) {
-
     //Create a new Node using the Node class
     const newNode = new Node(data);
 
-    //If Root does not already exist, set it
-    if (!this.root) {
+    //If the current tree's root is empty insert the new node as the root.
+    if (this.root === null) {
       this.root = newNode;
-      return;
+
+    //Else call the helper function
+    } else {
+      this.insertNode(this.root, newNode);
     }
-
-    //Else make a queue and a pointer
-    const queue = [this.root]
-    let current = null;
-
-    //Iterate through each node of the queue
-    while (queue.length > 0) {
-      current = queue.shift();
-      const found = this.insertHelper(current, newNode);
-
-      if (found) return;
-
-      queue.push(current.left);
-      queue.push(current.right);
-
-    }
-
   }
 
-  insertHelper(node, newNode) {
+  insertNode(node, newNode) {
+    //Determine which side the newNode belongs on
+    if (newNode.data < node.data) {
 
-    //Determine if there is an opening for the newNode
-    if (node.left === null) {
+      /* If the left child is null replace it, otherwise run this function again with
+      left child as the node */
+      if (node.left === null) {
+        node.left = newNode;
+      } else {
+        this.insertNode(node.left, newNode);
+      }
 
-      /* If the left child is null replace it with the newNode */
-      node.left = newNode;
-      return true;
+    } else {
 
-    } else if (node.right === null){
-
-      /* If the right child is null replace it with newNode */
-      node.right = newNode;
-      return true;
+      /* If the right child is null replace it, otherwise run this function again with
+      right child as the node */
+      if (node.right === null) {
+        node.right = newNode;
+      } else {
+        this.insertNode(node.right, newNode);
+      }
     }
-
-    return false;
-
   }
 
   findMinNode(node) {
@@ -136,27 +126,9 @@ class BinarySearchTree {
       return
     }
 
-    /*
-
-    Additional Data Structures:
-
-    queue - Stores the nodes of the binaryTree that need to be printed. Each node is removed from the queue and its children are added when it is printed.
-    parentQueue - Similar to queue except it stores the node data of the parent of the nodes to be printed.
-
-    Helper Variables:
-
-    output - stores a string that is printed to the console after every iteration of the parent while loop
-    current - stores the data of the node that is being printed
-    parent - stores the data of the parent of the node that is being printed
-    levelCount - stores how many nodes need to printed from the queue on the next loop
-    currentCount - counts how many children are added to the queue this iteration, then becomes levelCount on next iteration
-    
-    */
+    //Helper variables - one queue data structure and 2 counters;
     const queue = [this.root];
-    const parentQueue = ['root'];
-
-
-    let output, current, parent, levelCount, currentCount = 1;
+    let output, current, levelCount, currentCount = 1;
 
     while (queue.length > 0) {
       levelCount = currentCount;
@@ -165,21 +137,17 @@ class BinarySearchTree {
 
       while (levelCount > 0) {
         current = queue.shift();
-        parent = parentQueue.shift();
 
         if (current.left !== null) {
           queue.push(current.left);
-          parentQueue.push(current.data);
           currentCount ++;
         }
 
         if (current.right !== null) {
           queue.push(current.right);
-          parentQueue.push(current.data);
           currentCount++
         }
-
-        output = output + `(${parent}) ${current.data} `;
+        output = output + `${current.data} `;
         levelCount --;
       }
 
