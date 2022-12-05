@@ -130,7 +130,27 @@ class BinarySearchTree {
     }
   }
 
+  convertToArray() {
+
+    const output = [];
+    const queue = [this.root];
+    let node;
+
+    while (queue.length > 0) {
+
+      node = queue.shift();
+      output.push(node.data);
+      
+      if (node.left !== null) queue.push(node.left);
+      if (node.right !== null) queue.push(node.right);
+
+    }
+
+    return output;
+  }
+
   prettyPrint() {
+
     if (this.root === undefined) {
       console.log("Tree is empty.");
       return

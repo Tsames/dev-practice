@@ -1,5 +1,7 @@
 // ---%*%*%*%*%*%*%*%*%%***%*%*%--- BINARY SEARCH TREE NODE CLASS ---%*%*%*%*%*%*%*%*%%***%*%*%---
 
+const convertArray = require("../../LeetCode/Easy/Trees/Sorted_Array_To_BST.js/convertArray");
+
 class BinarySearchTreeNode {
   constructor(data, left = null, right = null) {
     this.data = data;
@@ -189,12 +191,13 @@ class BinarySearchTree {
   // ------------------------ Print each level of the tree (prints parent of the nodes in brackets on the same line) ------------------------
 
   print() {
+
     if (!this.root) {
       console.log("Tree is empty.");
       return
     }
 
-    //Helper variables - two queue data structures, 4 temp variables, and 2 counters;
+    //Helper variables - two queue data structures, 3 temp variables, and 2 counters;
     const nodeQueue = [this.root];
     const parentNodeQueue = [];
 
@@ -203,12 +206,11 @@ class BinarySearchTree {
     current holds the node being visited in our loops.
 
     currentParent holds the parent node of current.
-    lastParent holds the parent of the previous iteration of current.
 
     currentLevel holds the number of nodes on the current level that we are iterating on.
     nextLevel holds the number of nodes that the current level (currentLevel) has as children. */
 
-    let output, current, currentParent, lastParent, currentLevel, nextLevel = 1;
+    let output, current, currentParent = 'root', currentLevel, nextLevel = 1;
 
     //Loop as long as there are nodes in the nodeQueue
     while (nodeQueue.length > 0) {
@@ -224,24 +226,19 @@ class BinarySearchTree {
         //If the current node has a left branch
         if (current.left) {
           nodeQueue.push(current.left);
-          parentNodeQueue.push(current);
+          parentNodeQueue.push(current.data);
           nextLevel ++;
         }
 
         //If the current node has a right branch
         if (current.right) {
           nodeQueue.push(current.right);
-          parentNodeQueue.push(current);
+          parentNodeQueue.push(current.data);
           nextLevel++
         }
 
-        if (currentParent !== lastParent) {
-          output = output + `[${currentParent.data}] -> ` + `${current.data} `;
-        } else {
-          output = output + `${current.data} `;
-        }
+        output = output + `[${currentParent}] -> ` + `${current.data} `;
 
-        lastParent = currentParent;
         currentLevel --;
       }
 

@@ -20,7 +20,7 @@ let myNum = 23;
 
 /* So we get an error when we try to assign a string to the same variable
 which has implicitly been assigned a number type. */
-myNum = "23";
+myNum = 5;
 
 
 // ----- Explicitly -----
