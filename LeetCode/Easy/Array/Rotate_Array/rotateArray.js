@@ -15,11 +15,17 @@ function rotateArray(nums, k) {
   return output;
 }
 
-//Solution without any extra space
-function rotateArrayClever(nums, k) {
+//Solution without extra space
+// function rotateArrayClever(nums, k) {
 
-  
+//   for (let i = 0; i < k; i++) {
 
-}
+//     let num = nums.pop();
+//     nums.unshift(num);
+
+//   }
+
+//   return nums
+// }
 
 module.exports = rotateArray, rotateArrayClever
