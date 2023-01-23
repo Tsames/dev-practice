@@ -1,7 +1,7 @@
 /* Given an array, rotate the array to the right by k steps, where k is non-negative. */
 
 
-//Solution with extra space
+//Solution with constant extra space
 function rotateArray(nums, k) {
 
   const output = [];
