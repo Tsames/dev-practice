@@ -32,4 +32,29 @@ function moveZeroesSlow(nums) {
     return nums
 }
 
-module.exports = moveZeroesSlow
+//Two Pointers Approach
+function moveZeroesQuick(nums) {
+    let z = null;
+
+    for (let i=0; i < nums.length; i++) {
+
+        if (z === null && nums[i] === 0) {
+            z = i;
+        }
+
+        if (z !== null && nums[i] !== 0) {
+
+            //Swap Elements
+            let temp = nums[i];
+            nums[i] = nums[z];
+            nums[z] = temp;
+
+            //Move Z up by one
+            z += 1;
+        }
+    }
+
+    return nums
+}
+
+module.exports = moveZeroesQuick
