@@ -14,29 +14,82 @@ Note:
 //Messy Solution
 function validSudoku(board) {
 
-    //Iterate through the array of arrays
-    board_loop:
-    for (let row=0; row < board.length; row++) {
-        let check = {};
+    const check = {};
 
-        //Iterate through the rows
-        for (let cell=0; cell < row.length; cell++) {
+    //Iterate through the array of rows - i is row index
+    for (let i=0; i < board.length; i++) {
 
-            console.log(`Iterating at cell is ${board[row][cell]} and the hash is ${check[cell]}`);
+        //Iterate through the rows - j is cell index
+        for (let j=0; j < board[i].length; j++) {
 
-            //If the number at any given key in the hash is > 0 return false (they're are multiple of that number)
-            if(Number(check[board[row][cell]]) > 0) {
-                console.log("Returning false.")
-                return false;
-            //If its not empty record it in the hash    
-            } else if(cell !== ".") {
-                check[cell] = 1;
-                console.log(check);
+            const value = board[i][j];
+            const square = validSudokuHelper(i,j);
+
+            // console.log(`Iterating at row ${i}, cell ${j} - Square ${square} - the value is ${board[i][j]}`);
+
+            if (value  !== ".") {
+                //Check Row Hash to see if duplicate exists
+                if (check[[value,square,"x","x"]] > 0) {
+                    // console.log(`Found a duplicate ${value} in square ${square}.`);
+                    return false;
+                } else if (check[[value,"x",i,"x"]] > 0) {
+                    // console.log(`Found a duplicate ${value} in row ${i}.`);
+                    return false;
+                } else if (check[[value,"x","x",j]] > 0) {
+                    // console.log(`Found a duplicate ${value} in column ${j}.`);
+                    return false;
+                }
+
+                //Set Hash
+
+                check[[value, square,"x","x"]] = 1;
+                check[[value,"x",i,"x"]] = 1;
+                check[[value,"x","x",j]] = 1;
+                // console.log("Set new Hash Values.");
+                // console.log(check); 
             }
+
         }
     };
 
     return true
 }
 
-console.log(validSudoku([["5","3",".",".","7",".","3",".",".","."]]));
+function validSudokuHelper(i, j) {
+    //If Cell is within the first three rows
+    if (i <= 2) {
+
+        if (j <= 3) {
+            return 1;
+        } else if ( 2 < j && j <=5) {
+            return 2;
+        } else {
+            return 3;
+        }
+
+    //If Cell is within rows 4, 5, or 6
+    } else if (2 < i && i <=5) {
+
+        if (j <= 2) {
+            return 4;
+        } else if ( 2 < j && j <=5) {
+            return 5;
+        } else {
+            return 6;
+        }
+
+    //If Cell is within rows 7, 8, or 9
+    } else {
+
+        if (j <= 2) {
+            return 7;
+        } else if ( 2 < j && j <=5) {
+            return 8;
+        } else {
+            return 9;
+        }
+
+    }
+}
+
+module.exports = validSudoku
