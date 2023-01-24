@@ -42,7 +42,7 @@ function validSudoku(board) {
 
                 //Set Hash
 
-                check[[value, square,"x","x"]] = 1;
+                check[[value,square,"x","x"]] = 1;
                 check[[value,"x",i,"x"]] = 1;
                 check[[value,"x","x",j]] = 1;
                 // console.log("Set new Hash Values.");
@@ -59,7 +59,7 @@ function validSudokuHelper(i, j) {
     //If Cell is within the first three rows
     if (i <= 2) {
 
-        if (j <= 3) {
+        if (j <= 2) {
             return 1;
         } else if ( 2 < j && j <=5) {
             return 2;
