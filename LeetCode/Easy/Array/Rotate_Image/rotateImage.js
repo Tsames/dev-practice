@@ -7,35 +7,65 @@ Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
 Output: [[7,4,1],[8,5,2],[9,6,3]] */
 
 const rotate = (matrix) => {
-    complete = {}
-    queue = [[0,0,1]];
 
-    while (queue.length > 0) {
+    //Create Hash Map to keep track of those cells that have been swapped
+    completed = {}
 
-        let cell = queue.shift();
-        let cellRow =  cell[0];
-        let cellColumn = cell[1];
-        let cellValue = cell[2]
+    //Iterate through the nested array representing rows
+    for (let i=0; i < matrix.length; i++) {
 
-        let targetRow = cell[1];
-        let targetColumn = matrix.length - (cell[0] + 1);
-        let targetValue = matrix[targetRow][targetColumn]
+        //Iterate through the elements of each array representing columns
+        for (let j=0; j < matrix[0].length; j++) {
 
-        console.log(`Iterating at cell [${cellRow}, ${cellColumn}] which had value ${cellValue}.`);
-        console.log(`We want to move the value to [${targetRow}, ${targetColumn}]. Where value ${targetValue} currently is.`);
-
-        console.log(complete);
-        complete[[[cellRow],[cellColumn]]] = 1;
-        if (complete[[[targetRow],[targetColumn]]] !== 1) {
-            console.log(`Adding new cell to queue. ${[targetRow, targetColumn, targetValue]}.`)
-            queue.push([targetRow, targetColumn, targetValue]);
+            //Execute only if the cell has not been acted on before
+            if (completed[[[i],[j]]] !== 1) {
+                rotateHelper(i, j, matrix[i][j], matrix, completed);
+            }
         }
-
-        matrix[targetRow][targetColumn] = cellValue;
     }
 
     console.log(matrix);
     return matrix;
 }
 
+const rotateHelper = (row, column, value, matrix, completed) => {
+
+    queue = [[row, column, value]];
+
+    while (queue.length > 0) {
+
+        let cell = queue.shift();
+
+        //Extract Data
+        let cellRow =  cell[0];
+        let cellColumn = cell[1];
+        let cellValue = cell[2]
+
+        //Get Target Data
+        let targetRow = cell[1];
+        let targetColumn = matrix.length - (cell[0] + 1);
+        let targetValue = matrix[targetRow][targetColumn]
+
+        //Communicate Swap
+        console.log(`Iterating at cell [${cellRow}, ${cellColumn}] which had value ${cellValue}.`);
+        console.log(`We want to move the value to [${targetRow}, ${targetColumn}]. Where value ${targetValue} currently is.`);
+
+        //Track Swap
+        console.log('We have now visited the following cells');
+        completed[[[cellRow],[cellColumn]]] = 1;
+        console.log(completed);
+
+        //Make Swap
+        matrix[targetRow][targetColumn] = cellValue;
+
+        //Add to queue
+        if (completed[[targetRow, targetColumn]] !== 1) {
+            queue.push([targetRow, targetColumn, targetValue]);
+        }
+
+    }
+}
+
 rotate([[1,2,3],[4,5,6],[7,8,9]]);
+
+module.exports = rotate
