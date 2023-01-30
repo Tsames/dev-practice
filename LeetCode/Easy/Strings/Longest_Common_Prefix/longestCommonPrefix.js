@@ -30,6 +30,4 @@ const longestCommonPrefix = (strs) => {
     return prefix;
 }
 
-longestCommonPrefix(["flower","flow","flight", "corn"]);
-
 module.exports = longestCommonPrefix
