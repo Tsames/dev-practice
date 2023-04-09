@@ -4,5 +4,9 @@
   },
   "scripts": {
     "test": "jest"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   }
 }
