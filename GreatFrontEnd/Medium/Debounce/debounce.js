@@ -13,19 +13,11 @@ function debounce(func, wait) {
 
   let timeoutID;
 
-  return (...arguments) => {
+  return function(...args) {
     clearTimeout(timeoutID);
-    timeoutID = setTimeout(() => func(...arguments), wait)
+    timeoutID = setTimeout(() => func.apply(this, args), wait)
   }
   
 }
-
-function increment(num) {
-  return num + 5;
-}
-
-const debouncedIncrement = debounce(increment, 500);
-
-console.log(debouncedIncrement(0));
 
 module.exports = debounce;
