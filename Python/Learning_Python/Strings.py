@@ -14,6 +14,9 @@ list_of_example_string = example_string.split()
 # print(list_of_example_string)
 # print(" ".join(list_of_example_string))
 
+# print(example_string.find('make')) #returns the first index where 'make occurs in example_string
+# print(example_string.replace('you can make strings', 'strings come in')) #replaces the first argument within the string with second argument - all occurences
+
 ####################################################################################################################################
 # - Python strings are "immutable" which means they cannot be changed after they are created.
 # Since strings can't be changed, we construct *new* strings as we go to represent computed values.
@@ -49,5 +52,3 @@ example_string = "1234" # [start (included):end(not included)]
 pi = 3.14
 ##text = 'The value of pi is ' + pi      ## NO, does not work
 text = 'The value of pi is '  + str(pi)  ## yes
-
-
