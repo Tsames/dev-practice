@@ -1,3 +1,3 @@
 # Tom Ames - Dev Practice
 
-This repository is intended to document daily code exercises. It consists of Challenges from Leetcode.com, GreatFrontEnd, AlgoMonster, and some recreation of common Data Structures and Algorithms. Both the LeetCode and GreatFrontEnd challenges are organized by difficulty. In each script I try to include the challenge directions, and some sample tests with the expected output.
+This repository is intended to document daily code exercises. It consists of Challenges from Leetcode.com, GreatFrontEnd, AlgoMonster, recreation of common Data Structures and Algorithms, and more of the above with Python. Both the LeetCode and GreatFrontEnd challenges are organized by difficulty. In each script I try to include the challenge directions, and some sample tests with the expected output.
