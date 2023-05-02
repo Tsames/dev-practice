@@ -20,20 +20,19 @@ difference(['a', 2, 3], []); // => ["a", 2, 3]
 
 export default function difference(array: Array<any>, values: Array<any>): Array<any> {
   let output = [];
+  const valueSet = new Set(values.flat());
 
   for (let i=0; i < array.length; i++) {
+    const value = array[i];
 
-    let present = false;
-    for (let j=0; j < values.length && present == false; j++) {
-
-      if (array[i] === values[j]) {
-        present = true
-      }
-
+    if (!valueSet.has(value) && value !== undefined) {
+      output.push(value);
     }
 
-    if (!present) output.push(array[i])
   }
 
   return output;
 };
+
+/* In this exercise I had to resort to the solution provided by GreatFrontEnd, but
+I learned about the Set class in JavaScript as well as Array.flat() */
