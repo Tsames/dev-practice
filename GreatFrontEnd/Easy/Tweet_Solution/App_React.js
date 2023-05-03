@@ -51,7 +51,7 @@ Color: #536471
 Font size: 13px
 
 */
-import './styles.css';
+import './styles_React.css';
 
 export default function App() {
 
