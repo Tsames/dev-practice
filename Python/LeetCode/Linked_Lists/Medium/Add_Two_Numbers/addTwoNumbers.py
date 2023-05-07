@@ -33,6 +33,9 @@ def addTwoNumbers(l1, l2):
   numberOne = ""
   numberTwo = ""
 
+  l1 = l1.head
+  l2 = l2.head
+
   while (l1):
     numberOne = str(l1.value) + numberOne
     l1 = l1.next
@@ -47,8 +50,13 @@ def addTwoNumbers(l1, l2):
   return LinkedList(resultingList)
   
 
-testList = LinkedList([1,5,1,5])
-testList2 = LinkedList([2,2,2])
+# testList = LinkedList([1,5,1,5])
+# testList2 = LinkedList([2,2,2])
 
-print(addTwoNumbers(testList.head, testList2.head))
+# testList3 = addTwoNumbers(testList, testList2)
+
+# print(testList3)
+# print(testList3.__str__())
+# print(LinkedList([3,7,3,5]).__str__())
+# print(testList3.__str__() == LinkedList([3,7,3,5]).__str__())
 
