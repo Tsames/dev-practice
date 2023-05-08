@@ -5,6 +5,16 @@ class ListNode:
     self.value = value
     self.next = next
 
+  def printFromHere(self):
+    output = ""
+    currentNode = self
+
+    while currentNode:
+      output = output + f"({currentNode.value}) -> "
+      currentNode = currentNode.next
+
+    print(output)
+
   def __str__(self):
     return f"({self.value}) -> {self.next.value if self.next != None else 'None'}"
   

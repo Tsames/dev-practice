@@ -21,5 +21,43 @@ from Linked_Lists import ListNode, LinkedList
 # The number of nodes in the linked list is in the range [0, 104].
 # -106 <= Node.val <= 106
 
-def oddEvenList():
-    
+#Solve it without worry about a time complexity of O(n) or a space complexity of O(1)
+def slowOddEvenList(listHead):
+
+  evenHead = ListNode(0, None)
+  oddHead = ListNode(0, None)
+
+  index = 1
+
+  evenPointer = evenHead
+  oddPointer = oddHead
+
+  while listHead:
+    if (index % 2 == 0):
+      # print(f"Adding {listHead.value} to as next node to {evenPointer.value} in the even list.")
+      evenPointer.next = listHead
+      evenPointer = evenPointer.next
+    else:
+      # print(f"Adding {listHead.value} to as next node to {oddPointer.value} in the odd list.")
+      oddPointer.next = listHead
+      oddPointer = oddPointer.next
+    listHead = listHead.next
+    index += 1
+
+  # evenHead.printFromHere()
+  # oddHead.printFromHere()
+
+  oddPointer.next = evenHead.next
+  evenPointer.next = None
+
+  # print(f"Returning final list:")
+  oddHead.next.printFromHere()
+  return oddHead.next
+
+
+testList = LinkedList([1,6,2,7,3,8,4,9,5,10])
+slowOddEvenList(testList.head)
+
+
+def fastOddEvenList():
+  pass
