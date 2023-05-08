@@ -18,7 +18,7 @@ class LinkedList:
     self.length = 0
 
     for value in nodeValues:
-      self.append(value)
+      self.append(value)  
 
   # ---%%%--- Get and return the last node in the list ---%%%---
   def getlastNode(self):
@@ -116,10 +116,11 @@ class LinkedList:
   def __str__(self):
     output_string = ""
     currentNode = self.head
-    while (currentNode != None):
+    while (currentNode):
       output_string += f"({currentNode.value}) -> "
       currentNode = currentNode.next
     return output_string
+  
 
 # new_linked_list = LinkedList([1, 2, 3, 4, 5])
 # print(new_linked_list) # (1) -> (2) -> (3) -> (4) -> (5) ->
