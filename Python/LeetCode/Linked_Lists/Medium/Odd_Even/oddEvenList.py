@@ -21,6 +21,8 @@ from Linked_Lists import ListNode, LinkedList
 # The number of nodes in the linked list is in the range [0, 104].
 # -106 <= Node.val <= 106
 
+# --------- $%$%$%$%$ --------- Working --------- $%$%$%$%$ ---------
+
 #Solve it without worry about a time complexity of O(n) or a space complexity of O(1)
 def slowOddEvenList(listHead):
 
@@ -51,13 +53,55 @@ def slowOddEvenList(listHead):
   evenPointer.next = None
 
   # print(f"Returning final list:")
-  oddHead.next.printFromHere()
+  # oddHead.next.printFromHere()
   return oddHead.next
 
+# --------- $%$%$%$%$ --------- Submitted --------- $%$%$%$%$ ---------
 
-testList = LinkedList([1,6,2,7,3,8,4,9,5,10])
-slowOddEvenList(testList.head)
+#This is the code that I submit to LeetCode. Their Variable names and List Node class differs a bit
+#so there is often a difference between the code I use here and what I submit.
 
+def submittedOddEvenList(head):
+  
+  #Helper Variables
+  evenHead = ListNode(0, None)
+  oddHead = ListNode(0, None)
 
-def fastOddEvenList():
-  pass
+  evenPointer = evenHead
+  oddPointer = oddHead
+
+  index = 1
+
+  #Iterate over all nodes of given linked list
+  while head:
+    if (index % 2 == 0):
+      evenPointer.next = head
+      evenPointer = evenPointer.next
+    else:
+      oddPointer.next = head
+      oddPointer = oddPointer.next
+    head = head.next
+    index += 1
+
+  #Combine Odd and Even Lists
+  oddPointer.next = evenHead.next
+  evenPointer.next = None
+
+  return oddHead.next
+
+# --------- $%$%$%$%$ --------- Other Solutions --------- $%$%$%$%$ ---------
+
+#Other better solutions submitted on leetcode that I have taken the time to understand and appreciate their improvements.
+def fastOddEvenList(head):
+  
+  odd = head
+  even = head.next
+  dummyEven = head.next
+
+  while odd and even and odd.next and even.next:
+    odd.next, even.next = odd.next.next, even.next.next
+    odd = odd.next
+    even = even.next
+
+  odd.next = dummyEven
+  return head
