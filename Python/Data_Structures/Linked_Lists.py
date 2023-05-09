@@ -13,7 +13,8 @@ class ListNode:
       output = output + f"({currentNode.value}) -> "
       currentNode = currentNode.next
 
-    print(output)
+    # print(output)
+    return output
 
   def __str__(self):
     return f"({self.value}) -> {self.next.value if self.next != None else 'None'}"
