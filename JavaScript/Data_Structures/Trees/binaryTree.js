@@ -175,7 +175,6 @@ class BinarySearchTree {
     const queue = [this.root];
     const parentQueue = ['root'];
 
-
     let output, current, parent, levelCount, currentCount = 1;
 
     while (queue.length > 0) {
