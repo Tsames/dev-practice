@@ -7,18 +7,22 @@ class BinaryTreeNode:
     self.right = right
 
   def __str__(self):
-    return f"({self.value} -> ({self.left}) , ({self.right}))"
+    left = self.left.value if self.left.value else None
+    right = self.right.value if self.right.value else None
+    return f"{self.value} -> ({left}) , ({right})"
   
 # ------------ Binary Tree Class ------------
 
 class BinaryTree:
   root = None
 
+  # ---%%%--- Constructor ---%%%---
   def __init__(self, initList):
     if (type(initList) is list):
       for data in initList:
         self.insert(data)
 
+  # ---%%%--- Insert New Node ---%%%---
   def insert(self, data):
 
     if (not self.root):
@@ -34,6 +38,7 @@ class BinaryTree:
       queue.append(current.left)
       queue.append(current.right)
 
+  # ---%%%--- Insert Helper ---%%%---
   def insertHelper(self, node, data):
     if (not node.left):
       node.left = BinaryTreeNode(data)
@@ -42,7 +47,26 @@ class BinaryTree:
       node.right = BinaryTreeNode(data)
       return True
     return False
+  
+  # ---%%%--- Helper to maxDepth to start Recursive Approach ---%%%---
+  def maxDepth(self):
+    return self.findMaxDepth(self.root)
 
+  # ---%%%--- Get Max Depth ---%%%---
+  def findMaxDepth(self, root):
+    if (not root):
+      return 0
+    
+    left = self.findMaxDepth(root.left)
+    right = self.findMaxDepth(root.right)
+
+    return max(left, right) + 1
+  
+  # ---%%%--- Return a node based on its value, and (or) its children's values ---%%%---
+  def find(self, value, left, right):
+    pass
+
+  # ---%%%--- String Representation of Binary Tree ---%%%---
   def __str__(self):
     if (not self.root):
       return f"This tree is empty."
@@ -74,7 +98,3 @@ class BinaryTree:
         levelCount = currentCount
 
     return output
-
-
-testTree = BinaryTree([1,2,3,4,5,6,7])
-print(testTree)
