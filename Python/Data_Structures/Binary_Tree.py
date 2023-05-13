@@ -1,3 +1,5 @@
+from math import inf
+
 # ------------ Binary Tree Node Class ------------
 
 class BinaryTreeNode:
@@ -61,6 +63,26 @@ class BinaryTree:
     right = self.findMaxDepth(root.right)
 
     return max(left, right) + 1
+  
+  # ---%%%--- Recursive Helper ---%%%---
+  def isValidBST(self):
+    return self.getValidBST(self.root, -inf, inf)
+
+  # ---%%%--- Recursively Determine if Binary Tree is also a Binary Search Tree ---%%%---
+  def getValidBST(self, root, min, max):
+
+    if (not root):
+      return True
+    
+    #  ---%%%--- Return False if either requirement for BST is not true ---%%%---
+    if ((root.left and root.left.value) and (root.left.value >= root.value or root.left.value <= min)):
+      return False
+
+    if ((root.right and root.right.value) and (root.right.value <= root.value or root.right.value >= max)):
+      return False
+    
+    # ---%%%--- Return Recrsive call on left and right subtrees ---%%%---
+    return self.getValidBST(root.left, min, root.value) and self.getValidBST(root.right, root.value, max)
   
   # ---%%%--- Return a node based on its value, and (or) its children's values ---%%%---
   def find(self, value, left, right):
