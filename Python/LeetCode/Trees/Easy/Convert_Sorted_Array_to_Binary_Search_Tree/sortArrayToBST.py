@@ -24,25 +24,23 @@ from Binary_Tree import BinaryTreeNode, BinaryTree
 
 def sortedArrayToBST(self, nums):
 
-  if(len(nums) <= 0):
-    return None
+  def recursiveHelper(self, nums):
+    if(len(nums) <= 0):
+      return None
+    
+    #Find the middle of the sorted array and make a BinaryTreeNode from it
+    middleIndex = round((len(nums) - 1)/2)
+    currentNode = BinaryTreeNode(nums[middleIndex])
+
+    #Set the left child equal to a recursive call on the left sub-array not including the currentNode
+    currentNode.left = recursiveHelper(self, nums[:middleIndex])
+    #Set the right child equal to a recursive call on the right sub-array not including the currentNode
+    currentNode.right = recursiveHelper(self, nums[middleIndex + 1:])
+
+    return currentNode
   
-  #Find the middle of the sorted array and make a BinaryTreeNode from it
-  middleIndex = len(nums - 1)/2
-  currentNode = BinaryTreeNode(nums[middleIndex])
-  print(f"The middle of the given list {nums} is {nums[middleIndex]}. Creating a new node({nums[middleIndex]}).")
-
-  #Set the left child equal to a recursive call on the left sub-array not including the currentNode
-  print(f"Setting left child...")
-  currentNode.left = sortedArrayToBST(self, nums[:middleIndex])
-  #Set the right child equal to a recursive call on the right sub-array not including the currentNode
-  print(f"Setting right child...")
-  currentNode.right = sortedArrayToBST(self, nums[middleIndex + 1:])
-
-  return currentNode
+  self.root = recursiveHelper(self, nums)
+  return self.root
 
 BinaryTree.sortedArrayToBST = sortedArrayToBST
-testTree = BinaryTree([])
-newRoot = testTree.sortedArrayToBST([1,2,3,4,5,6,7,8,9,10])
-print(newRoot)
 
