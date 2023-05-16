@@ -24,6 +24,9 @@ from Binary_Tree import BinaryTreeNode, BinaryTree
 
 def isSymmetric(self):
 
+  if(not self.root):
+    return True
+
   leftQueue = [self.root.left]
   rightQueue = [self.root.right]
 
@@ -36,19 +39,42 @@ def isSymmetric(self):
     rightNode = rightQueue.pop(0)
 
     #Check if the values in each node are equal and set output accordingly
-    output = False if leftNode.value != rightNode.value else True
+    output = True if (not leftNode and not rightNode) or (leftNode and rightNode and leftNode.value == rightNode.value) else False
 
     #Queue up their children
-    leftQueue.append(leftNode.left) if leftNode.left else None
-    leftQueue.append(leftNode.right) if leftNode.right else None
+    if (leftNode):
+      leftQueue.append(leftNode.left)
+      leftQueue.append(leftNode.right)
 
-    rightQueue.append(rightNode.right) if rightNode.right else None
-    rightQueue.append(rightNode.left) if rightNode.left else None
+    if (rightNode):
+      rightQueue.append(rightNode.right)
+      rightQueue.append(rightNode.left)
   
   return output
 
 
 BinaryTree.isSymmetric = isSymmetric
-testTree = BinaryTree([1,2,2,3,4,4,3,5,6,7,8,8,7,5,6])
-print(testTree)
-print(testTree.isSymmetric())
+
+# LeetCode - Another Faster Solution:
+
+# Definition for a binary tree node.
+
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+# class Solution:
+#     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+
+#         if not root:
+#             return True
+        
+#         def dfs(n1, n2):
+
+#             if n1 and n2:
+#                 return n1.val == n2.val and dfs(n1.left, n2.right) and dfs(n1.right, n2.left)
+#             return n1 == n2
+
+#         return dfs(root.left, root.right)
