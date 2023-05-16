@@ -26,8 +26,20 @@
 
 #This is a quick and easy way to accomplish the problem. But we are not doing it in O(1) space complexity.
 def extraSpaceRotate(nums, k):
-  return nums[-k:] + nums[:-k]
+  copyNums = nums.copy()
+
+  for i in range(len(nums)):
+    if (i < k):
+      # print(f"nums[{i}] becomes {copyNums[-(k - i)]}")
+      nums[i] = copyNums[-(k - i)]
+    else:
+      # print(f"nums[{i}] becomes {copyNums[i-k]}")
+      nums[i] = copyNums[i - k]
+
+# testList = [1,2,3,4,5,6,7]
+# extraSpaceRotate(testList, 2)
+# print(testList)
 
 #O(1) Space Complexity
-
-rotate([1,2,3,4,5,6,7], 3)
+def rotate(nums: List[int], k: int) -> None:
+   Iterate from -k to the end of the array
