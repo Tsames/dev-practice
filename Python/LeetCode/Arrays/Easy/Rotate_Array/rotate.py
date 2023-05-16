@@ -41,5 +41,19 @@ def extraSpaceRotate(nums, k):
 # print(testList)
 
 #O(1) Space Complexity
-def rotate(nums: List[int], k: int) -> None:
-   Iterate from -k to the end of the array
+def rotate(nums, k):
+
+  k = k % len(nums)
+  
+  def reverse(indexOne, indexTwo):
+    while (indexOne < indexTwo):
+      temp = nums[indexOne]
+      nums[indexOne] = nums[indexTwo]
+      nums[indexTwo] = temp
+
+      indexOne += 1
+      indexTwo -= 1
+
+  reverse(0, len(nums) - (k + 1))
+  reverse(-k, -1)
+  reverse(0, len(nums) - 1)
