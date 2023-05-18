@@ -41,29 +41,17 @@ findLastIndex(arr, (num) => num > 0, 10); // => 4
 Start from 0 if fromIndex < -(array.length)
 findLastIndex(arr, (num) => num > 2, -10); // => -1 */
 
-function findLastIndex(array: Array<any>, predicate: (value: any, index: number, array: Array<any>) => boolean, fromIndex = array.length - 1): number{
+export default function findLastIndex(array: Array<any>, predicate: (value: any, index: number, array: Array<any>) => boolean, fromIndex = array.length - 1): number{
+  let startFrom = fromIndex < 0 ? 
+    Math.max(array.length + fromIndex, 0):
+    Math.min(fromIndex, array.length - 1);
 
-  if (fromIndex > array.length - 1) {
-    fromIndex = array.length - 1
-  } else if (fromIndex < 0) {
-    fromIndex = 0
-  }
-
-  
-
-  for (let i = fromIndex; i >= 0; i--) {
-    if (predicate(array[i], i, array)) {
-      return i
+  while (startFrom >= 0) {
+    if (predicate(array[startFrom], startFrom, array)) {
+      return startFrom
     }
+    startFrom -= 1
   }
 
   return -1
 }
-
-const testPredicate = (value, index, array) => {
-  if (value * (index + 1) > array.length * 2) {
-    return true
-  }
-}
-
-console.log(findLastIndex([5,6,3,2,1], testPredicate))
