@@ -38,5 +38,29 @@
 # -100 <= nums[i] <= 100
 # nums is sorted in non-decreasing order.
 
-def removeDuplicates():
-  pass
+def removeDuplicates(nums):
+
+  if (len(nums) <= 1):
+    return len(nums)
+
+  for i in range(len(nums))[-1::-1]:
+    print(f"Iterating at index {i}. Where the value is {nums[i]}.")
+    if (len(nums) > 1 and nums[i] == nums[i - 1]):
+      print(f"Removing {nums[i]} @ index {i} since nums[{i - 1}] = {nums[i-1]}.")
+      nums.pop(i)
+
+  print(nums)
+
+  return len(nums)
+
+#Here is the faster LeetCode solution:
+
+# def removeDuplicates(self, nums: List[int]) -> int:
+#     left = 1
+#     for right in range(1, len(nums)):
+#         if nums[right] == nums[left-1]:
+#             continue
+            
+#         nums[left] = nums[right]
+#         left += 1
+#     return left
