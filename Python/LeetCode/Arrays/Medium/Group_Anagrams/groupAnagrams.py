@@ -20,5 +20,22 @@
 # 0 <= strs[i].length <= 100
 # strs[i] consists of lowercase English letters.
 
-def groupAnagrams():
-  pass
+def groupAnagrams(strs):
+  strings = {}
+
+  for ele in strs:
+    newList = list(ele)
+    newList.sort()
+    key = "".join(newList)
+    if (key in strings):
+      strings[key].append(ele)
+    else:
+      strings[key] = [ele]
+
+  output = []
+  for key in strings:
+    output.append(strings[key])
+
+  return output
+
+print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
