@@ -39,3 +39,15 @@ def groupAnagrams(strs):
   return output
 
 print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
+
+
+#Leet Code Solution: Looks very similar to mine in terms on concepts used just a bit more clean.
+# def wordsToAnagrams(strs):
+#   word_to_anagrams_map = {}
+#   for s in strs:
+#     k = ''.join(sorted(s))
+#     if k in word_to_anagrams_map:
+#       word_to_anagrams_map[k].append(s)
+#     else:
+#       word_to_anagrams_map[k] = [s]
+#   return list(word_to_anagrams_map.values())
