@@ -41,7 +41,7 @@ def groupAnagrams(strs):
 print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
 
 
-#Leet Code Solution: Looks very similar to mine in terms on concepts used just a bit more clean.
+# Leet Code Solution: Looks very similar to mine in terms on concepts used just a bit more clean.
 # def wordsToAnagrams(strs):
 #   word_to_anagrams_map = {}
 #   for s in strs:
