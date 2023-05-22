@@ -21,5 +21,18 @@
 # 0 <= s.length <= 5 * 104
 # s consists of English letters, digits, symbols and spaces.
 
-def lengthOfLongestSubstring(str):
-  pass
+def lengthOfLongestSubstring(s):
+  output = 0
+
+  for i in range(len(s)):
+    pointer = i + 1 if i < len(s) - 1 else i
+    helper = {s[i]: 1}
+
+    while (pointer < len(s) and s[pointer] not in helper):
+      helper[s[pointer]] = 1
+      pointer += 1
+    
+    result = "".join(helper.keys())
+    output = len(result) if len(result) > output else output
+
+  return output
