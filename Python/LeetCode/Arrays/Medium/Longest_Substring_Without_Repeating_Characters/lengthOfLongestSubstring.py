@@ -39,13 +39,16 @@ def lengthOfLongestSubstring(s):
 
 # Faster version from LeetCode:
 
-# def lengthOfLongestSubstring(self, s):
-  # used = {}
-  # max_length = start = 0
-  # for i, c in enumerate(s):
-  #   if c in used and start <= used[c]:
-  #     start = used[c] + 1
-  #   else:
-  #     max_length = max(max_length, i - start + 1)
-  #   used[c] = i
-  # return max_length
+def fastLengthOfLongestSubstring(s):
+  used = {}
+  max_length = start = 0
+  for i, c in enumerate(s):
+    print(f"New Iteration: used is {used}. max_length is {max_length} and start is {start}")
+    if c in used and start <= used[c]:
+      start = used[c] + 1
+    else:
+      max_length = max(max_length, i - start + 1)
+    used[c] = i
+  return max_length
+
+# print(fastLengthOfLongestSubstring("abcadefga"))
