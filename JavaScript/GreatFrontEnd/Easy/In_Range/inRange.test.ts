@@ -1,4 +1,4 @@
-import inRange from './in-range';
+import inRange from './inRange';
 
 describe('inRange', () => {
   test('both `start` and `end` specified', () => {

@@ -19,7 +19,7 @@ inRange(1.2, 2); // => true
 inRange(5.2, 4); // => false
 inRange(-3, -2, -6); // => true */
 
-function inRange(value: number, start:number, end?: number){
+export default function inRange(value: number, start:number, end?: number){
   if (!end) {
     end = start
     start = 0
