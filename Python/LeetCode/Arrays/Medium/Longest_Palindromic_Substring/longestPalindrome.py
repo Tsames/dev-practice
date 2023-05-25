@@ -51,4 +51,4 @@ def helper(s, inner, outter):
   return s[inner + 1:outter]
 
 
-print(longestPalindrome("a"))
+print(longestPalindrome("bb"))
