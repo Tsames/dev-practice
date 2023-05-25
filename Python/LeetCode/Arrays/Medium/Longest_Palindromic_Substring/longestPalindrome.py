@@ -29,26 +29,26 @@ def longestPalindrome(str):
       #If they do match, then move the pointers and compare again. Stop checking the pointers when they either cross or are at the same index.
       #If it makes it through the second loops then we've found a palindrome.
 
-  longest = ""
+  longest = "" if len(str) <= 0 else str[0]
 
   for i, c in enumerate(str):
 
-    #Check that the length of the longest palindrome is not greater than the number of remaining indicies.
-    if (len(longest) > len(str) - (i + 1)):
-      print(f"The longest palindrome so far is {longest} with a length of {len(longest)}. Stopping function at index {i} in {str}.")
-      break
+    temp = helper(str,i,i)
+    if (len(temp) > len(longest)):
+      longest = temp
 
-    helperPointer = len(str) - 1
+    temp = helper(str, i, i+1)
+    if(len(temp) > len(longest)):
+      longest = temp
 
-    #Iterate from the back of the string, looking for a value at the new index that matches c
-    while (helperPointer > i and helperPointer - i > len(longest)):
+  return longest
 
-      #When you find one, execute a third iteration.
-      if (str[pointerLast] == c):
+def helper(s, inner, outter):
+  while (inner > 0 and outter < len(s) and s[inner] == s[outter]):
+    print(f"Checking from value(index): {s[inner]}({inner}) to {s[outter]}({outter}).")
+    inner -= 1; outter += 1
+  print(f"Returning palindrome: {s[inner+1:outter]}")
+  return s[inner + 1:outter]
 
-        check = True
-        while(check and pointerStart < pointerLast):
-          if (str[pointerStart] != str[pointerLast]):
-            check = False
-          pointerStart += 1
-          pointerLast -= 1
+
+print(longestPalindrome("a"))
