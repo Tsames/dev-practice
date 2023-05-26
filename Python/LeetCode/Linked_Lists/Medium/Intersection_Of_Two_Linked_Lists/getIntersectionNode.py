@@ -69,11 +69,23 @@ def getIntersectionNode(headA, headB):
     headA = headA.next
   
   #Iterate through Linked List B until you find a common node
-  #Then use the helper function to check if the rest of the linked list is an intersection
   while(headB):
     if (headB in listA):
       return headB
     headB = headB.next
   return None
     
-def fastgetIntersectionNode(headA, headB):
+
+#Clever Solution from LeetCode that accomplishes it in O(m+n) time and O(1) space
+def fastGetIntersectionNode(headA, headB):
+  a,b = headA, headB
+  while(a != b):
+    a = headB if a is None else a.next
+    b = headA if b is None else b.next
+  return a
+
+# The idea is that we are overcoming the potential difference in length of the two linked lists
+# by iterating through each one for each pointer. When pointer a finishes iterating through linked
+# list a it then iterates through linked list b. This means that they will iterate through the exact same number of nodes.
+# if there is an intersection then some portion of the backend of the list must be the same. Both pointers will arrive at the
+# very first node in common at the exact same time.
