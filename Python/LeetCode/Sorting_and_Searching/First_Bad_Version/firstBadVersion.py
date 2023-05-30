@@ -1,4 +1,4 @@
-from math import ceil
+from math import floor
 
 # You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check.
 # Since each version is developed based on the previous version, all the versions after a bad version are also bad.
@@ -26,12 +26,10 @@ from math import ceil
 #     1 <= bad <= n <= 231 - 1
 
 def isBadVersion(n):
-    return True if n <= 2 else False
+    return True if n >= 4 else False
 
 def firstBadVersion(n):
-    array = list(map(int, str()))
-    print(array)
-    return recursiveHelper(array)
+    return recursiveHelper(list(range(1,n+1)))
 
 def recursiveHelper(array):
 
@@ -43,20 +41,17 @@ def recursiveHelper(array):
         return None
 
     #Find Midpoint of Array
-    pivot = ceil((len(array) - 1 )/2)
+    pivot = floor((len(array) - 1 )/2)
     print(f"Iterating on {array} with midpoint: {array[pivot]}")
 
-    #If array @ Midpoint satisfies isBadVersion - call recursive function on upper half of array including midpoint
+    #If array @ Midpoint satisfies isBadVersion - call recursive function on lower half of array including midpoint
     if (isBadVersion(array[pivot])):
         print(f"{array[pivot]} satisfies.")
-        recursiveHelper(array[pivot:])
-    #If array @ Midpoint does not satisfy isBadVersion - call recursive function on lower half of array excluding midpoint
+        recursiveHelper(array[:pivot + 1])
+    #If array @ Midpoint does not satisfy isBadVersion - call recursive function on upper half of array excluding midpoint
     else:
         print(f"{array[pivot]} does not satisfy.")
-        recursiveHelper(array[pivot:])
+        recursiveHelper(array[pivot + 1:])
 
 
-    
-
-
-print(firstBadVersion(15))
+print(firstBadVersion(5))
