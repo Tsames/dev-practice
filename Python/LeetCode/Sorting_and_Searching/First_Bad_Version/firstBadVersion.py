@@ -47,11 +47,11 @@ def recursiveHelper(array):
     #If array @ Midpoint satisfies isBadVersion - call recursive function on lower half of array including midpoint
     if (isBadVersion(array[pivot])):
         print(f"{array[pivot]} satisfies.")
-        recursiveHelper(array[:pivot + 1])
+        return recursiveHelper(array[:pivot + 1])
     #If array @ Midpoint does not satisfy isBadVersion - call recursive function on upper half of array excluding midpoint
     else:
         print(f"{array[pivot]} does not satisfy.")
-        recursiveHelper(array[pivot + 1:])
+        return recursiveHelper(array[pivot + 1:])
 
 
 print(firstBadVersion(5))
