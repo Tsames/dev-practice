@@ -43,39 +43,47 @@
 # Follow up: Can you come up with an algorithm that runs in O(m + n) time?
 
 def mergeSortedArray(nums1, nums2, m, n):
-    
-    #Since nums1 has a length of m+n we can iterate through it, comparing elements to the of nums2 as we go.
-    #At each iteration we compare the two elements
 
-    #if nums1[i] is less than nums2[j] then we do nothing and continue iterating.
-    #if nums2[j] is less than nums1[i] then we have a little bit of a tricky situation. We don't know if we can just swap the elements between arrays because we don't know if nums1[i] < nums2[j+1].
-    #This means we don't know how far down nums2 we need to place nums1[i], and if we get it wrong it messes up our entire algorithm because we are relying on the fact that the two arrays are sorted.
-    
+    if (n == 0):
+        return nums1
 
-    # [1,3,6,7,0,0,0,0]
-    # [2,4,5,8]
-
-    #So we have a problem here, that makes for a messy solution. But we also have the lengths of the arrays given. So how can we improve this algorithm with the knowledge of how long each array is.
-    #Since we know that nums1 is length m + n and nums2 is length n we know that the last m indicies in nums1 will be 0
-
-    i = m - 1
+    i = 0 if m == 0 else m - 1
     j = n - 1
 
-    #Iterate over nums1
+    #Iterate over nums1 backwards
     for k in range(m+n)[::-1]:
 
         print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        print(f"Iterating while i is {nums1[i]} and j is {nums2[j]}")
-        
-        #If j > 0
-        if (j == 0 or (nums1[i] and nums1[i] >= nums2[j])):
+        print(f"Iterating @ index {k} while nums1[{i}] is {nums1[i]} and nums2[{j}] is {nums2[j]}")
+
+
+
+        # If k >= m then we know that we are swapping with inconsequential 0s.
+        # So swap the None value to easily differentiate between intended values and blank spots in the list.
+        if (k >= m and nums1[i] and (not nums2[j] or nums1[i] >= nums2[j])):
+            print(f"Swapping {nums1[i]} with {None}.")
             nums1[k] = nums1[i]
-            nums1[i] = None if nums1[i] != 1 else nums1[i]
+            nums1[i] = None
+            i -= 1 if i > 0 else 0
+
+        elif (k >= m and nums2[j]):
+            print(f"Swapping {nums2[j]} with {None}.")
+            nums1[k] = nums2[j]
+            nums2[j] = None
+            j -= 1 if j > 0 else 0
+
+        elif (nums1[i] and (not nums2[j] or nums1[i] >= nums2[j])):
+            print(f"Swapping {nums1[i]} with {nums1[k]}.")
+            temp = nums1[k]
+            nums1[k] = nums1[i]
+            nums1[i] = temp
             i -= 1 if i > 0 else 0
         
         elif (not nums1[i] or nums2[j] > nums1[i]):
+            print(f"Swapping {nums2[j]} with {nums1[k]}.")
+            temp = nums1[k]
             nums1[k] = nums2[j]
-            nums2[j] = None
+            nums2[j] = temp
             j -= 1 if j > 0 else 0
 
         print("After executing swap, our two lists look like this:")
@@ -83,14 +91,7 @@ def mergeSortedArray(nums1, nums2, m, n):
         print(nums2)
 
         
-    print(f"ending with {nums1}")
-
-        
+    return nums1
 
 
-    
-
-    #So, we have a two-pointer approach. Right n
-
-
-mergeSortedArray([1,3,6,7,0,0,0,0], [2,4,5,8], 4, 4)
+mergeSortedArray([4,0,0,0,0,0], [1,2,3,5,6], 1, 5)
