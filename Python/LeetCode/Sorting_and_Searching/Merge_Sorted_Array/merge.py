@@ -58,28 +58,32 @@ def mergeSortedArray(nums1, nums2, m, n):
     #So we have a problem here, that makes for a messy solution. But we also have the lengths of the arrays given. So how can we improve this algorithm with the knowledge of how long each array is.
     #Since we know that nums1 is length m + n and nums2 is length n we know that the last m indicies in nums1 will be 0
 
-    i = 0
-    j = 0
+    i = m - 1
+    j = n - 1
 
     #Iterate over nums1
     for k in range(m+n)[::-1]:
+
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(f"Iterating while i is {nums1[i]} and j is {nums2[j]}")
         
-        if (nums1[i] <= nums2[j]):
-            temp = nums1[k]
+        #If j > 0
+        if (j == 0 or (nums1[i] and nums1[i] >= nums2[j])):
             nums1[k] = nums1[i]
-            nums1[i] = temp
-            i += 1 if temp == 0 else 0
-            print(f"i is now {i}")
-        elif (nums2[j] < nums1[i]):
-            temp = nums1[k]
+            nums1[i] = None if nums1[i] != 1 else nums1[i]
+            i -= 1 if i > 0 else 0
+        
+        elif (not nums1[i] or nums2[j] > nums1[i]):
             nums1[k] = nums2[j]
-            nums2[j] = temp
-            j += 1 if temp == 0 else 0
-            print(f"j is now {j}")
+            nums2[j] = None
+            j -= 1 if j > 0 else 0
+
+        print("After executing swap, our two lists look like this:")
         print(nums1)
         print(nums2)
+
         
-    print(nums1)
+    print(f"ending with {nums1}")
 
         
 
