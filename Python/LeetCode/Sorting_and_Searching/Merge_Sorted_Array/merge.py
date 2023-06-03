@@ -92,6 +92,3 @@ def mergeSortedArray(nums1, nums2, m, n):
 
         
     return nums1
-
-
-mergeSortedArray([4,0,0,0,0,0], [1,2,3,5,6], 1, 5)
