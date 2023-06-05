@@ -16,11 +16,28 @@ Form validation should be done upon submission for invalid fields:
 */
 
 import './styles.css';
+import { useState, useRef } from 'react'
 
 export default function App() {
+
+  const [flightType, setFlightType] = useState(false)
+
+  const today = new Date().toISOString().split('T')[0]
+  const departureDate = useRef()
+
+  const changeFlightType = e => {
+    setFlightType(e.target.selectedIndex)
+  }
+
   return (
     <form>
-      <input type="date" />
+      <select onChange={changeFlightType}>
+        <option value="0">One-way flight</option>
+        <option value="1">Return flight</option>
+      </select>
+      <input type="date" min={today} ref={departureDate} />
+      {flightType ? <input type="date" min={departureDate.current.value} /> : null}
+      <button type="submit">submit</button>
     </form>
   );
 }
