@@ -8,8 +8,9 @@ class TestMergeSortedArray(unittest.TestCase):
     self.assertEqual(mergeSortedArray([1], [], 1, 0), [1])
     self.assertEqual(mergeSortedArray([0], [1], 0, 1), [1])
     self.assertEqual(mergeSortedArray([0,0,0,0,0], [1,2,3,4,5], 0, 5), [1,2,3,4,5])
-    self.assertEqual(mergeSortedArray([0,0,3,0,0,0,0,0,0], [-1,1,1,1,2,3], 3, 6), [0, 0, -1, 1, 1, 1, 2, 3, 3])
+    self.assertEqual(mergeSortedArray([0,0,3,0,0,0,0,0,0], [-1,1,1,1,2,3], 3, 6), [-1, 0, 0, 1, 1, 1, 2, 3, 3])
     self.assertEqual(mergeSortedArray([4,0,0,0,0,0], [1,2,3,5,6], 1, 5), [1, 2, 3, 4, 5, 6])
+    self.assertEqual(mergeSortedArray([0,0,0,0,0,0,0,0], [-1,-1,-2,-2,3,4,5,6], 0, 8), [-1,-1,-2,-2,3,4,5,6])
 
 if (__name__ == '__main__'):
   unittest.main()
