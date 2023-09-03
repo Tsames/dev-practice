@@ -60,27 +60,27 @@ def mergeSortedArray(nums1, nums2, m, n):
 
         # If k >= m then we know that we are swapping with inconsequential 0s.
         # So swap the None value to easily differentiate between intended values and blank spots in the list.
-        if (k >= m and nums1[i] and (not nums2[j] or nums1[i] >= nums2[j])):
-            print(f"Swapping {nums1[i]} with {None}.")
+        if (k >= m and (nums1[i] and not nums2[j]) or (nums1[i] and nums2[j] and nums1[i] >= nums2[j])):
+            print(f"Swapping {nums1[i]} with {None}.(1)")
             nums1[k] = nums1[i]
             nums1[i] = None
             i -= 1 if i > 0 else 0
 
-        elif (k >= m and nums2[j]):
-            print(f"Swapping {nums2[j]} with {None}.")
+        elif (k >= m and (nums2[j] and not nums1[i]) or (nums2[j] and nums1[i] and nums2[j] > nums1[i])):
+            print(f"Swapping {nums2[j]} with {None}. (2)")
             nums1[k] = nums2[j]
             nums2[j] = None
             j -= 1 if j > 0 else 0
 
-        elif (nums1[i] and (not nums2[j] or nums1[i] >= nums2[j])):
-            print(f"Swapping {nums1[i]} with {nums1[k]}.")
+        elif ((nums1[i] != None and nums2[j] == None) or (nums1[i] != None and nums2[j] != None and nums1[i] >= nums2[j])):
+            print(f"Swapping {nums1[i]} with {nums1[k]}. (3)")
             temp = nums1[k]
             nums1[k] = nums1[i]
             nums1[i] = temp
             i -= 1 if i > 0 else 0
         
-        elif (not nums1[i] or nums2[j] > nums1[i]):
-            print(f"Swapping {nums2[j]} with {nums1[k]}.")
+        elif ((nums2[j] != None and nums1[i] == None) or (nums2[j] != None and nums1[i]!= None and nums2[j] >= nums1[i])):
+            print(f"Swapping {nums2[j]} with {nums1[k]}. (4)")
             temp = nums1[k]
             nums1[k] = nums2[j]
             nums2[j] = temp
@@ -93,4 +93,4 @@ def mergeSortedArray(nums1, nums2, m, n):
         
     return nums1
 
-#Its saturday
+mergeSortedArray([0,0,0,0,0,0,0,0], [-1,-1,-2,-2,3,4,5,6], 0, 8)
