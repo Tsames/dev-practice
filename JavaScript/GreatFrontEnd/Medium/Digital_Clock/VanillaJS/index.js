@@ -32,11 +32,12 @@ const updateClock = () => {
 }
 
 const printClock = () => {
-    console.log(`${hour} : ${minutes} : ${seconds}`)
+    console.log(`${hour} : ${minute} : ${second}`)
 }
 
 
 setUpClock()
-while (true) {
-    set
-}
+setInterval(function() {
+    updateClock()
+    printClock()
+}, 1000)
