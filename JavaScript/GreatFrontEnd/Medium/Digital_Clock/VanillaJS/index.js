@@ -1,10 +1,18 @@
-//Get the Current Time in JavaScript Date Object
+import './styles.css';
 
+// Write your JavaScript here.
+
+// Vanilla JavaScript DOM Selection
+const hourElement = document.getElementById('hour');
+const minuteElement = document.getElementById("minute")
+const secondElement = document.getElementById("second")
+
+// Clock functionality
 const current = new Date()
 
-let hour = null
-let minute = null
-let second = null
+let hour = 1
+let minute = 1
+let second = 1
 
 const setUpClock = () => {
     const current = new Date()
@@ -32,7 +40,9 @@ const updateClock = () => {
 }
 
 const printClock = () => {
-    console.log(`${hour} : ${minute} : ${second}`)
+    hourElement.innerHTML = `${hour < 10? 0 : ""}${hour}`
+    minuteElement.innerHTML = `${minute < 10? 0 : ""}${minute}`
+    secondElement.innerHTML = `${second < 10? 0 : ""}${second}`
 }
 
 
