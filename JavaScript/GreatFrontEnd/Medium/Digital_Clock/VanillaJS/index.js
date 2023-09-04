@@ -39,7 +39,7 @@ const updateClock = () => {
     }
 }
 
-const printClock = () => {
+const UpdateHTML = () => {
     hourElement.innerHTML = `${hour < 10? 0 : ""}${hour}`
     minuteElement.innerHTML = `${minute < 10? 0 : ""}${minute}`
     secondElement.innerHTML = `${second < 10? 0 : ""}${second}`
