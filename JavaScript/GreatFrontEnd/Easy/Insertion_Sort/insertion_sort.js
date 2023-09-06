@@ -1,19 +1,17 @@
 const sort = (arry) => {
-    let compare = 0;
-    let find = 1;
 
-    while (find < arry.length) {
-        if (arry[find] < arry[compare]) {
-            let temp = arry[compare]
-            arry[compare] = arry[find]
-            arry[find] = temp
-            compare += 1
+    for (let i=1; i < arry.length; i++) {
+
+        for (let j=i; arry[j] < arry[j-1] && j-1 >= 0; j--) {
+            let temp = arry[j-1]
+            arry[j-1] = arry[j]
+            arry[j] = temp
         }
-        find += 1
     }
 
-    console.log(arry)
+    return arry;
 }
 
 
 const test =  [10,9,4,1,2,6,12,3]
+console.log(sort(test));
