@@ -1,4 +1,4 @@
-const sort = (arry) => {
+function sort(arry) {
 
     for (let i=1; i < arry.length; i++) {
 
@@ -13,5 +13,4 @@ const sort = (arry) => {
 }
 
 
-const test =  [10,9,4,1,2,6,12,3]
-console.log(sort(test));
+module.exports = sort
