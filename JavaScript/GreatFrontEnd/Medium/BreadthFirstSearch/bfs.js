@@ -1,5 +1,4 @@
-const bfs = require("./../../../Data_Structures/Trees/binaryTree")
+const bfs = require("./node")
 const Node = bfs.Node
-const BinarySearchTree = bfs.BinarySearchTree
-
+const Queue = bfs.Queue
 
