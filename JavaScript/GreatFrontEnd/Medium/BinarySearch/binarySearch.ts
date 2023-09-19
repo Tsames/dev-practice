@@ -1,28 +1,37 @@
 export default function binarySearch(arr: Array<number>, target: number) {
-
+  return search(arr, target, 0, arr.length - 1)
 }
 
-[1,2,3,4,5,6,7,8,9,10]
-[6,7]
-
 //Recursive Engine
-function search(arr: Array<number>, target: number, lastIndex: number = 0) {
-  const middleIndex = findMiddle(0, arr.length);
+function search(arr: Array<number>, target: number, lowerBound:number, upperBound:number) {
 
-  if (arr.length === 1 && arr[0] != target) {
+  console.log(`Iterating at lowerbound = ${lowerBound} and upperbound = ${upperBound}`);
+
+  if (lowerBound > upperBound) {
     return -1
-  } else if (arr[middleIndex] === target) {
-    return middleIndex + lastIndex
-  } else if (arr[middleIndex] < target) {
-    const topSubArray = arr.slice(middleIndex + 1, arr.length)
-    return search(topSubArray, target, middleIndex + lastIndex)
+  }
+
+  const middleIndex = findMiddle(lowerBound, upperBound);
+  console.log(`New middle index is ${middleIndex}`)
+
+  if (arr[middleIndex] === target) {
+    console.log(`Found target @ ${middleIndex}`)
+    return middleIndex
+  }
+  
+ if (arr[middleIndex] < target) {
+    console.log(`${target} is greater than ${arr[middleIndex]}.`)
+    return search(arr, target, middleIndex + 1, upperBound)
   } else {
-    const bottomSubArray = arr.slice(0, middleIndex)
-    return search(bottomSubArray, target)
+   console.log(`${target} is less than ${arr[middleIndex]}.`)
+    return search(arr, target, lowerBound, middleIndex - 1)
   }
 }
 
 //Helper Function
 const findMiddle = (first: number, last: number) => {
-  return Math.floor(Math.abs(last - first)/2)
+  return Math.round(Math.abs(last - first)/2) + first
 }
+
+
+console.log(binarySearch([1,2,3,4,5,6,7,8,9,10], 11))
