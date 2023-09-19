@@ -1,4 +1,4 @@
-const binarySearch = require('./binarySearch');
+import binarySearch from "./binarySearch";
 
 describe('binarySearch', () => {
   test('empty', () => {

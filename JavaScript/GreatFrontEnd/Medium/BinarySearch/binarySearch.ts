@@ -1,3 +1,4 @@
+//Exported Function
 export default function binarySearch(arr: Array<number>, target: number) {
   return search(arr, target, 0, arr.length - 1)
 }
@@ -32,6 +33,3 @@ function search(arr: Array<number>, target: number, lowerBound:number, upperBoun
 const findMiddle = (first: number, last: number) => {
   return Math.round(Math.abs(last - first)/2) + first
 }
-
-
-console.log(binarySearch([1,2,3,4,5,6,7,8,9,10], 11))
