@@ -2,7 +2,7 @@
 // The function should take in an array of integers and return an array with the integers sorted in ascending order.
 // The input array is modified in -place.
 
-function sort(arr: Array<number>) {
+export default function sort(arr: Array<number>) {
 
   //Initialize helper variable that tracks the size of the unsorted portion of our array.
   //It begins as the entire array.
@@ -10,16 +10,16 @@ function sort(arr: Array<number>) {
 
   //Now we build our heap using our healper function heapify().
 
-  console.log("---------------------- Building heap ----------------------")
+  // console.log("---------------------- Building heap ----------------------")
   //To get the right child in a heap you multiply the parent index (j) by 2 and add one. 2(j) + 1
   //So we iterate from the last parent node by taking the size (aka the index of the last child node) and reversing the operation to get the right child.
   for (let i = Math.floor(size/2 - 1); i >= 0; i--) {
     heapify(arr, size, i)
   }
 
-  console.log(arr)
+  // console.log(arr)
 
-  console.log("---------------------- Sorting Array using heap ----------------------")
+  // console.log("---------------------- Sorting Array using heap ----------------------")
   //Next we iterate through our constructed heap backwards
   for (let i = size - 1; i >= 0 ; i--) {
     // console.log(arr.slice(0, i + 1))
@@ -32,17 +32,19 @@ function sort(arr: Array<number>) {
 
     //Then we call heapify(). Since heapify is a recursive function that will rearrange the order of our array to match the max heap data sctructure.
     // We only need to call it on the root node or index 0.
-    heapify(arr, size, 0)
+    // console.log(`After swapping but before heapify our arr looks like this:`)
+    // console.log(arr)
+    heapify(arr, i, 0)
+    // console.log(`After running heapify our arr looks like this:`)
+    // console.log(arr)
   }
 
-  console.log("------------ Output --------------------")
-  console.log(arr)
+  // console.log("------------ Output --------------------")
+  // console.log(arr)
   return arr
 }
 
 function heapify(arr: Array<number>, size: number, parentIdx: number) {
-  console.log(`Running heapify @ parentIdx: ${parentIdx}.`)
-  console.log(arr.slice(0, size + 1))
 
   //Helper Variable initialized to parent's index
   let largest = parentIdx;
@@ -52,23 +54,23 @@ function heapify(arr: Array<number>, size: number, parentIdx: number) {
   //Calculate the right child's index in a heap by doing 2(i) + 1
   let right = 2 * parentIdx + 2
 
-  console.log(`arr[parentIdx] = ${arr[parentIdx]}. arr[left] = ${arr[left]}. arr[right] = ${arr[right]}.`)
+  // console.log(`arr[parentIdx] = ${arr[parentIdx]}. arr[left] = ${arr[left]}. arr[right] = ${arr[right]}.`)
 
   //Check if left child exists & if its value is greater than the parent's
   if (left < size && arr[left] > arr[largest]) {
-    console.log(`left is bigger.`)
+    // console.log(`left is bigger.`)
     largest = left
   }
 
   //Check if right child exists & if its value is greater than either the parent's or the left child's
   if (right < size && arr[right] > arr[largest]) {
-    console.log(`right is bigger`)
+    // console.log(`right is bigger`)
     largest = right
   }
 
   //If largest is not the current parent
   if (largest !== parentIdx ) {
-    console.log(`Swapping arr[${parentIdx}] - (${arr[parentIdx]}) with arr[${largest}] - (${arr[largest]}).`)
+    // console.log(`Swapping arr[${parentIdx}] - (${arr[parentIdx]}) with arr[${largest}] - (${arr[largest]}).`)
     //Swap values with the the current parent.
     // [arr[largest], arr[parentIdx]] = [arr[parentIdx], arr[largest]]
     const temp = arr[largest]
@@ -79,5 +81,3 @@ function heapify(arr: Array<number>, size: number, parentIdx: number) {
     heapify(arr, size, largest)
   }
 }
-
-sort([4,3,5,1,2])
