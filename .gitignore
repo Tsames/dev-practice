@@ -24,8 +24,5 @@ node_modules/
 *.txt
 npm-debug.log*
 yarn-debug.log*
-<<<<<<< HEAD
 yarn-error.log*
-=======
-yarn-error.log*
->>>>>>> fe4dc4715dcd1cdff5fd0cc261d3fa3a43f9499e
+/Rust/rust_cli.md
