@@ -1,18 +1,11 @@
-package Java.Sudoku;
+package Sudoku;
 
-public class Main {
-    public static void main(String[] args) {
-        Sudoku sudoku = new Sudoku();
-        System.out.println(sudoku);
-    }
-}
-
-class Tile {
-    private final byte id;
-    private byte value;
-    private final byte sqr;
-    private final byte col;
-    private final byte row;
+public class Tile {
+    public final byte id;
+    public byte value;
+    public final byte sqr;
+    public final byte col;
+    public final byte row;
 
     public Tile(byte tileId, byte value) {
         this.id = tileId;
@@ -53,34 +46,5 @@ class Tile {
     @Override
     public String toString() {
         return "Tile [" + value + "] - Square: " + sqr + " / Row: " + row + " / Column: " + col;
-    }
-}
-
-class Sudoku {
-    private final Tile[] board = new Tile[81];
-
-    public Sudoku() {
-        for (int i = 0; i < board.length; i++) {
-            board[i] = new Tile((byte) i);
-        }
-    }
-
-    // private byte calculateRow(byte tileId) {
-    //     // Calculate the square's row
-    //     byte sqrRow = (byte) (this.sqr / 3);
-
-    //     // Calculate the number of rows over from the first tile in the square
-    //     byte tileRow = (byte) ((tileId % 9) / 3);
-
-    //     return (byte) ((sqrRow * 3) + tileRow);
-    // }
-
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (Tile tile : board) {
-            result.append(tile).append("\n");
-        }
-        return result.toString();
     }
 }
