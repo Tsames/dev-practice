@@ -2,21 +2,42 @@ package Sudoku;
 
 import java.util.HashMap;
 
-public class TileGroup {
-    private final Tile[] tiles;
+enum TileGroupType {
+    row,
+    column,
+    square
+}
 
-    public TileGroup(Tile[] tiles) {
-        this.tiles = tiles;
+class TileGroupId {
+    public final TileGroupType type;
+    public final int number;
+
+    TileGroupId(TileGroupType type, int number) {
+        this.type = type;
+        this.number = number;
+    }
+}
+
+class TileGroup {
+    public final TileGroupId id;
+    public final Tile[] tiles = new Tile[9];
+
+    public TileGroup(TileGroupId id) {
+        this.id = id;
+    }
+
+    public void addTile(Tile newTile, int position) {
+        tiles[position] = newTile;
     }
 
     public boolean validate() {
-        HashMap<Byte, Byte> map = new HashMap<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < this.tiles.length; i++) {
-            byte tileValue = this.tiles[i].value;
+            int tileValue = this.tiles[i].value;
             if (map.containsKey(tileValue)) {
                 return false;
             } else {
-                map.put(tileValue, (byte) 1);
+                map.put(tileValue, 1);
             }
         }
         return true;
