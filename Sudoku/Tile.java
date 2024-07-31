@@ -43,11 +43,6 @@ public class Tile {
         return (int) ((sqrRow * 3) + tileRow);
     }
 
-    public int calculateSqrPosition() {
-        // Calculate the number of columns over from the first tile in the square
-        return (int) ((this.id % 9) % 3);
-    }
-
     @Override
     public String toString() {
         return "Tile [" + value + "] - Square: " + sqr + " / Row: " + row + " / Column: " + col;
