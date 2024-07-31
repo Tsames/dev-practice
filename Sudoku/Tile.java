@@ -1,13 +1,13 @@
 package Sudoku;
 
 public class Tile {
-    public final byte id;
-    public byte value;
-    public final byte sqr;
-    public final byte col;
-    public final byte row;
+    public final int id;
+    public int value;
+    public final int sqr;
+    public final int col;
+    public final int row;
 
-    public Tile(byte tileId, byte value) {
+    public Tile(int tileId, int value) {
         this.id = tileId;
         this.value = value;
         this.sqr = calculateSqr(tileId);
@@ -15,32 +15,37 @@ public class Tile {
         this.row = calculateRow(tileId);
     }
 
-    public Tile(byte tileId) {
-        this(tileId, (byte) 0);
+    public Tile(int tileId) {
+        this(tileId, (int) 0);
     }
 
-    private byte calculateSqr(byte tileId) {
-        return (byte) (tileId / 9);
+    private int calculateSqr(int tileId) {
+        return (int) (tileId / 9);
     }
 
-    private byte calculateCol(byte tileId) {
+    private int calculateCol(int tileId) {
         // Calculate the square's column
-        byte sqrModulo = (byte) (this.sqr % 3);
+        int sqrModulo = (int) (this.sqr % 3);
 
         // Calculate the number of columns over from the first tile in the square
-        byte tilesFromFirstTile = (byte) ((tileId % 9) % 3);
+        int tilesFromFirstTile = (int) ((tileId % 9) % 3);
 
-        return (byte) ((sqrModulo * 3) + tilesFromFirstTile);
+        return (int) ((sqrModulo * 3) + tilesFromFirstTile);
     }
 
-    private byte calculateRow(byte tileId) {
+    private int calculateRow(int tileId) {
         // Calculate the square's row
-        byte sqrRow = (byte) (this.sqr / 3);
+        int sqrRow = (int) (this.sqr / 3);
 
         // Calculate the number of rows over from the first tile in the square
-        byte tileRow = (byte) ((tileId % 9) / 3);
+        int tileRow = (int) ((tileId % 9) / 3);
 
-        return (byte) ((sqrRow * 3) + tileRow);
+        return (int) ((sqrRow * 3) + tileRow);
+    }
+
+    public int calculateSqrPosition() {
+        // Calculate the number of columns over from the first tile in the square
+        return (int) ((this.id % 9) % 3);
     }
 
     @Override
