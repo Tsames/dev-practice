@@ -33,7 +33,7 @@ class TileGroup {
     public boolean validate() {
         HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < this.tiles.length; i++) {
-            int tileValue = this.tiles[i].value;
+            int tileValue = this.tiles[i].getValue();
             if (map.containsKey(tileValue)) {
                 return false;
             } else {
