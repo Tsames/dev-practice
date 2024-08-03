@@ -45,6 +45,15 @@ public class Board {
         }
     }
 
+    public boolean validate() {
+        for (int i = 0; i < 9; i++) {
+            if (this.rows[i].validate() || this.columns[i].validate() || this.squares[i].validate()) {
+                return false;
+            };
+        }
+        return true;
+    }
+
     public void printBoard() {
         String board = "\n";
         for (int i = 0; i < 9; i++) {

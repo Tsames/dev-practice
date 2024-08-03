@@ -34,7 +34,7 @@ class TileGroup {
         HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < this.tiles.length; i++) {
             int tileValue = this.tiles[i].getValue();
-            if (map.containsKey(tileValue)) {
+            if (tileValue != 0 && map.containsKey(tileValue)) {
                 return false;
             } else {
                 map.put(tileValue, 1);
