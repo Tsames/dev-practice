@@ -9,34 +9,45 @@ enum TileGroupType {
 }
 
 class TileGroupId {
-    public final TileGroupType type;
-    public final int number;
+    private final TileGroupType type;
+    private final int number;
 
     TileGroupId(TileGroupType type, int number) {
         this.type = type;
         this.number = number;
     }
+
+    public TileGroupType getType() {
+        return this.type;
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
 }
 
 class TileGroup {
     public final TileGroupId id;
-    public final Tile[] tiles = new Tile[9];
+    private final Tile[] tiles = new Tile[9];
 
     public TileGroup(TileGroupId id) {
         this.id = id;
+    }
+
+    public Tile[] getTiles() {
+        return this.tiles;
     }
 
     public void addTile(Tile newTile, int position) {
         tiles[position] = newTile;
     }
 
-    public boolean validate() {
+    public boolean isValid() {
         HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < this.tiles.length; i++) {
-            int tileValue = this.tiles[i].getValue();
-            if (tileValue != 0 && map.containsKey(tileValue)) {
-                return false;
-            } else {
+            int tileValue = this.tiles[i].value.getNumber();
+            if (tileValue != 0) {
+                if (map.containsKey(tileValue)) return false;
                 map.put(tileValue, 1);
             }
         }

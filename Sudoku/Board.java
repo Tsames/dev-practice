@@ -10,10 +10,11 @@ public class Board {
         TileValue[] valueArray = new TileValue[81];
 
         for (int i = 0; i < 81; i++) {
-            valueArray[i] = new TileValue(i % 9, false);
+            valueArray[i] = new TileValue();
         }
 
         valueArray[2] = new TileValue(9, true);
+        valueArray[7] = new TileValue(9, true);
 
         createNewBoard(valueArray);
     };
@@ -45,9 +46,9 @@ public class Board {
         }
     }
 
-    public boolean validate() {
+    public boolean isValid() {
         for (int i = 0; i < 9; i++) {
-            if (this.rows[i].validate() || this.columns[i].validate() || this.squares[i].validate()) {
+            if (!this.rows[i].isValid() || !this.columns[i].isValid() || !this.squares[i].isValid()) {
                 return false;
             };
         }
@@ -57,9 +58,9 @@ public class Board {
     public void printBoard() {
         String board = "\n";
         for (int i = 0; i < 9; i++) {
+            Tile[] tiles = this.rows[i].getTiles();
             for (int j = 0; j < 9; j++) {
-                Tile targetTile = this.rows[i].tiles[j];
-                board += targetTile.getDisplay() ? String.format("  %d", targetTile.getValue()) : "  *";
+                board += tiles[j].value.getDisplay() ? String.format("  %d", tiles[j].value.getNumber()) : "  *";
                 if (j == 2 || j == 5) {
                     board += "  |";
                 } else if (j == 8) {

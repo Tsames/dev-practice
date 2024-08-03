@@ -1,27 +1,43 @@
 package Sudoku;
 
 class TileValue {
-    public int value;
-    public boolean display;
+    private int number;
+    private boolean display;
 
-    TileValue(int value, boolean display) {
-        this.value = value;
+    TileValue(int number, boolean display) {
+        if (number < 1 || number > 9) this.number = 0;
+        this.number = number;
         this.display = display;
+    }
+
+    TileValue() {
+        this.number = 0;
+        this.display = false;
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
+    
+    public boolean getDisplay() {
+        return this.display;
+    }
+
+    public void setDisplay(boolean displayValue) {
+        this.display = displayValue;
     }
 }
 
 public class Tile {
     private final int id;
-    private int value;
-    private boolean display;
+    public final TileValue value;
     private final int square;
     private final int column;
     private final int row;
 
     public Tile(int tileId, TileValue tileValue) {
         this.id = tileId;
-        this.value = tileValue.value;
-        this.display = tileValue.display;
+        this.value = tileValue;
         this.square = calculateSquare(tileId);
         this.column = calculateColumn(tileId);
         this.row = calculateRow(tileId);
@@ -29,18 +45,6 @@ public class Tile {
 
     public int getId() {
         return this.id;
-    }
-
-    public boolean getDisplay() {
-        return this.display;
-    }
-
-    public void setDisplay(boolean showValue) {
-        this.display = showValue;
-    }
-
-    public int getValue() {
-        return value;
     }
 
     public int getSquare() {
