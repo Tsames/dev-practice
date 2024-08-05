@@ -9,17 +9,6 @@ public class Board {
     public Board() {
         TileValue[] valueArray = new TileValue[81];
 
-        for (int i = 0; i < 81; i++) {
-            valueArray[i] = new TileValue();
-        }
-
-        valueArray[2] = new TileValue(9, true);
-        valueArray[7] = new TileValue(9, true);
-
-        createNewBoard(valueArray);
-    };
-
-    private void createNewBoard(TileValue[] valueArray) {
         // Create Rows, Columns, and Squares
         for (int i = 0; i < 9; i++) {
             this.rows[i] = new TileGroup(new TileGroupId(TileGroupType.row, i));
@@ -27,6 +16,12 @@ public class Board {
             this.squares[i] = new TileGroup(new TileGroupId(TileGroupType.square, i));
         }
 
+        for (int i = 0; i < 81; i++) {
+            valueArray[i] = new TileValue();
+        }
+    };
+
+    public void generateNewBoard(TileValue[] valueArray) {
         // Create Tiles and Assign to proper TileGroups
         for (int i = 0; i < 81; i++) {
             // System.out.println(String.format("Creating Tile %d...", i));
