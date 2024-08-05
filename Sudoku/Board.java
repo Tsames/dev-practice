@@ -1,43 +1,49 @@
 package Sudoku;
 
+import java.util.Random;
+import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Board {
-    private TileGroup[] rows = new TileGroup[9];
-    private TileGroup[] columns = new TileGroup[9];
-    private TileGroup[] squares = new TileGroup[9];
-    private Tile[] tiles = new Tile[81];
+    private TileGroup[] rows = IntStream.range(0, 9)
+            .mapToObj(n -> new TileGroup(new TileGroupId(TileGroupType.row, n)))
+            .toArray(TileGroup[]::new);
+    private TileGroup[] columns = IntStream.range(0, 9)
+            .mapToObj(n -> new TileGroup(new TileGroupId(TileGroupType.column, n)))
+            .toArray(TileGroup[]::new);
+    private TileGroup[] squares = IntStream.range(0, 9)
+            .mapToObj(n -> new TileGroup(new TileGroupId(TileGroupType.square, n)))
+            .toArray(TileGroup[]::new);
+    private Tile[] tiles = IntStream.range(0, 81)
+            .mapToObj(n -> new Tile(n, new TileValue(0, false)))
+            .toArray(Tile[]::new);;
 
     public Board() {
-        TileValue[] valueArray = new TileValue[81];
-
-        // Create Rows, Columns, and Squares
-        for (int i = 0; i < 9; i++) {
-            this.rows[i] = new TileGroup(new TileGroupId(TileGroupType.row, i));
-            this.columns[i] = new TileGroup(new TileGroupId(TileGroupType.column, i));
-            this.squares[i] = new TileGroup(new TileGroupId(TileGroupType.square, i));
-        }
-
-        for (int i = 0; i < 81; i++) {
-            valueArray[i] = new TileValue();
-        }
+        generateRandomBoard();
     };
 
-    public void generateNewBoard(TileValue[] valueArray) {
-        // Create Tiles and Assign to proper TileGroups
-        for (int i = 0; i < 81; i++) {
-            // System.out.println(String.format("Creating Tile %d...", i));
-            Tile newTile = new Tile(i, valueArray[i]);
-            tiles[i] = newTile;
-            // System.out.println(String.format("\tAssigning Tile to position %d in Row
-            // %d,", newTile.col, newTile.row));
-            rows[newTile.getRow()].addTile(newTile, newTile.getColumn());
-            // System.out.println(
-            // String.format("\tAssigning Tile to position %d in Column %d...", newTile.row,
-            // newTile.col));
-            columns[newTile.getColumn()].addTile(newTile, newTile.getRow());
-            // System.out.println(String.format("\tAssigning Tile to position %d in Square
-            // %d...",
-            // newTile.id % 9, newTile.sqr));
-            squares[newTile.getSquare()].addTile(newTile, newTile.getPositionInSquare());
+    public void generateRandomBoard() {
+        Random random = new Random();
+
+        // Loop through each square of the board
+        for (int i = 0; i < 9; i++) {
+            ArrayList<Integer> availableValues = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+
+            // Loop through each tile of the square
+            for (int j = 0; j < 9; j++) {
+                int randomIndex = random.nextInt(9 - j);
+                int tileId = (i * 9) + j;
+
+                Tile newTile = new Tile(tileId, new TileValue(availableValues.get(randomIndex), true));
+
+                tiles[i] = newTile;
+                rows[newTile.getRow()].addTile(newTile, newTile.getColumn());
+                columns[newTile.getColumn()].addTile(newTile, newTile.getRow());
+                squares[newTile.getSquare()].addTile(newTile, newTile.getPositionInSquare());
+
+                availableValues.remove(randomIndex);
+            }
         }
     }
 
@@ -45,7 +51,8 @@ public class Board {
         for (int i = 0; i < 9; i++) {
             if (!this.rows[i].isValid() || !this.columns[i].isValid() || !this.squares[i].isValid()) {
                 return false;
-            };
+            }
+            ;
         }
         return true;
     }

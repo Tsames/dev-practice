@@ -5,6 +5,6 @@ public class Main {
         Board sudokuGame = new Board();
         sudokuGame.printBoard();
         boolean validBoard = sudokuGame.isValid();
-        System.out.println(validBoard);
+        System.out.println(String.format("This is a valid sudoku board: %s", validBoard));
     }
 }
