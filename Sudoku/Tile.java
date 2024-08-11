@@ -1,15 +1,20 @@
 package Sudoku;
 
+import java.lang.Math;
+
+
 public class Tile {
     private final int id;
-    public final TileValue value;
+    private int value;
+    private boolean display;
     private final int square;
     private final int column;
     private final int row;
 
-    public Tile(int tileId, TileValue tileValue) {
+    public Tile(int tileId, int value, boolean display) {
         this.id = tileId;
-        this.value = tileValue;
+        this.value = value;
+        this.display = display;
         this.square = calculateSquare(tileId);
         this.column = calculateColumn(tileId);
         this.row = calculateRow(tileId);
@@ -19,8 +24,28 @@ public class Tile {
         return this.id;
     }
 
+    public int getValue() {
+        return this.value;
+    }
+
+    public void setValue(int newValue) {
+        this.value = newValue < 1 || newValue > 9 ? Math.abs(newValue) % 9: newValue;
+    }
+
+    public boolean getDisplay() {
+        return this.display;
+    }
+
+    public void setDisplay(boolean newDisplay) {
+        this.display = newDisplay;
+    }
+
     public int getSquare() {
         return this.square;
+    }
+
+    public int getPositionInSquare() {
+        return this.id % 9;
     }
 
     public int getColumn() {
@@ -29,10 +54,6 @@ public class Tile {
 
     public int getRow() {
         return this.row;
-    }
-
-    public int getPositionInSquare() {
-        return this.id % 9;
     }
 
     private int calculateSquare(int tileId) {
