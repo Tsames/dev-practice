@@ -3,56 +3,114 @@ package Sudoku;
 import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 public class Board {
     private TileGroup[] rows = IntStream.range(0, 9)
-            .mapToObj(n -> new TileGroup(new TileGroupId(TileGroupType.row, n)))
+            .mapToObj(n -> new TileGroup(n, TileGroupType.row))
             .toArray(TileGroup[]::new);
     private TileGroup[] columns = IntStream.range(0, 9)
-            .mapToObj(n -> new TileGroup(new TileGroupId(TileGroupType.column, n)))
+            .mapToObj(n -> new TileGroup(n, TileGroupType.column))
             .toArray(TileGroup[]::new);
     private TileGroup[] squares = IntStream.range(0, 9)
-            .mapToObj(n -> new TileGroup(new TileGroupId(TileGroupType.square, n)))
+            .mapToObj(n -> new TileGroup(n, TileGroupType.square))
             .toArray(TileGroup[]::new);
-    private Tile[] tiles = IntStream.range(0, 81)
-            .mapToObj(n -> new Tile(n, new TileValue(0, false)))
-            .toArray(Tile[]::new);;
+    private Tile[] tiles = new Tile[81];
 
     public Board() {
         generateRandomBoard();
     };
 
+    // Calculate a given Tile's Square based on its Id
+    private int calculateSquare(int tileId) {
+        return tileId / 9;
+    }
+
+    // Calculate a give Tile's postion in its Square
+    private int calculatePositionInSquare(int tileId) {
+        return (tileId / 9) % 9;
+    }
+
+    // Calculate a given Tile's Column based on its Id
+    private int calculateColumn(int tileId) {
+        // Calculate the square's horizontal position
+        int sqrModulo = (tileId / 9) % 3;
+
+        // Calculate the number of columns over from the first tile in the square
+        int tilesFromFirstTile = (tileId % 9) % 3;
+
+        return (sqrModulo * 3) + tilesFromFirstTile;
+    }
+
+    // Calculate a given Tile's Row based on its Id
+    private int calculateRow(int tileId) {
+        // Calculate the square's vertical position
+        int sqrRow = (tileId / 9) / 3;
+
+        // Calculate the number of rows over from the first tile in the square
+        int tileRow = (tileId % 9) / 3;
+
+        return (sqrRow * 3) + tileRow;
+    }
+
     public void generateRandomBoard() {
         Random random = new Random();
 
-        // Loop through each square of the board
-        for (int i = 0; i < 9; i++) {
-            ArrayList<Integer> availableValues = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        // Create new Tiles
+        for (int i = 0; i < 81; i++) {
+            System.out.println(String.format("\nCreating tile %d", i));
 
-            // Loop through each tile of the square
-            for (int j = 0; j < 9; j++) {
-                int randomIndex = random.nextInt(9 - j);
-                int tileId = (i * 9) + j;
+            final int targetSquare = this.calculateSquare(i);
+            final int targetColumn = this.calculateColumn(i);
+            final int targetRow = this.calculateRow(i);
 
-                Tile newTile = new Tile(tileId, new TileValue(availableValues.get(randomIndex), true));
+            System.out.println(String.format("\tSquare: %d", targetSquare));
+            System.out.println(String.format("\tColumn: %d", targetColumn));
+            System.out.println(String.format("\tRow: %d", targetRow));
 
-                tiles[i] = newTile;
-                rows[newTile.getRow()].addTile(newTile, newTile.getColumn());
-                columns[newTile.getColumn()].addTile(newTile, newTile.getRow());
-                squares[newTile.getSquare()].addTile(newTile, newTile.getPositionInSquare());
+            final HashMap<Integer, Boolean> valuesInTargetSquare = this.squares[targetSquare].getValues();
+            final HashMap<Integer, Boolean> valuesInTargetColumn = this.columns[targetColumn].getValues();
+            final HashMap<Integer, Boolean> valuesInTargetRow = this.rows[targetRow].getValues();
 
-                availableValues.remove(randomIndex);
+
+            ArrayList<Integer> validValuesForThisIndex = new ArrayList<Integer>();
+            System.out.println(String.format("\n\tDetermining available values..."));
+            for (int j=1; j <= 9; j++) {
+                int count = 0;
+                if (valuesInTargetSquare.containsKey(j)) {
+                    count += 1;
+                    System.out.println(String.format("\t\t %d already exists in the Square.", j));
+                }
+                if (valuesInTargetColumn.containsKey(j)) {
+                    count += 1;
+                    System.out.println(String.format("\t\t %d already exists in the Column.", j));
+                }
+                if (valuesInTargetRow.containsKey(j)) {
+                    count += 1;
+                    System.out.println(String.format("\t\t %d already exists in the Row.", j));
+                }
+
+                if (count == 0) {
+                    System.out.println(String.format("\t\t %d is available.", j));
+                    validValuesForThisIndex.add(j);
+                }
             }
+
+            int tileValue = validValuesForThisIndex.size() == 1 ? validValuesForThisIndex.get(0) : validValuesForThisIndex.get(random.nextInt(0, validValuesForThisIndex.size() - 1));
+            System.out.println(String.format("\tSelected value %d for new Tile.", tileValue));
+            final Tile newTile = new Tile(i, tileValue, true, targetSquare, targetColumn, targetRow);
+
+            this.squares[targetSquare].addTile(newTile, calculatePositionInSquare(tileValue));
+            this.columns[targetColumn].addTile(newTile, targetRow);
+            this.rows[targetRow].addTile(newTile, targetColumn);
+            this.tiles[i] = newTile;
         }
+    
     }
 
     public boolean isValid() {
         for (int i = 0; i < 9; i++) {
-            if (!this.rows[i].isValid() || !this.columns[i].isValid() || !this.squares[i].isValid()) {
-                return false;
-            }
-            ;
+            if (!this.rows[i].isValid() || !this.columns[i].isValid() || !this.squares[i].isValid()) return false;
         }
         return true;
     }
@@ -62,7 +120,7 @@ public class Board {
         for (int i = 0; i < 9; i++) {
             Tile[] tiles = this.rows[i].getTiles();
             for (int j = 0; j < 9; j++) {
-                board += tiles[j].value.getDisplay() ? String.format("  %d", tiles[j].value.getNumber()) : "  *";
+                board += tiles[j].getDisplay() ? String.format("  %d", tiles[j].getValue()) : "  *";
                 if (j == 2 || j == 5) {
                     board += "  |";
                 } else if (j == 8) {
