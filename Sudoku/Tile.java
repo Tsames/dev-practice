@@ -11,13 +11,13 @@ public class Tile {
     private final int column;
     private final int row;
 
-    public Tile(int tileId, int value, boolean display) {
+    public Tile(int tileId, int value, boolean display, int square, int column, int row) {
         this.id = tileId;
         this.value = value;
         this.display = display;
-        this.square = calculateSquare(tileId);
-        this.column = calculateColumn(tileId);
-        this.row = calculateRow(tileId);
+        this.square = square;
+        this.column = column;
+        this.row = row;
     }
 
     public int getId() {
@@ -44,40 +44,12 @@ public class Tile {
         return this.square;
     }
 
-    public int getPositionInSquare() {
-        return this.id % 9;
-    }
-
     public int getColumn() {
         return this.column;
     }
 
     public int getRow() {
         return this.row;
-    }
-
-    private int calculateSquare(int tileId) {
-        return tileId / 9;
-    }
-
-    private int calculateColumn(int tileId) {
-        // Calculate the square's column
-        int sqrModulo = this.square % 3;
-
-        // Calculate the number of columns over from the first tile in the square
-        int tilesFromFirstTile = (tileId % 9) % 3;
-
-        return (sqrModulo * 3) + tilesFromFirstTile;
-    }
-
-    private int calculateRow(int tileId) {
-        // Calculate the square's row
-        int sqrRow = this.square / 3;
-
-        // Calculate the number of rows over from the first tile in the square
-        int tileRow = (tileId % 9) / 3;
-
-        return (sqrRow * 3) + tileRow;
     }
 
     @Override
