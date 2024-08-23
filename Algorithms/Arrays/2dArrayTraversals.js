@@ -109,6 +109,60 @@ function reverseAndBackwardsRowTraversal(matrix) {
 
 reverseAndBackwardsRowTraversal([[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15]]);
 
+/* 
+All other versions of Column Major Traversals
+Backwards -> reverse order of columns
+Reverse -> reverse order of rows
+*/
+
+function backwardsColumnMajorTraversal(matrix) {
+  if (matrix.length == 0) return [];
+  const result = [];
+
+  for (let valueIndex = matrix[0].length - 1; valueIndex >= 0; valueIndex--) {
+    for (const row of matrix) {
+      result.push(row[valueIndex]);
+    }
+  }
+
+  // console.log(result);
+  return result;
+}
+
+backwardsColumnMajorTraversal([[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15]]);
+
+function reverseColumnMajorTraversal(matrix) {
+  if (matrix.length == 0) return [];
+  const result = [];
+
+  for (let valueIndex = 0; valueIndex < matrix[0].length; valueIndex++) {
+    for (let arrayIndex = matrix.length - 1; arrayIndex >= 0; arrayIndex--){
+      result.push(matrix[arrayIndex][valueIndex]);
+    }
+  }
+
+  // console.log(result);
+  return result;
+}
+
+reverseColumnMajorTraversal([[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15]]);
+
+function backwardsAndReverseColumnMajorTraversal(matrix) {
+  if (matrix.length == 0) return [];
+  const result = [];
+
+  for (let valueIndex = matrix[0].length - 1; valueIndex >= 0;valueIndex--) {
+    for (let arrayIndex = matrix.length - 1; arrayIndex >= 0;arrayIndex--) {
+      result.push(matrix[arrayIndex][valueIndex]);
+    }
+  }
+
+  console.log(result);
+  return result;
+}
+
+backwardsAndReverseColumnMajorTraversal([[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15]]);
+
 /* Python Programmers*: Be sure to do at least one of these variations using both manual counting loops
 (incrementing an index variable) and also using the range() construct. The range() function is great when
 you already understand this thoroughly but writing some manual loops will help you build that understanding.
