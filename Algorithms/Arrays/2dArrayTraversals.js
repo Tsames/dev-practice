@@ -56,6 +56,59 @@ As you work through the variations, take note of what changes are required betwe
 - What changes between forward and backward along any dimension?
 - What is the pattern in the code that differentiates row major vs column major?
 
+All other combinations of Row Major Traversal:
+Backwards -> reverse order of rows
+Reverse -> reverse order of columns */
+
+function backwardsRowMajorTraversal(matrix) {
+  if (matrix.length == 0) return [];
+  const result = [];
+
+  for (const row of matrix) {
+    for (let i = row.length - 1; i >= 0; i--) {
+      result.push(row[i]);
+    }
+  }
+
+  // console.log(result);
+  return result;
+}
+
+backwardsRowMajorTraversal([[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15]]);
+
+function reverseRowMajorTraversal(matrix){
+  if (matrix.length == 0) return [];
+  const result = [];
+
+  for(let arrayIndex = matrix.length - 1; arrayIndex >= 0; arrayIndex--) {
+    for (const value of matrix[arrayIndex]) {
+      result.push(value);
+    }
+  }
+
+  // console.log(result);
+  return result;
+}
+
+
+reverseRowMajorTraversal([[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15]]);
+
+function reverseAndBackwardsRowTraversal(matrix) {
+  if (matrix.length == 0) return [];
+  result = [];
+
+  for (let arrayIndex = matrix.length - 1; arrayIndex >= 0; arrayIndex--) {
+    for (let valueIndex = matrix[0].length - 1; valueIndex >= 0; valueIndex--){
+      result.push(matrix[arrayIndex][valueIndex]);
+    }
+  }
+
+  // console.log(result);
+  return result;
+}
+
+reverseAndBackwardsRowTraversal([[1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15]]);
+
 /* Python Programmers*: Be sure to do at least one of these variations using both manual counting loops
 (incrementing an index variable) and also using the range() construct. The range() function is great when
 you already understand this thoroughly but writing some manual loops will help you build that understanding.
