@@ -60,6 +60,8 @@ If the target is greater than, set the new minimum to be the array we just inspe
 🛠️ IMPLEMENT
 Write your algorithm. */
 
+// My solution
+
 function searchInSortedMatrix(matrix, target) {
 
     // Find the correct array
@@ -109,3 +111,27 @@ Run tests. Methodically debug & analyze issues.
 */
 
 searchInSortedMatrix([[1,2,3], [4,5,6], [7,7,7], [8,9,10]], 10);
+
+// Better Solution
+
+// Modified binary search
+function searchMatrix(matrix, target) {
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    const n = rows * cols;
+    let left = 0;
+    let right = n - 1;
+    
+    while (left <= right) {
+      const mid = left + Math.floor((right - left) / 2);
+      const value = matrix[Math.floor(mid / cols)][mid % cols];
+      if (value === target) return true;
+      if (value > target) {
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
+    }
+  
+    return false;
+  }
