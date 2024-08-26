@@ -103,3 +103,29 @@ def check_arithmetic_expressions(operands1, operators, operands2, results):
 Run tests. Methodically debug & analyze issues.
 
 '''
+# operands1 = [1, 2]
+# operators = ['+', '-']
+# operands2 = [2, 3] 
+# results = [3, 0]
+
+# Should return [True, False] and does
+
+check_arithmetic_expressions([1, 2], ['+', '-'], [2, 3], [3, 0])
+
+# operands1_1 = [1, 5, 2]
+# operators_1 = ['+', '-', '*']
+# operands2_1 = [2, 3, 4]
+# results_1 = [3, 2, 8]
+
+# Should return [True, True, True] and does
+
+check_arithmetic_expressions([1, 5, 2], ['+', '-', '*'], [2, 3, 4], [3, 2, 8])
+
+# operands1 = [1, 2]
+# operators = ['+', '-']
+# operands2 = [2, 3] 
+# results = [3, 0]
+
+# Should return  [True, False] and does
+
+check_arithmetic_expressions([1, 2], ['+', '-'], [2, 3], [3, 0])
