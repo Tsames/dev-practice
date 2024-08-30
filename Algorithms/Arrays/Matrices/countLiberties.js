@@ -200,3 +200,35 @@ const countLiberties = (board, x, y) => {
     1, 1))
   
   console.log(countLiberties([['W']], 4, 7))
+
+// Cleaner Solution
+
+function countLibertiesClean(board, row, col) {
+    const color = board[row][col];
+    const stack = [[row, col]];
+    let liberties = 0;
+    const size = board.length; // assuming square
+    const checked = new Set();
+  
+    function checkLocation(r, c) {
+      const key = `${r},${c}`;
+      if (checked.has(key)) return;
+      checked.add(key);
+  
+      if (r < 0 || r >= size) return;
+      if (c < 0 || c >= size) return;
+      if (board[r][c] === color) stack.push([r, c]);
+      if (board[r][c] === '+') liberties++;
+    }
+  
+    while (stack.length > 0) {
+      const [x, y] = stack.pop();
+  
+      checkLocation(x + 1, y);
+      checkLocation(x - 1, y);
+      checkLocation(x, y + 1);
+      checkLocation(x, y - 1);
+    }
+  
+    return liberties;
+  }
