@@ -35,6 +35,9 @@ def spiralTraversal(matrix):
             res.append(matrix[index][right - 1])
         right -= 1
         
+        if not top < bottom and left < right:
+            break
+        
         # Iterate through the bottom side
         for index in reversed(range(left, right)):
             res.append(matrix[bottom - 1][index])
@@ -47,4 +50,5 @@ def spiralTraversal(matrix):
     
     return res
 
-print(spiralTraversal([[1,2,3,4,5,6,7,8,9,10], [11,12,13,14,15,16,17,18,19,20], [21,22,23,24,25,26,27,28,29,30], [31,32,33,34,35,36,37,38,39,40],[41,42,43,44,45,46,47,48,49,50]]))
+print(spiralTraversal([[1,2,3,4],[5,6,7,8],[9,10,11,12]]))
+print(spiralTraversal([[1,2,3,4],[5,6,7,8],[9,10,11,12]]))
