@@ -35,7 +35,7 @@ def spiralTraversal(matrix):
             res.append(matrix[index][right - 1])
         right -= 1
         
-        if not top < bottom and left < right:
+        if not (top < bottom and left < right):
             break
         
         # Iterate through the bottom side
