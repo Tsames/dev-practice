@@ -29,7 +29,22 @@ FUNCTION SIGNATURE
 function countCircularPrimes(upperBound) {
 def countCircularPrimes(upperBound: int) -> int:
 '''
+# O (n * logn * sqrt(n))
 
+def countCircularPrimes(upperBound: int) -> int: # O(n)
+    count = 0
+    
+    for num in range(2, upperBound + 1):
+        if not isPrime(num): continue
+        
+        rotations = getRotations(num)
+        circularPrime = True
+        for rotation in rotations:
+            circularPrime = circularPrime and isPrime(rotation)
+        
+        if circularPrime: count += 1
+    
+    return count
 
 def isPrime(num: int) -> bool: # O(sqrt(n))
     
