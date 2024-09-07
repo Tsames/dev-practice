@@ -39,3 +39,20 @@ def isPrime(num: int) -> bool: # O(sqrt(n))
     for i in range(2, math.sqrt(num)):
         if num % i == 0: return False
     return True
+
+def getRotations(num: int) -> Set[int]: # ~ O(logn))
+    rotations = set()
+    digits = str(num)
+    
+    # Repeat this process for the number of digits in num
+    for startingIndex in range(0, len(digits)):
+        rotatedNumStr = ""
+        
+        # Create rotated numbers by adding the character at our the modulus of our
+        # Starting place plus the index and the length of digits (so we don't go out of range)
+        for i in range(0, len(digits)):
+            rotatedNumStr += digits[(startingIndex + i) % len(digits)]
+        
+        rotations.add(int(rotatedNumStr))
+    
+    return rotations
