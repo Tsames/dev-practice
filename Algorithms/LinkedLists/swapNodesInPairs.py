@@ -51,3 +51,21 @@ def switchNodesInPairs(node: Node) -> Node:
         node = node.next
     
     return res.next
+
+# Test One
+testOneNodeHead = Node(1)
+testOneNodePointer = testOneNodeHead
+for i in range(2,5):
+    newNode = Node(i)
+    testOneNodePointer.next = newNode
+    testOneNodePointer = newNode
+    
+print(switchNodesInPairs(testOneNodeHead))
+
+# Test Two
+testTwoNodeHead = Node()
+print(switchNodesInPairs(testTwoNodeHead))
+
+# Test Three
+testThreeNodeHead = Node(1)
+print(switchNodesInPairs(testThreeNodeHead))
