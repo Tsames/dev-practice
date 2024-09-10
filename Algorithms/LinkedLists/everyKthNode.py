@@ -67,3 +67,15 @@ def everykthNode(node: Node, target: int) -> Node:
         
     if res.next == None: return None
     return res.next
+
+testNodeHead = Node(1)
+testNodePointer = testNodeHead
+for i in range(2,10):
+    newNode = Node(i)
+    testNodePointer.next = newNode
+    testNodePointer = newNode
+
+print(everykthNode(testNodeHead,1))
+print(everykthNode(testNodeHead,20))
+print(everykthNode(testNodeHead,3))
+print(everykthNode(None, 1))
