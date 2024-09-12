@@ -9,7 +9,7 @@ the output should be solution(l) = [5, 4, 3, 2, 1].
 
 '''
 
-def solution(head):
+def reverseList(head):
     curr = head
     previousNode = None
     
@@ -21,3 +21,21 @@ def solution(head):
         curr = nextNode
     
     return previousNode
+
+# Test One
+testOneNodeHead = Node(1)
+testOneNodePointer = testOneNodeHead
+for i in range(2,5):
+    newNode = Node(i)
+    testOneNodePointer.next = newNode
+    testOneNodePointer = newNode
+    
+print(reverseList(testOneNodeHead))
+
+# Test Two
+testTwoNodeHead = Node()
+print(reverseList(testTwoNodeHead))
+
+# Test Three
+testThreeNodeHead = Node(1)
+print(reverseList(testThreeNodeHead))
