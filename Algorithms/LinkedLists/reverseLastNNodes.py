@@ -55,7 +55,26 @@ def reverseLastNNodes(head, n):
         if visited == nodesInList - n:
             curr.next = reverseList(curr.next)
             break
+        curr = curr.next
             
     return head
             
             
+# Test One
+testOneNodeHead = Node(1)
+testOneNodePointer = testOneNodeHead
+for i in range(2,5):
+    newNode = Node(i)
+    testOneNodePointer.next = newNode
+    testOneNodePointer = newNode
+
+print(testOneNodeHead)
+print(reverseLastNNodes(testOneNodeHead, 2))
+
+# Test Two
+testTwoNodeHead = Node()
+print(reverseLastNNodes(testTwoNodeHead, 1))
+
+# Test Three
+testThreeNodeHead = Node(1)
+print(reverseLastNNodes(testThreeNodeHead, 1))
