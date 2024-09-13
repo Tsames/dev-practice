@@ -28,6 +28,10 @@ class TileGroup {
         return this.tiles;
     }
 
+    public void addTile(Tile tile, int positionInGroup) {
+        tiles[positionInGroup] = tile;
+    }
+
     public void removePossibleValueFromOtherTilesInGroup(int value, int positionInGroup) {
         for (int i = 0; i < 9; i++) {
             if (i != positionInGroup) {

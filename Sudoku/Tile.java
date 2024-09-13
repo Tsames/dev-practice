@@ -16,11 +16,7 @@ public class Tile {
         this.square = square;
         this.column = column;
         this.row = row;
-        value = 0;
-        display = false;
-        for (int i = 1; i <= 9; i++) {
-            possibleValues.add(i);
-        }
+        reset();
     }
 
     public int getId() {

@@ -71,13 +71,6 @@ public class Board {
         }
     }
 
-    public boolean isValid() {
-        for (int i = 0; i < 9; i++) {
-            if (!this.rows[i].isValid() || !this.columns[i].isValid() || !this.squares[i].isValid()) return false;
-        }
-        return true;
-    }
-
     public void printBoard() {
         String board = "\n";
         for (int i = 0; i < 9; i++) {
