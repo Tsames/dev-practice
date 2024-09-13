@@ -1,55 +1,83 @@
 package Sudoku;
-
-import java.lang.Math;
-
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Tile {
     private final int id;
+    private final ArrayList<Integer> possibleValues = new ArrayList<Integer>();
     private int value;
     private boolean display;
     private final int square;
     private final int column;
     private final int row;
 
-    public Tile(int tileId, int value, boolean display, int square, int column, int row) {
-        this.id = tileId;
-        this.value = value;
-        this.display = display;
+    public Tile(int tileId, int square, int column, int row) {
+        id = tileId;
         this.square = square;
         this.column = column;
         this.row = row;
+        value = 0;
+        display = false;
+        for (int i = 1; i <= 9; i++) {
+            possibleValues.add(i);
+        }
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public int getValue() {
-        return this.value;
-    }
-
-    public void setValue(int newValue) {
-        this.value = newValue < 1 || newValue > 9 ? Math.abs(newValue) % 9: newValue;
+        return value;
     }
 
     public boolean getDisplay() {
-        return this.display;
-    }
-
-    public void setDisplay(boolean newDisplay) {
-        this.display = newDisplay;
+        return display;
     }
 
     public int getSquare() {
-        return this.square;
+        return square;
     }
 
     public int getColumn() {
-        return this.column;
+        return column;
     }
 
     public int getRow() {
-        return this.row;
+        return row;
+    }
+
+    public void setDisplay(boolean newDisplay) {
+        display = newDisplay;
+    }
+
+    public int getNumberOfPossibleValues() {
+        return possibleValues.size();
+    }
+
+    public void removePossibleValue(int value) {
+        for (int i = 0; i < possibleValues.size(); i++) {
+            if (possibleValues.get(i) == value) {
+                possibleValues.remove(i);
+            }
+        }
+    }
+
+    public int assignRandomPossibleValue() {
+        Random random = new Random();
+
+        final int randomValueIndex = possibleValues.get(random.nextInt(possibleValues.size()));
+        value = possibleValues.get(randomValueIndex);
+        return value;
+    }
+
+    public void reset() {
+        value = 0;
+        possibleValues.clear();
+        for (int i = 1; i <= 9; i++) {
+            possibleValues.add(i);
+        }
+        display = false;
     }
 
     @Override
