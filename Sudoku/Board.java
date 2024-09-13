@@ -18,7 +18,7 @@ public class Board {
     private Tile[] tiles = new Tile[81];
 
     public Board() {
-        generateRandomBoard();
+        createBoard();
     };
 
     // Calculate a given Tile's Square based on its Id
@@ -53,10 +53,8 @@ public class Board {
         return (sqrRow * 3) + tileRow;
     }
 
-    public void generateRandomBoard() {
-        Random random = new Random();
-
-        // Create new Tiles
+    public void createBoard() {
+        // Create Tiles for the board
         for (int i = 0; i < 81; i++) {
             System.out.println(String.format("\nCreating tile %d", i));
 
@@ -64,48 +62,13 @@ public class Board {
             final int targetColumn = this.calculateColumn(i);
             final int targetRow = this.calculateRow(i);
 
-            System.out.println(String.format("\tSquare: %d", targetSquare));
-            System.out.println(String.format("\tColumn: %d", targetColumn));
-            System.out.println(String.format("\tRow: %d", targetRow));
+            final Tile newTile = new Tile(i, targetSquare, targetColumn, targetRow);
 
-            final HashMap<Integer, Boolean> valuesInTargetSquare = this.squares[targetSquare].getValues();
-            final HashMap<Integer, Boolean> valuesInTargetColumn = this.columns[targetColumn].getValues();
-            final HashMap<Integer, Boolean> valuesInTargetRow = this.rows[targetRow].getValues();
-
-
-            ArrayList<Integer> validValuesForThisIndex = new ArrayList<Integer>();
-            System.out.println(String.format("\n\tDetermining available values..."));
-            for (int j=1; j <= 9; j++) {
-                int count = 0;
-                if (valuesInTargetSquare.containsKey(j)) {
-                    count += 1;
-                    System.out.println(String.format("\t\t %d already exists in the Square.", j));
-                }
-                if (valuesInTargetColumn.containsKey(j)) {
-                    count += 1;
-                    System.out.println(String.format("\t\t %d already exists in the Column.", j));
-                }
-                if (valuesInTargetRow.containsKey(j)) {
-                    count += 1;
-                    System.out.println(String.format("\t\t %d already exists in the Row.", j));
-                }
-
-                if (count == 0) {
-                    System.out.println(String.format("\t\t %d is available.", j));
-                    validValuesForThisIndex.add(j);
-                }
-            }
-
-            int tileValue = validValuesForThisIndex.size() == 1 ? validValuesForThisIndex.get(0) : validValuesForThisIndex.get(random.nextInt(0, validValuesForThisIndex.size() - 1));
-            System.out.println(String.format("\tSelected value %d for new Tile.", tileValue));
-            final Tile newTile = new Tile(i, tileValue, true, targetSquare, targetColumn, targetRow);
-
-            this.squares[targetSquare].addTile(newTile, calculatePositionInSquare(tileValue));
-            this.columns[targetColumn].addTile(newTile, targetRow);
-            this.rows[targetRow].addTile(newTile, targetColumn);
-            this.tiles[i] = newTile;
+            squares[targetSquare].addTile(newTile, calculatePositionInSquare(i));
+            columns[targetColumn].addTile(newTile, targetRow);
+            rows[targetRow].addTile(newTile, targetColumn);
+            tiles[i] = newTile;
         }
-    
     }
 
     public boolean isValid() {
