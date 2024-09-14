@@ -17,15 +17,15 @@ class TileGroup {
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public TileGroupType getType() {
-        return this.type;
+        return type;
     }
 
     public Tile[] getTiles() {
-        return this.tiles;
+        return tiles;
     }
 
     public void addTile(Tile tile, int positionInGroup) {

@@ -53,7 +53,7 @@ public class Tile {
 
     public void removePossibleValue(int value) {
         for (int i = 0; i < possibleValues.size(); i++) {
-            if (possibleValues.get(i) == value) {
+            if (possibleValues.get(i) == value && value != this.value) {
                 possibleValues.remove(i);
             }
         }
@@ -62,9 +62,10 @@ public class Tile {
     public int assignRandomPossibleValue() {
         Random random = new Random();
 
-        final int randomValueIndex = possibleValues.get(random.nextInt(possibleValues.size()));
-        value = possibleValues.get(randomValueIndex);
-        return value;
+        System.out.println(String.format("Selecting value for Tile %d. Which has %d options.",id,possibleValues.size()));
+        final int randomValidValue = possibleValues.get(random.nextInt(possibleValues.size()));
+        value = randomValidValue;
+        return randomValidValue;
     }
 
     public void reset() {
@@ -73,11 +74,11 @@ public class Tile {
         for (int i = 1; i <= 9; i++) {
             possibleValues.add(i);
         }
-        display = false;
+        display = true;
     }
 
     @Override
     public String toString() {
-        return "Tile [" + value + "] - Square: " + square + " / Row: " + row + " / Column: " + column;
+        return String.format("Tile [%d] Square: %d / Row: %d / Column: %d -- Value: %d", id, square, row, column, value);
     }
 }

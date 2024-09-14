@@ -1,9 +1,8 @@
 package Sudoku;
 
-import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 
 public class Board {
     private TileGroup[] rows = IntStream.range(0, 9)
@@ -19,6 +18,7 @@ public class Board {
 
     public Board() {
         createBoard();
+        pickRandomValidValues();
     };
 
     // Calculate a given Tile's Square based on its Id
@@ -28,7 +28,7 @@ public class Board {
 
     // Calculate a give Tile's postion in its Square
     private int calculatePositionInSquare(int tileId) {
-        return (tileId / 9) % 9;
+        return tileId % 9;
     }
 
     // Calculate a given Tile's Column based on its Id
@@ -56,11 +56,10 @@ public class Board {
     public void createBoard() {
         // Create Tiles for the board
         for (int i = 0; i < 81; i++) {
-            System.out.println(String.format("\nCreating tile %d", i));
-
             final int targetSquare = this.calculateSquare(i);
             final int targetColumn = this.calculateColumn(i);
             final int targetRow = this.calculateRow(i);
+            final int positionInSquare = calculatePositionInSquare(i);
 
             final Tile newTile = new Tile(i, targetSquare, targetColumn, targetRow);
 
@@ -69,6 +68,53 @@ public class Board {
             rows[targetRow].addTile(newTile, targetColumn);
             tiles[i] = newTile;
         }
+    }
+
+    public void resetBoard() {
+        for (int i = 0; i < 9; i++) {
+            tiles[i].reset();
+        }
+    }
+
+    private void pickRandomValidValues() {
+        // Pick valid values for all the tiles in a square - iterating from top to bottom, left to right
+        for (int s = 0; s < 9; s++) {
+
+            // Get all the tiles in the square
+            ArrayList<Tile> tilesInSquare = new ArrayList<Tile>(Arrays.asList(squares[s].getTiles()));
+
+            // Pick a valid value for each tile in the square, in order of those tiles with the fewest options to those with the most
+            for (int t = 0; t < 9; t++) {
+
+                // Find the tile with the fewest number of valid options
+                Tile targetTile = tilesInSquare.get(0);
+                int indexOfTargetTile = 0;
+
+                for (int i = 0; i < tilesInSquare.size(); i++) {
+                    if (tilesInSquare.get(i).getNumberOfPossibleValues() < targetTile.getNumberOfPossibleValues()) {
+                        targetTile = tilesInSquare.get(i);
+                        indexOfTargetTile = i;
+                    }
+                }
+
+                // Set a random valid value for that tile
+                int valueChoosen = targetTile.assignRandomPossibleValue();
+
+                // Remove the value choosen from possible values for other tiles that share a tile group
+                rows[targetTile.getRow()].removePossibleValueFromOtherTilesInGroup(valueChoosen, targetTile.getColumn());
+                columns[targetTile.getColumn()].removePossibleValueFromOtherTilesInGroup(valueChoosen, targetTile.getRow());
+                squares[targetTile.getSquare()].removePossibleValueFromOtherTilesInGroup(valueChoosen, calculatePositionInSquare(targetTile.getId()));
+
+                // Remove tile from our ArrayList
+                tilesInSquare.remove(indexOfTargetTile);
+            }
+            printBoard();
+        }
+    }
+
+    public void generateNewPuzzle() {
+        resetBoard();
+        pickRandomValidValues();
     }
 
     public void printBoard() {
