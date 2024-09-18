@@ -1,5 +1,7 @@
 package Sudoku;
 
+import java.util.HashSet;
+
 enum TileGroupType {
     row,
     column,
@@ -10,6 +12,7 @@ class TileGroup {
     private final int id;
     private final TileGroupType type;
     private final Tile[] tiles = new Tile[9];
+    private final HashSet<Integer> possibleValues = new HashSet<Integer>();
     
     public TileGroup(int id, TileGroupType type) {
         this.id = id;
@@ -26,6 +29,10 @@ class TileGroup {
 
     public Tile[] getTiles() {
         return tiles;
+    }
+
+    public Boolean checkPossibleValue(int value) {
+        return possibleValues.contains(possibleValues);
     }
 
     public void addTile(Tile tile, int positionInGroup) {

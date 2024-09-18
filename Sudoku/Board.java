@@ -76,6 +76,16 @@ public class Board {
         }
     }
 
+    private ArrayList<Integer> calculateIntersectionOfPossibeValues(TileGroup square, TileGroup group) {
+        final ArrayList<Integer> possibilityIntersection = new ArrayList<Integer>();
+
+        for (int i = 1; i <= 9; i++) {
+            if (square.checkPossibleValue(i) && group.checkPossibleValue(i)) possibilityIntersection.add(i);
+        }
+
+        return possibilityIntersection;
+    }
+
     private void pickRandomValidValues() {
         // Pick valid values for all the tiles in a square - iterating from top to bottom, left to right
         for (int s = 0; s < 9; s++) {
