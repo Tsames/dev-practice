@@ -1,5 +1,6 @@
 package Sudoku;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 enum TileGroupType {
@@ -12,8 +13,7 @@ class TileGroup {
     private final int id;
     private final TileGroupType type;
     private final Tile[] tiles = new Tile[9];
-    private final HashSet<Integer> possibleValues = new HashSet<Integer>();
-    
+
     public TileGroup(int id, TileGroupType type) {
         this.id = id;
         this.type = type;
@@ -28,21 +28,45 @@ class TileGroup {
     }
 
     public Tile[] getTiles() {
-        return tiles;
+        return tiles.clone();
     }
 
-    public Boolean checkPossibleValue(int value) {
-        return possibleValues.contains(possibleValues);
+    public void addTile(Tile tile, int position) {
+        tiles[position] = tile;
     }
 
-    public void addTile(Tile tile, int positionInGroup) {
-        tiles[positionInGroup] = tile;
+    public Tile findTileWithFewestPossibleValues() {
+        int fewestPossibleValues = 9;
+        Tile tileWithFewestPossibleOptions = this.tiles[0];
+
+        for (Tile tile : this.tiles) {
+            if (tile.getValue() == 0 && tile.possibleValues.size() < fewestPossibleValues) {
+                fewestPossibleValues = tile.possibleValues.size();
+                tileWithFewestPossibleOptions = tile;
+            }
+        }
+
+        return tileWithFewestPossibleOptions;
+    }
+
+    public void removeSharedPossibleValues(Tile targetTile) {
+        HashSet<Integer> intersectionPossibleValues = new HashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+
+        for (Tile tile : tiles) {
+            if (tile.getValue() == 0) {
+                intersectionPossibleValues.retainAll(tile.possibleValues);
+            }
+        }
+
+        if (intersectionPossibleValues.size() != targetTile.possibleValues.size()) {
+            targetTile.possibleValues.removeAll(intersectionPossibleValues);
+        }
     }
 
     public void removePossibleValueFromOtherTilesInGroup(int value, int positionInGroup) {
         for (int i = 0; i < 9; i++) {
             if (i != positionInGroup) {
-                tiles[i].removePossibleValue(value);
+                tiles[i].possibleValues.remove(value);
             }
         }
     }

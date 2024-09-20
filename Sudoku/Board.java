@@ -1,8 +1,6 @@
 package Sudoku;
 
 import java.util.stream.IntStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Board {
     private TileGroup[] rows = IntStream.range(0, 9)
@@ -59,7 +57,6 @@ public class Board {
             final int targetSquare = this.calculateSquare(i);
             final int targetColumn = this.calculateColumn(i);
             final int targetRow = this.calculateRow(i);
-            final int positionInSquare = calculatePositionInSquare(i);
 
             final Tile newTile = new Tile(i, targetSquare, targetColumn, targetRow);
 
@@ -76,49 +73,27 @@ public class Board {
         }
     }
 
-    private ArrayList<Integer> calculateIntersectionOfPossibeValues(TileGroup square, TileGroup group) {
-        final ArrayList<Integer> possibilityIntersection = new ArrayList<Integer>();
-
-        for (int i = 1; i <= 9; i++) {
-            if (square.checkPossibleValue(i) && group.checkPossibleValue(i)) possibilityIntersection.add(i);
-        }
-
-        return possibilityIntersection;
-    }
-
     private void pickRandomValidValues() {
-        // Pick valid values for all the tiles in a square - iterating from top to bottom, left to right
-        for (int s = 0; s < 9; s++) {
+        // Pick valid values for all the tiles in a row - iterating from top to bottom
+        for (int r = 0; r < 9; r++) {
+            TileGroup currentRow = rows[r];
 
-            // Get all the tiles in the square
-            ArrayList<Tile> tilesInSquare = new ArrayList<Tile>(Arrays.asList(squares[s].getTiles()));
-
-            // Pick a valid value for each tile in the square, in order of those tiles with the fewest options to those with the most
+            // Pick valid values for each tile in a row - iterating from left to right
             for (int t = 0; t < 9; t++) {
 
-                // Find the tile with the fewest number of valid options
-                Tile targetTile = tilesInSquare.get(0);
-                int indexOfTargetTile = 0;
+                Tile selectedTile = currentRow.findTileWithFewestPossibleValues();
+                currentRow.removeSharedPossibleValues(selectedTile);
+                int choosenValue = selectedTile.assignRandomPossibleValue();
 
-                for (int i = 0; i < tilesInSquare.size(); i++) {
-                    if (tilesInSquare.get(i).getNumberOfPossibleValues() < targetTile.getNumberOfPossibleValues()) {
-                        targetTile = tilesInSquare.get(i);
-                        indexOfTargetTile = i;
-                    }
-                }
+                rows[selectedTile.getRow()].removePossibleValueFromOtherTilesInGroup(choosenValue,
+                        selectedTile.getColumn());
+                columns[selectedTile.getColumn()].removePossibleValueFromOtherTilesInGroup(choosenValue,
+                        selectedTile.getRow());
+                squares[selectedTile.getSquare()].removePossibleValueFromOtherTilesInGroup(choosenValue,
+                        calculatePositionInSquare(selectedTile.getId()));
 
-                // Set a random valid value for that tile
-                int valueChoosen = targetTile.assignRandomPossibleValue();
-
-                // Remove the value choosen from possible values for other tiles that share a tile group
-                rows[targetTile.getRow()].removePossibleValueFromOtherTilesInGroup(valueChoosen, targetTile.getColumn());
-                columns[targetTile.getColumn()].removePossibleValueFromOtherTilesInGroup(valueChoosen, targetTile.getRow());
-                squares[targetTile.getSquare()].removePossibleValueFromOtherTilesInGroup(valueChoosen, calculatePositionInSquare(targetTile.getId()));
-
-                // Remove tile from our ArrayList
-                tilesInSquare.remove(indexOfTargetTile);
+                printBoard();
             }
-            printBoard();
         }
     }
 
