@@ -1,12 +1,14 @@
 package Sudoku;
-import java.util.ArrayList;
+
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
 
 public class Tile {
     private final int id;
-    private final ArrayList<Integer> possibleValues = new ArrayList<Integer>();
-    private int value;
-    private boolean display;
+    public final HashSet<Integer> possibleValues = new HashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+    private int value = 0;
+    private boolean display = true;
     private final int square;
     private final int column;
     private final int row;
@@ -16,7 +18,6 @@ public class Tile {
         this.square = square;
         this.column = column;
         this.row = row;
-        reset();
     }
 
     public int getId() {
@@ -47,24 +48,13 @@ public class Tile {
         display = newDisplay;
     }
 
-    public int getNumberOfPossibleValues() {
-        return possibleValues.size();
-    }
-
-    public void removePossibleValue(int value) {
-        for (int i = 0; i < possibleValues.size(); i++) {
-            if (possibleValues.get(i) == value && value != this.value) {
-                possibleValues.remove(i);
-            }
-        }
-    }
-
     public int assignRandomPossibleValue() {
         Random random = new Random();
+        Integer options[] = possibleValues.toArray(new Integer[possibleValues.size()]);
 
-        System.out.println(String.format("Selecting value for Tile %d. Which has %d options.",id,possibleValues.size()));
-        final int randomValidValue = possibleValues.get(random.nextInt(possibleValues.size()));
-        value = randomValidValue;
+        final int randomValidValue = options[random.nextInt(options.length)];
+        this.value = randomValidValue;
+
         return randomValidValue;
     }
 
@@ -79,6 +69,7 @@ public class Tile {
 
     @Override
     public String toString() {
-        return String.format("Tile [%d] Square: %d / Row: %d / Column: %d -- Value: %d", id, square, row, column, value);
+        return String.format("Tile [%d] Square: %d / Row: %d / Column: %d -- Value: %d", id, square, row, column,
+                value);
     }
 }
