@@ -37,7 +37,7 @@ class TileGroup {
 
     public Tile findTileWithFewestPossibleValues() {
         int fewestPossibleValues = 9;
-        Tile tileWithFewestPossibleOptions = this.tiles[0];
+        Tile tileWithFewestPossibleOptions = null;
 
         for (Tile tile : this.tiles) {
             if (tile.getValue() == 0 && tile.possibleValues.size() < fewestPossibleValues) {

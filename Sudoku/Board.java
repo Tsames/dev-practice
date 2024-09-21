@@ -74,25 +74,32 @@ public class Board {
     }
 
     private void pickRandomValidValues() {
-        // Pick valid values for all the tiles in a row - iterating from top to bottom
+        // Iterate through rows of our board - from top to bottom
         for (int r = 0; r < 9; r++) {
             TileGroup currentRow = rows[r];
 
             // Pick valid values for each tile in a row - iterating from left to right
             for (int t = 0; t < 9; t++) {
 
+                // Find the tile with the fewest possible values within the current row that we are picking values for.
+                // If all values are the same, then choose the left most Tile that does not yet have a value
                 Tile selectedTile = currentRow.findTileWithFewestPossibleValues();
+
+                // If there is a subset of possible values for this Tile that are shared among the remaining Tiles,
+                // then remove those options as possible values for our choosen tile before picking a value.
+                // This forces us to pick, if applicable, from values that are exclusively possible to that Tile.
                 currentRow.removeSharedPossibleValues(selectedTile);
+
+                // Pick a random value from the possible values for that tile and return it.
                 int choosenValue = selectedTile.assignRandomPossibleValue();
 
+                // Remove the chosen value from the set of possible values for all other tiles that share a TileGroup
                 rows[selectedTile.getRow()].removePossibleValueFromOtherTilesInGroup(choosenValue,
                         selectedTile.getColumn());
                 columns[selectedTile.getColumn()].removePossibleValueFromOtherTilesInGroup(choosenValue,
                         selectedTile.getRow());
                 squares[selectedTile.getSquare()].removePossibleValueFromOtherTilesInGroup(choosenValue,
                         calculatePositionInSquare(selectedTile.getId()));
-
-                printBoard();
             }
         }
     }

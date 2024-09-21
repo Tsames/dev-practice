@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Tile {
     private final int id;
-    public final HashSet<Integer> possibleValues = new HashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+    public HashSet<Integer> possibleValues = new HashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
     private int value = 0;
     private boolean display = true;
     private final int square;
