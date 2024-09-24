@@ -34,7 +34,7 @@ class BinaryTreeNode:
                 nextLevel = 0
 
 
-def create_tree_from_array(nodes: list[int]) -> BinaryTreeNode:
+def create_tree_from_list(nodes: list[int]) -> BinaryTreeNode:
     if not nodes:
         return None
 
