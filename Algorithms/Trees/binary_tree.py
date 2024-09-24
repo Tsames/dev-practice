@@ -33,20 +33,24 @@ class BinaryTreeNode:
                 currentLevel = nextLevel
                 nextLevel = 0
 
-root = BinaryTreeNode(5)
-firstLevelLeft = BinaryTreeNode(3)
-firstLevelRight = BinaryTreeNode(8)
-root.left = firstLevelLeft
-root.right = firstLevelRight
 
-secondLevelFarLeft = BinaryTreeNode(1)
-secondLevelCloseLeft = BinaryTreeNode(4)
-firstLevelLeft.left = secondLevelFarLeft
-firstLevelLeft.right = secondLevelCloseLeft
+def create_tree_from_array(nodes: list[int]) -> BinaryTreeNode:
+    if not nodes:
+        return None
 
-secondLevelCloseRight = BinaryTreeNode(6)
-secondLevelFarRight = BinaryTreeNode(10)
-firstLevelRight.left = secondLevelCloseRight
-firstLevelRight.right = secondLevelFarRight
+    root = BinaryTreeNode(nodes[0])
+    q = [root]
+    i = 1
 
-print(root)
+    while i < len(nodes):
+        curr = q.pop(0)
+        if i < len(nodes):
+            curr.left = BinaryTreeNode(nodes[i])
+            q.append(curr.left)
+            i += 1
+        if i < len(nodes):
+            curr.right = BinaryTreeNode(nodes[i])
+            q.append(curr.right)
+            i += 1
+
+    return root
