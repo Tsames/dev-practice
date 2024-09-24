@@ -44,13 +44,19 @@ def create_tree_from_array(nodes: list[int]) -> BinaryTreeNode:
 
     while i < len(nodes):
         curr = q.pop(0)
-        if i < len(nodes):
-            curr.left = BinaryTreeNode(nodes[i])
-            q.append(curr.left)
+        if curr:
+            if nodes[i]:
+                curr.left = BinaryTreeNode(nodes[i])
+                q.append(curr.left)
+            else:
+                curr.left = nodes[i]
             i += 1
-        if i < len(nodes):
-            curr.right = BinaryTreeNode(nodes[i])
-            q.append(curr.right)
+        if i < len(nodes) and curr:
+            if nodes[i]:
+                curr.right = BinaryTreeNode(nodes[i])
+                q.append(curr.right)
+            else:
+                curr.right = nodes[i]
             i += 1
 
     return root
