@@ -3,6 +3,8 @@ package Sudoku;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import javax.swing.plaf.TreeUI;
+
 enum TileGroupType {
     row,
     column,
@@ -35,38 +37,54 @@ class TileGroup {
         tiles[position] = tile;
     }
 
+    public boolean isValid() {
+        HashSet<Integer> values = new HashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        for (Tile tile : tiles) {
+            if (!values.remove(tile.getValue())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public Tile findTileWithFewestPossibleValues() {
-        int fewestPossibleValues = 9;
+        int fewestPossibleValues = 10;
         Tile tileWithFewestPossibleOptions = null;
 
         for (Tile tile : this.tiles) {
-            if (tile.getValue() == 0 && tile.possibleValues.size() < fewestPossibleValues) {
-                fewestPossibleValues = tile.possibleValues.size();
+            if (tile.getValue() == 0 && tile.getNumberOfPossibleValues() < fewestPossibleValues) {
+                fewestPossibleValues = tile.getNumberOfPossibleValues();
                 tileWithFewestPossibleOptions = tile;
             }
         }
+
+        System.out.println(String.format("Selecting a value for Tile %d in row %d",
+                tileWithFewestPossibleOptions.getColumn(), tileWithFewestPossibleOptions.getRow()));
 
         return tileWithFewestPossibleOptions;
     }
 
     public void removeSharedPossibleValues(Tile targetTile) {
-        HashSet<Integer> intersectionPossibleValues = new HashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        HashSet<Integer> sharedPossibleValues = new HashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
 
         for (Tile tile : tiles) {
             if (tile.getValue() == 0) {
-                intersectionPossibleValues.retainAll(tile.possibleValues);
+                sharedPossibleValues.retainAll(tile.getPossibleValues());
             }
         }
 
-        if (intersectionPossibleValues.size() != targetTile.possibleValues.size()) {
-            targetTile.possibleValues.removeAll(intersectionPossibleValues);
+        System.err.println("Removing the following shared values from the possible options");
+        System.out.println(sharedPossibleValues);
+        if (sharedPossibleValues.size() != targetTile.getNumberOfPossibleValues()) {
+            targetTile.removeAllPossibleValues(sharedPossibleValues);
         }
     }
 
-    public void removePossibleValueFromOtherTilesInGroup(int value, int positionInGroup) {
+    public void removePossibleValueFromGroup(int value) {
         for (int i = 0; i < 9; i++) {
-            if (i != positionInGroup) {
-                tiles[i].possibleValues.remove(value);
+            if (tiles[i].getValue() != value) {
+                tiles[i].removePossibleValue(value);
             }
         }
     }

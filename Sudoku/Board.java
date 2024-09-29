@@ -15,8 +15,8 @@ public class Board {
     private Tile[] tiles = new Tile[81];
 
     public Board() {
-        createBoard();
-        pickRandomValidValues();
+        createTiles();
+        pickTileValues();
     };
 
     // Calculate a given Tile's Square based on its Id
@@ -51,7 +51,7 @@ public class Board {
         return (sqrRow * 3) + tileRow;
     }
 
-    public void createBoard() {
+    public void createTiles() {
         // Create Tiles for the board
         for (int i = 0; i < 81; i++) {
             final int targetSquare = this.calculateSquare(i);
@@ -67,46 +67,71 @@ public class Board {
         }
     }
 
-    public void resetBoard() {
+    public void resetTiles() {
         for (int i = 0; i < 9; i++) {
             tiles[i].reset();
         }
     }
 
-    private void pickRandomValidValues() {
-        // Iterate through rows of our board - from top to bottom
-        for (int r = 0; r < 9; r++) {
-            TileGroup currentRow = rows[r];
+    private void pickTileValues() {
+        // Iterate through squares of our board - from top to bottom
+        for (int i = 0; i < 9; i++) {
+            TileGroup currentGroup = rows[i];
 
-            // Pick valid values for each tile in a row - iterating from left to right
-            for (int t = 0; t < 9; t++) {
+            // Pick valid values for each tile in a square
+            for (int j = 0; j < 9; j++) {
 
-                // Find the tile with the fewest possible values within the current row that we are picking values for.
-                // If all values are the same, then choose the left most Tile that does not yet have a value
-                Tile selectedTile = currentRow.findTileWithFewestPossibleValues();
+                /*
+                 * Find the tile with the fewest possible values within the current square that we
+                 * are picking values for.
+                 * If all remaining tiles have the same number of possible values, then
+                 * choose
+                 * the left most Tile that does not yet have a value.
+                 */
+                Tile chosenTile = currentGroup.findTileWithFewestPossibleValues();
 
-                // If there is a subset of possible values for this Tile that are shared among the remaining Tiles,
-                // then remove those options as possible values for our choosen tile before picking a value.
-                // This forces us to pick, if applicable, from values that are exclusively possible to that Tile.
-                currentRow.removeSharedPossibleValues(selectedTile);
+                /*
+                 * If there is a subset of possible values for this Tile that are shared among
+                 * the other remaining Tiles,
+                 * then remove those options as possible values for our choosen tile before
+                 * picking a value.
+                 * This forces us to pick, if applicable, from values that are exclusively
+                 * possible to that Tile.
+                 */
+                currentGroup.removeSharedPossibleValues(chosenTile);
 
                 // Pick a random value from the possible values for that tile and return it.
-                int choosenValue = selectedTile.assignRandomPossibleValue();
+                int chosenValue = chosenTile.assignValue();
 
-                // Remove the chosen value from the set of possible values for all other tiles that share a TileGroup
-                rows[selectedTile.getRow()].removePossibleValueFromOtherTilesInGroup(choosenValue,
-                        selectedTile.getColumn());
-                columns[selectedTile.getColumn()].removePossibleValueFromOtherTilesInGroup(choosenValue,
-                        selectedTile.getRow());
-                squares[selectedTile.getSquare()].removePossibleValueFromOtherTilesInGroup(choosenValue,
-                        calculatePositionInSquare(selectedTile.getId()));
+                // Remove the chosen value from the set of possible values for all other tiles
+                // that share a TileGroup
+                rows[chosenTile.getRow()].removePossibleValueFromGroup(chosenValue);
+                columns[chosenTile.getColumn()].removePossibleValueFromGroup(chosenValue);
+                squares[chosenTile.getSquare()].removePossibleValueFromGroup(chosenValue);
+                printBoard();
             }
         }
     }
 
     public void generateNewPuzzle() {
-        resetBoard();
-        pickRandomValidValues();
+        resetTiles();
+        pickTileValues();
+    }
+
+    public boolean isValid() {
+        for(int i=0; i < 9; i++) {
+            if (!rows[i].isValid()) {
+                return false;
+            }
+            if (!columns[i].isValid()) {
+                return false;
+            }
+            if (!squares[i].isValid()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void printBoard() {

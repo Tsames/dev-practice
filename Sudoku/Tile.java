@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Tile {
     private final int id;
-    public HashSet<Integer> possibleValues = new HashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+    private HashSet<Integer> possibleValues = new HashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
     private int value = 0;
     private boolean display = true;
     private final int square;
@@ -48,12 +48,34 @@ public class Tile {
         display = newDisplay;
     }
 
-    public int assignRandomPossibleValue() {
+    public HashSet<Integer> getPossibleValues() {
+        return new HashSet<Integer>(this.possibleValues);
+    }
+
+    public int getNumberOfPossibleValues() {
+        return possibleValues.size();
+    }
+
+    public void removePossibleValue(int valueToRemove) {
+        possibleValues.remove(valueToRemove);
+    }
+
+    public void removeAllPossibleValues(HashSet<Integer> valuesToRemove) {
+        possibleValues.removeAll(valuesToRemove);
+        System.out.println(String.format("The final possible values to select from for Tile %d in row %d are:",
+                this.column, this.row));
+        System.out.println(possibleValues);
+    }
+
+    public int assignValue() {
         Random random = new Random();
         Integer options[] = possibleValues.toArray(new Integer[possibleValues.size()]);
 
         final int randomValidValue = options[random.nextInt(options.length)];
         this.value = randomValidValue;
+
+        System.out.println(
+                String.format("Selected %d as a value for Tile %d in row %d", this.value, this.column, this.row));
 
         return randomValidValue;
     }
@@ -64,7 +86,7 @@ public class Tile {
         for (int i = 1; i <= 9; i++) {
             possibleValues.add(i);
         }
-        display = true;
+        display = false;
     }
 
     @Override
