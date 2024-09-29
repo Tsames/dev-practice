@@ -16,39 +16,39 @@ public class Board {
 
     public Board() {
         createTiles();
-        pickTileValues();
+        // pickTileValues();
     };
 
-    // Calculate a given Tile's Square based on its Id
-    private int calculateSquare(int tileId) {
+    // Calculate a given Tile's Row based on its Id
+    private int calculateRow(int tileId) {
         return tileId / 9;
-    }
-
-    // Calculate a give Tile's postion in its Square
-    private int calculatePositionInSquare(int tileId) {
-        return tileId % 9;
     }
 
     // Calculate a given Tile's Column based on its Id
     private int calculateColumn(int tileId) {
-        // Calculate the square's horizontal position
-        int sqrModulo = (tileId / 9) % 3;
-
-        // Calculate the number of columns over from the first tile in the square
-        int tilesFromFirstTile = (tileId % 9) % 3;
-
-        return (sqrModulo * 3) + tilesFromFirstTile;
+        return tileId % 9;
     }
 
-    // Calculate a given Tile's Row based on its Id
-    private int calculateRow(int tileId) {
-        // Calculate the square's vertical position
-        int sqrRow = (tileId / 9) / 3;
+    // Calculate a given Tile's Square based on its Id
+    private int calculateSquare(int tileId) {
+        // Calculate how many squares from the far left of the board the given tile is (0 - 2)
+        final int horizontalSquarePosition = ((tileId % 9) / 3);
 
-        // Calculate the number of rows over from the first tile in the square
-        int tileRow = (tileId % 9) / 3;
+        // Calculate how many squares from the top of the board the given tile is (0 - 2)
+        final int verticalSquarePosition = ((tileId / 9) / 3);
 
-        return (sqrRow * 3) + tileRow;
+        return horizontalSquarePosition + (verticalSquarePosition * 3);
+    }
+
+    // Calculate a give Tile's postion in its Square
+    private int calculatePositionInSquare(int tileId) {
+        // Calculate how many tiles from the far left of the square the given tile is (0 - 2)
+        final int columnModulo = (tileId % 9) % 3;
+
+        // Calculate how many tiles from the top of the square the given tile is (0 - 2)
+        final int rowModulo = (tileId / 9) % 3;
+
+        return columnModulo + (rowModulo * 3);
     }
 
     public void createTiles() {
@@ -82,7 +82,8 @@ public class Board {
             for (int j = 0; j < 9; j++) {
 
                 /*
-                 * Find the tile with the fewest possible values within the current square that we
+                 * Find the tile with the fewest possible values within the current square that
+                 * we
                  * are picking values for.
                  * If all remaining tiles have the same number of possible values, then
                  * choose
@@ -113,13 +114,24 @@ public class Board {
         }
     }
 
+    // public boolean pickValue(int tileIndex) {
+    //     // Base Case is that there is no possibleValues for the chosen tile, so we have
+    //     // to go back and try again
+    //     if (tiles[tileIndex].possibleValues.size() == 0) {
+    //         return false;
+    //     }
+
+    //     // Otherwise
+
+    // }
+
     public void generateNewPuzzle() {
         resetTiles();
-        pickTileValues();
+        // pickTileValues();
     }
 
     public boolean isValid() {
-        for(int i=0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             if (!rows[i].isValid()) {
                 return false;
             }

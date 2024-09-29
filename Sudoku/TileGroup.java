@@ -3,8 +3,6 @@ package Sudoku;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import javax.swing.plaf.TreeUI;
-
 enum TileGroupType {
     row,
     column,
@@ -45,7 +43,7 @@ class TileGroup {
             }
         }
 
-        return true;
+        return values.size() == 0;
     }
 
     public Tile findTileWithFewestPossibleValues() {
@@ -53,8 +51,8 @@ class TileGroup {
         Tile tileWithFewestPossibleOptions = null;
 
         for (Tile tile : this.tiles) {
-            if (tile.getValue() == 0 && tile.getNumberOfPossibleValues() < fewestPossibleValues) {
-                fewestPossibleValues = tile.getNumberOfPossibleValues();
+            if (tile.getValue() == 0 && tile.possibleValues.size() < fewestPossibleValues) {
+                fewestPossibleValues = tile.possibleValues.size();
                 tileWithFewestPossibleOptions = tile;
             }
         }
@@ -70,21 +68,29 @@ class TileGroup {
 
         for (Tile tile : tiles) {
             if (tile.getValue() == 0) {
-                sharedPossibleValues.retainAll(tile.getPossibleValues());
+                sharedPossibleValues.retainAll(tile.possibleValues);
             }
         }
 
         System.err.println("Removing the following shared values from the possible options");
         System.out.println(sharedPossibleValues);
-        if (sharedPossibleValues.size() != targetTile.getNumberOfPossibleValues()) {
-            targetTile.removeAllPossibleValues(sharedPossibleValues);
+        if (sharedPossibleValues.size() != targetTile.possibleValues.size()) {
+            targetTile.possibleValues.removeAll(sharedPossibleValues);
+        }
+    }
+
+    public void addPossibleValueToGroup(int value) {
+        for (int i = 0; i < 9; i++) {
+            if (tiles[i].getValue() != value) {
+                tiles[i].possibleValues.add(value);
+            }
         }
     }
 
     public void removePossibleValueFromGroup(int value) {
         for (int i = 0; i < 9; i++) {
             if (tiles[i].getValue() != value) {
-                tiles[i].removePossibleValue(value);
+                tiles[i].possibleValues.remove(value);
             }
         }
     }
