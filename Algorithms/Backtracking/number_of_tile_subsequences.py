@@ -1,4 +1,5 @@
 from collections import Counter
+
 """
 You have n tiles, where each tile has one letter tiles[i] printed on it.
 
@@ -48,26 +49,49 @@ Since each function call should be constructing a unique string, we add one to t
 
 """
 
+
 def num_tile_possibilities(tiles: str) -> int:
     letter_counts = Counter(tiles)
     return back_track(letter_counts)
-    
+
+
 def back_track(letter_counts):
     count = 0
-    
+
     for letter, freq in letter_counts.items():
         if freq > 0:
             count += 1
             letter_counts[letter] -= 1
-            
+
             count += back_track(letter_counts)
-            
+
             letter_counts[letter] += 1
-    
+
     return count
-    
-    
-print(num_tile_possibilities("AAB")) # Expects 8
+
+
+print(num_tile_possibilities("AAB"))  # Expects 8
+print(num_tile_possibilities("AAABBC"))  # Expects 188
+print(num_tile_possibilities("V"))  # Expects 1
+
+
+# Alternate solution with list slicing
+
+
+def num_tile_possibilities_2(tiles: str) -> int:
+    res = set()
+
+    def dfs(path: str, t: str):
+        if path not in res:
+            if path:
+                res.add(path)
+            for i in range(len(t)):
+                dfs(path + t[i], t[:i] + t[i + 1 :])
+
+    dfs("", tiles)
+    return len(res)
+
+
+print(num_tile_possibilities_2("AAB"))  # Expects 8
 print(num_tile_possibilities("AAABBC")) # Expects 188
 print(num_tile_possibilities("V")) # Expects 1
-    
