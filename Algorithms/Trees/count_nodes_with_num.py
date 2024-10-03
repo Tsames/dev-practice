@@ -1,4 +1,4 @@
-from binary_tree import BinaryTreeNode, create_tree_from_list
+from binary_tree import create_tree_from_list
 """
 Given a binary tree, count the number of nodes that are equal to a given target.
 Function Description: countNodes has the following parameters:

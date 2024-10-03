@@ -13,7 +13,7 @@ Example:
            1
           / \
          2   3
-// returns [2, 1, 3]
+returns [2, 1, 3]
 """
 
 def pre_order_dfs(root):
