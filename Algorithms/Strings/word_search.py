@@ -76,11 +76,10 @@ print(
     word_search(
         [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCCED"
     )
-) # Expected True
+)  # Expected True
 
 print(
     word_search(
-        [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]],
-        "SEE"
+        [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "SEE"
     )
-) # Expected True
+)  # Expected True
