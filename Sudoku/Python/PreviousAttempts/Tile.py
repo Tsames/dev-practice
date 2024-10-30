@@ -4,9 +4,9 @@ import random
 class Tile:
     def __init__(self, id: int, row: int, column: int, square: int):
         self._id = id
-        self._square = square
-        self._column = column
         self._row = row
+        self._column = column
+        self._square = square
         self.possible_values = set([1, 2, 3, 4, 5, 6, 7, 8, 9])
         self.value = 0
         self.display = False
