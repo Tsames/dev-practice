@@ -1,12 +1,12 @@
 from typing import Optional
-
+from random import randrange
 
 class SudokuNode:
 
     def __init__(self, idx: int, value: Optional[int] = 0):
         self._idx = idx
         self._value = value
-        self.visible = True
+        self._display = False
         self._connectedTo = set()
 
     def getIndex(self) -> int:
@@ -29,6 +29,12 @@ class SudokuNode:
 
     def resetValue(self) -> None:
         self._value = 0
+        
+    def getDisplay(self) -> bool:
+        return self._display
+    
+    def setDisplay(self, newDisplay) -> None:
+        self._display = newDisplay
 
     def getEdges(self) -> set["SudokuNode"]:
         return self._connectedTo.copy()
@@ -41,6 +47,19 @@ class SudokuNode:
 
     def hasEdge(self, node: "SudokuNode") -> bool:
         return node in self._connectedTo
+    
+    def isValid(self) -> bool:
+        if self._value == 0:
+            return True
+        
+        for node in self._connectedTo:
+            if node.getValue() == self._value:
+                return False
+        return True
+    
+    def reset(self) -> None:
+        self._value = 0
+        self._display = False
 
     def __str__(self):
         allConnections = list(self._connectedTo)

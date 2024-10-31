@@ -1,6 +1,5 @@
 from math import floor
-from typing import Optional
-from random import choice
+import random
 from sudoku_node import SudokuNode
 
 
@@ -8,17 +7,19 @@ class SudokuGraph:
 
     def __init__(self):
         self._allNodes = dict()
+        self._clues = 35
         self._createNodes()
-        self._createConnections()
+        self._setClues()
+        self._createEdges()
 
         assert self._checkEdges(), "Edges between SudokuNodes are not properly set."
-        self._pickNewValue(0)
+        assert self._pickNewValue(), "Initial Sudoku board generation failed."
 
     def _createNodes(self) -> None:
         for idx in range(81):
             self._allNodes[idx] = SudokuNode(idx)
 
-    def _createConnections(self) -> None:
+    def _createEdges(self) -> None:
         for i in range(81):
             self._connectRow(i)
             self._connectColumn(i)
@@ -30,7 +31,7 @@ class SudokuGraph:
             node = self._allNodes[i]
             edges = node.getEdges()
 
-            # Check that each node has exactly 24 neighbors
+            # Check that each node has exactly 20 neighbors
             if len(edges) != 20:
                 return False
 
@@ -48,44 +49,61 @@ class SudokuGraph:
         # Otherwise return True
         return True
 
-    def _pickNewValue(self, idx: int) -> bool:
+    def _pickNewValue(self, idx: int = 0) -> bool:
         # Base Case is we have successfully assigned values to every index, so bubble up True
         if idx == 81:
             return True
 
         # Get the node for the index
         node = self._allNodes[idx]
-        possibleValues = [1,2,3,4,5,6,7,8,9]
+        possibleValues = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
         # Iterate up to nine times, once for each value
-        for i in range(1, 10):
-            randomValue = choice(possibleValues)
-            possibleValues.remove(randomValue)
-            
+        while possibleValues:
+            randomIdx = random.randint(0, len(possibleValues) - 1)
+            randomValue = possibleValues.pop(randomIdx)
+
             # If we successfully set the value of that Node, make a recursive call to the next index.
             if node.setValue(randomValue):
-                # If that recursive call returns True, return True
+                # If that recursive call returns True, bubble up True
                 if self._pickNewValue(idx + 1):
                     return True
 
         # Exhausted all possible options for current Node, roll back the call stack to previous Node
         node.resetValue()
         return False
+    
+    def _setClues(self) -> None:
+        clues = self._clues
+        
+        while clues:
+            randomIdx = random.randint(0,80)
+            node = self._allNodes[randomIdx]
+            if not node.getDisplay():
+                node.setDisplay(True)
+                clues -= 1
+
+    def _reset(self) -> None:
+        for i in range(81):
+            self._allNodes[i].reset()
 
     def _calculateRow(self, idx: int) -> int:
         """
+        Calculate the index of the row a given tile index belongs to
         Rows indexes range from 0 -> 8
         """
         return floor(idx / 9)
 
     def _calculateColumn(self, idx: int) -> int:
         """
+        Calculate the index of the column a given tile index belongs to
         Columns indexes range from 0 -> 8
         """
         return idx % 9
 
     def _calculateSquare(self, idx: int) -> int:
         """
+        Calculate the index of the square a given tile index belongs to
         Squares indexes range from  0 -> 8.
 
         First term of the addition represents the number of squares the current square is from the left hand side of the board.
@@ -160,21 +178,14 @@ class SudokuGraph:
         nodeOne.addEdge(nodeTwo)
         nodeTwo.addEdge(nodeOne)
 
-    def getNode(self, idx: int) -> Optional[SudokuNode]:
-        return self._allNodes[idx] if idx in self._allNodes else None
-
-    def hasEdge(self, idxOne, idxTwo) -> Optional[bool]:
-        if (
-            idxOne == idxTwo
-            or idxOne not in self._allNodes
-            or idxTwo not in self._allNodes
-        ):
-            return None
-
-        nodeOne = self._allNodes[idxOne]
-        nodeTwo = self._allNodes[idxTwo]
-
-        return nodeOne.hasEdge(nodeTwo) and nodeTwo.hasEdge(nodeOne)
+    def setClues(self, num: int) -> None:
+        assert num > 17, "Number of clues must be at least 17."
+        self._clues = num
+        
+    def generateNewBoard(self) -> None:
+        self._reset()
+        self._setClues()
+        assert self._pickNewValue(), "Error generating new sudoku board."
 
     def __str__(self):
         board = ""
@@ -183,7 +194,7 @@ class SudokuGraph:
             row = self._calculateRow(i)
             col = self._calculateColumn(i)
 
-            board += f"  {curr.getValue()}" if curr.visible else "  *"
+            board += f"  {curr.getValue()}" if curr.getDisplay() else "  *"
 
             if col == 2 or col == 5:
                 board += "  |"
