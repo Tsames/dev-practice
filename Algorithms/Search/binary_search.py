@@ -20,14 +20,13 @@ Constraints:
 -10000 < nums[i], target < 10000
 """
 
-from math import floor
 class Solution:
     def search(self, nums: list[int], target: int) -> int:
         left = 0
         right = len(nums) - 1
 
         while left <= right:
-            mid = floor((right - left) / 2) + left
+            mid = (left + right) // 2
             print(mid)
             if nums[mid] == target:
                 return mid
