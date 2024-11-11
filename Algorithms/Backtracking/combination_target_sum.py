@@ -33,27 +33,26 @@ All elements of nums are distinct.
 2 <= target <= 30
 """
 
+
 class Solution:
     def combinationSum(self, nums: list[int], target: int) -> list[list[int]]:
         res = []
-        
-        def findCombinations(combination: list[int], index: int, sum: int) -> None:
-            if sum == target:
-                res.append(combination)
-                
-            for i in range(index, len(nums)):
-                if sum + nums[i] <= target:
-                    newNums = combination.copy()
-                    newNums.append(nums[i])
-                    findCombinations(newNums, i, sum + nums[i])
-        
-        for i, num in enumerate(nums):
-            findCombinations([num], i, num)
-        
+
+        def dfs(curr: list[int], i: int, total: int) -> None:
+            if total == target:
+                res.append(curr.copy())
+                return
+
+            if i >= len(nums) or total > target:
+                return
+
+            curr.append(nums[i])
+            dfs(curr, i, total + nums[i])
+            curr.pop()
+            dfs(curr, i + 1, total)
+
+        dfs([], 0, 0)
         return res
-    
+
 solution = Solution()
-print(solution.combinationSum([3,4,5], 16))
-                
-            
-            
+print(solution.combinationSum([3, 4, 5], 16))

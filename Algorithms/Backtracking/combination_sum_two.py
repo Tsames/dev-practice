@@ -46,22 +46,22 @@ class Solution:
         res = []
 
         def dfs(curr: list[int], i: int, total: int) -> None:
-            print(f"Recursive call with curr @ {curr}")
+            # print(f"Recursive call with curr @ {curr}")
             if total == target:
                 res.append(curr.copy())
                 return
 
             if i >= len(candidates) or total > target:
                 return
-
-            newIndex = i
-            while newIndex < len(candidates) - 1 and candidates[newIndex + 1] == candidates[i]:
-                newIndex += 1
                 
-            curr.append(candidates[newIndex])
-            dfs(curr, newIndex + 1, total + candidates[newIndex])
+            curr.append(candidates[i])
+            dfs(curr, i + 1, total + candidates[i])
             curr.pop()
-            dfs(curr, newIndex + 1, total)
+            
+            # Get to the final element in sorted candidates that has the same value as i originally
+            while i + 1 < len(candidates) and candidates[i] == candidates[i+1]:
+                i += 1
+            dfs(curr, i + 1, total)
 
         dfs([], 0, 0)
         return res
@@ -69,3 +69,4 @@ class Solution:
 
 solution = Solution()
 print(solution.combinationSum2([1, 2, 3, 4, 5], 7))
+print(solution.combinationSum2([9,2,2,4,6,1,5], 8))
