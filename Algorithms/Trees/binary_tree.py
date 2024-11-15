@@ -1,4 +1,4 @@
-class BinaryTreeNode:
+class TreeNode:
     def __init__(self, value=None, left=None, right=None):
         self.value = value
         self.left = left
@@ -34,11 +34,11 @@ class BinaryTreeNode:
                 nextLevel = 0
 
 
-def create_tree_from_list(nodes: list[int]) -> BinaryTreeNode:
+def createFromList(nodes: list[int]) -> TreeNode:
     if not nodes:
         return None
 
-    root = BinaryTreeNode(nodes[0])
+    root = TreeNode(nodes[0])
     q = [root]
     i = 1
 
@@ -46,14 +46,14 @@ def create_tree_from_list(nodes: list[int]) -> BinaryTreeNode:
         curr = q.pop(0)
         if curr:
             if nodes[i]:
-                curr.left = BinaryTreeNode(nodes[i])
+                curr.left = TreeNode(nodes[i])
                 q.append(curr.left)
             else:
                 curr.left = nodes[i]
             i += 1
         if i < len(nodes) and curr:
             if nodes[i]:
-                curr.right = BinaryTreeNode(nodes[i])
+                curr.right = TreeNode(nodes[i])
                 q.append(curr.right)
             else:
                 curr.right = nodes[i]
