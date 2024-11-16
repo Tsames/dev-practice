@@ -5,33 +5,24 @@ class TreeNode:
         self.right = right
 
     def __str__(self):
-        queue = [self]
-        currentLevel = 1
-        nextLevel = 0
-        tree_level = ""
+        from collections import deque
+        q = deque([self])
+        res = ""
 
-        while len(queue) != 0:
-            currentNode = queue.pop(0)
-            currentLevel -= 1
-
-            if currentNode.left:
-                queue.append(currentNode.left)
-                nextLevel += 1
-
-            if currentNode.right:
-                queue.append(currentNode.right)
-                nextLevel += 1
-
-            tree_level += f"{currentNode.value}  "
-
-            if currentLevel == 0 and nextLevel == 0:
-                return tree_level
-
-            if currentLevel == 0:
-                print(tree_level)
-                tree_level = ""
-                currentLevel = nextLevel
-                nextLevel = 0
+        while q:
+            level = ""
+            for i in range(len(q)):
+                curr = q.popleft()
+                if not curr:
+                    level += "None  "
+                    continue
+                else:
+                    level += f"{curr.value}  "
+                    q.append(curr.left)
+                    q.append(curr.right)
+            res += level + "\n"
+        
+        return res
 
 
 def createFromList(nodes: list[int]) -> TreeNode:
@@ -60,3 +51,7 @@ def createFromList(nodes: list[int]) -> TreeNode:
             i += 1
 
     return root
+
+
+tree = createFromList([1,2,3,None,4,None,None])
+print(tree)
