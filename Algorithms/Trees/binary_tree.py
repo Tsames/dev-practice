@@ -1,11 +1,12 @@
 class TreeNode:
-    def __init__(self, value=None, left=None, right=None):
-        self.value = value
+    def __init__(self, val=None, left=None, right=None):
+        self.val = val
         self.left = left
         self.right = right
 
     def __str__(self):
         from collections import deque
+
         q = deque([self])
         res = ""
 
@@ -17,11 +18,11 @@ class TreeNode:
                     level += "None  "
                     continue
                 else:
-                    level += f"{curr.value}  "
+                    level += f"{curr.val}  "
                     q.append(curr.left)
                     q.append(curr.right)
             res += level + "\n"
-        
+
         return res
 
 
@@ -51,7 +52,3 @@ def createFromList(nodes: list[int]) -> TreeNode:
             i += 1
 
     return root
-
-
-tree = createFromList([1,2,3,None,4,None,None])
-print(tree)
