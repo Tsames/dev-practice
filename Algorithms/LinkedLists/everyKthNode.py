@@ -1,5 +1,6 @@
-from listNode import Node
-'''
+from listNode import ListNode
+
+"""
 ❓ PROMPT
 Given a linked list and a target k, return a linked list containing every kth element.
 
@@ -49,33 +50,36 @@ def everyKthNode(node: Node, target: int) -> Node:
 🧪 VERIFY
 Run tests. Methodically debug & analyze issues.
 
-'''
+"""
 
-def everykthNode(node: Node, target: int) -> Node:
-    
-    res = Node()
+
+def everykthNode(node: ListNode, target: int) -> ListNode:
+
+    res = ListNode()
     resPointer = res
     visited = 0
-    
-    while(node):
+
+    while node:
         visited += 1
         if visited % target == 0:
-            newNode = Node(node.data)
+            newNode = ListNode(node.val)
             resPointer.next = newNode
             resPointer = newNode
         node = node.next
-        
-    if res.next == None: return None
+
+    if res.next == None:
+        return None
     return res.next
 
-testNodeHead = Node(1)
+
+testNodeHead = ListNode(1)
 testNodePointer = testNodeHead
-for i in range(2,10):
-    newNode = Node(i)
+for i in range(2, 10):
+    newNode = ListNode(i)
     testNodePointer.next = newNode
     testNodePointer = newNode
 
-print(everykthNode(testNodeHead,1))
-print(everykthNode(testNodeHead,20))
-print(everykthNode(testNodeHead,3))
+print(everykthNode(testNodeHead, 1))
+print(everykthNode(testNodeHead, 20))
+print(everykthNode(testNodeHead, 3))
 print(everykthNode(None, 1))

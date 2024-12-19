@@ -1,5 +1,6 @@
-from listNode import Node
-'''
+from listNode import ListNode
+
+"""
 Given a linked list and a sorted array of indices, return the sum of nodes at the indices.
 For example, given a linked list:5 -> 6 -> 7 -> 8 -> 9
 and indices array:[0, 2, 4]
@@ -12,19 +13,20 @@ If any index is past the end of the linked list, just ignore it.
 * [input] linkedlist.integer node
 * [input] array.integer indices
 * [output] integer
-'''
+"""
+
 
 def solution(node, indices):
 
     total = 0
     pointer = 0
     nodesVisited = 0
-    
+
     while node and pointer < len(indices):
         if nodesVisited == indices[pointer]:
             total += node.value
             pointer += 1
         nodesVisited += 1
         node = node.next
-    
+
     return total

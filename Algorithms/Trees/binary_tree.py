@@ -30,12 +30,15 @@ def createFromList(nodes: list[int]) -> TreeNode:
     if not nodes:
         return None
 
+    from collections import deque
+
     root = TreeNode(nodes[0])
-    q = [root]
+    q = deque([root])
     i = 1
 
     while i < len(nodes):
-        curr = q.pop(0)
+        curr = q.popleft()
+
         if curr:
             if nodes[i]:
                 curr.left = TreeNode(nodes[i])
@@ -43,6 +46,7 @@ def createFromList(nodes: list[int]) -> TreeNode:
             else:
                 curr.left = nodes[i]
             i += 1
+
         if i < len(nodes) and curr:
             if nodes[i]:
                 curr.right = TreeNode(nodes[i])

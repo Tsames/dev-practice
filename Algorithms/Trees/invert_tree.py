@@ -22,12 +22,12 @@ Constraints:
 """
 
 from typing import Optional
-from binary_tree import BinaryTreeNode, create_tree_from_list
+from binary_tree import TreeNode, createFromList
 from collections import deque
 
 
 class Solution:
-    def invertTree(self, root: Optional[BinaryTreeNode]) -> Optional[BinaryTreeNode]:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         """
         Plan:
 
@@ -37,7 +37,7 @@ class Solution:
         """
         if not root:
             return root
-        
+
         q = deque([root])
         while q:
             curr = q.popleft()
@@ -52,8 +52,8 @@ class Solution:
                 q.append(curr.right)
 
         return root
-    
-    
+
+
 solution = Solution()
-treeOne = create_tree_from_list([1,2,3,4,5,6,7])
+treeOne = createFromList([1, 2, 3, 4, 5, 6, 7])
 print(solution.invertTree(treeOne))

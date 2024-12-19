@@ -54,5 +54,6 @@ class Solution:
         dfs([], 0, 0)
         return res
 
+
 solution = Solution()
 print(solution.combinationSum([3, 4, 5], 16))
