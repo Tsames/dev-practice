@@ -33,15 +33,6 @@ from binary_tree import TreeNode, createFromList
 
 
 class Solution:
-    """
-    The big problem here is that you can only traverse a tree towards its leaf nodes.
-    This problem would be significantly easier to handle if we could traverse in reverse order.
-
-    Since the constraints guarantee that each node has a unique value can we record the path from root to node as a list with the deepest nodes first.
-
-    Then we could compare the nodes with the path of another in dfs
-    """
-
     def lowestCommonAncestor(
         self, root: TreeNode, p: TreeNode, q: TreeNode
     ) -> TreeNode:
@@ -77,3 +68,13 @@ class Solution:
         Note that this assumption only works because we are guarnateed that p and q both exist in the tree.
         """
         return l or r
+    
+    def lowestCommonAncestorTwo(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        if not root:
+            return root
+        
+        l = self.lowestCommonAncestor(root.left, p, q)
+        r = self.lowestCommonAncestor(root.right, p, q)
+        
+        
+        

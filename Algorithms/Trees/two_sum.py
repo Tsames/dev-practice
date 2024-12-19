@@ -1,4 +1,4 @@
-from binary_tree import BinaryTreeNode, create_tree_from_list
+from binary_tree import TreeNode, createFromList
 
 """
 Given the root of a binary search tree and an integer k,
@@ -22,7 +22,7 @@ root is guaranteed to be a valid binary search tree.
 """
 
 
-def two_sum(head: BinaryTreeNode, k: int) -> bool:
+def two_sum(head: TreeNode, k: int) -> bool:
     values = set()
     queue = [head]
 
@@ -31,10 +31,10 @@ def two_sum(head: BinaryTreeNode, k: int) -> bool:
         if not curr:
             continue
 
-        if (k - curr.value) in values:
+        if (k - curr.val) in values:
             return True
         else:
-            values.add(curr.value)
+            values.add(curr.val)
 
         queue.append(curr.left)
         queue.append(curr.right)
@@ -42,7 +42,7 @@ def two_sum(head: BinaryTreeNode, k: int) -> bool:
     return False
 
 
-exampleRootOne = create_tree_from_list([5, 3, 6, 2, 4, None, 7])
+exampleRootOne = createFromList([5, 3, 6, 2, 4, None, 7])
 
 print(two_sum(exampleRootOne, 9))  # True
 print(two_sum(exampleRootOne, 28))  # False

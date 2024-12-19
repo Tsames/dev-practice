@@ -72,7 +72,7 @@ class Solution:
 
             for i in range(len(q)):
                 r, c = q.popleft()
-                
+
                 # If we run into land, assign it a value equal to the path count
                 grid[r][c] = distance
 
@@ -86,7 +86,7 @@ class Solution:
                     ):
                         q.append((r + dr, c + dc))
                         visited.add((r + dr, c + dc))
-                
+
             distance += 1
 
         return grid

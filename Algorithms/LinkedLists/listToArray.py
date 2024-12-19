@@ -1,5 +1,6 @@
-from listNode import Node
-'''
+from listNode import ListNode
+
+"""
 ❓ PROMPT
 Given a linked list, return an array with all the elements in reverse.
 
@@ -33,31 +34,32 @@ def createArrayInReverse(node: Node) -> list[int]:
 🧪 VERIFY
 Run tests. Methodically debug & analyze issues.
 
-'''
+"""
 
-def createArrayInReverse(node: Node) -> list[int]:
+
+def createArrayInReverse(node: ListNode) -> list[int]:
     res = []
-    
+
     # Write data of each node to our result array
     while node:
-        res.append(node.data)
+        res.append(node.val)
         node = node.next
-    
+
     # Reverse our array
     left, right = 0, len(res) - 1
     while left < right:
         res[left], res[right] = res[right], res[left]
         left += 1
         right -= 1
-    
+
     return res
 
-testNodeHead = Node(1)
+
+testNodeHead = ListNode(1)
 testNodePointer = testNodeHead
-for i in range(2,10):
-    newNode = Node(i)
+for i in range(2, 10):
+    newNode = ListNode(i)
     testNodePointer.next = newNode
     testNodePointer = newNode
 
 print(createArrayInReverse(testNodeHead))
-    

@@ -18,11 +18,11 @@ Constraints:
 """
 
 from typing import Optional
-from listNode import Node, createFromList
+from listNode import ListNode, createFromList
 
 
 class Solution:
-    def reverseList(self, head: Optional[Node]) -> Optional[Node]:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev = None
 
         while head:
@@ -35,4 +35,4 @@ class Solution:
 
 
 solution = Solution()
-print(solution.reverseList(createFromList([1,2,3,4,5])))
+print(solution.reverseList(createFromList([1, 2, 3, 4, 5])))

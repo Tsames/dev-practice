@@ -1,4 +1,5 @@
-from binary_tree import create_tree_from_list
+from binary_tree import createFromList
+
 """
 Given a binary tree t, return its left view. To understand what the left view of the tree means,
 imagine yourself standing on the left side of the tree: The left view will be all the vertices
@@ -40,26 +41,31 @@ t = {
 the output should be solution(t) = [5, 3, -1, 8].
 """
 
+
 def left_view(root):
-    if not root: return []
-    
+    if not root:
+        return []
+
     res = [root.value]
     queue = [root]
     next_queue = []
-    
+
     while len(queue) != 0:
         curr = queue.pop(0)
-        
-        if curr.left: next_queue.append(curr.left)
-        if curr.right: next_queue.append(curr.right)
-        
+
+        if curr.left:
+            next_queue.append(curr.left)
+        if curr.right:
+            next_queue.append(curr.right)
+
         if len(queue) == 0:
             if len(next_queue) > 0:
                 res.append(next_queue[0].value)
             queue = next_queue
             next_queue = []
-    
+
     return res
 
-test_root = create_tree_from_list([1,2,3,4,5,6,7,8,9,10])
+
+test_root = createFromList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 print(left_view(test_root))

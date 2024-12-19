@@ -43,7 +43,7 @@ class Solution:
         """
         
         self.res = 0
-        
+    
         def dfs(root: Optional[TreeNode]) -> int:
             if not root:
                 return 0
@@ -53,7 +53,7 @@ class Solution:
             
             self.res = max(self.res, left + right)
             return 1 + max(left, right)
-        
+    
         dfs(root)
         return self.res
 
