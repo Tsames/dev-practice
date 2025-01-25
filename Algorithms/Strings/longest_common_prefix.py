@@ -30,14 +30,14 @@ def longest_common_prefix(strs):
     Pretty bad run time.
     
     
-    Alternatively, if we find the first and last string in lexographical order we would have the strings that are the most different from one another.
+    Alternatively, if we find the first and last string in lexicographical order we would have the strings that are the most different from one another.
     '''
     
     # If there is only a single string in the strs input, return it
     if len(strs) == 1:
         return strs[0]
     
-    # Otherwise, find the first and last strings in lexographical order.
+    # Otherwise, find the first and last strings in lexicographical order.
     first = last = strs[0]
     for word in strs:
         if word < first:
@@ -58,18 +58,18 @@ assert longest_common_prefix(['']) == '', 'Test Case 4 Failed'
 assert longest_common_prefix(['a']) == 'a', 'Test Case 5 Failed'
 
 '''
-Lexographical Order proof of concept.
-Is there some case where comparing only the first and last in lexographical order would not work out?
+Lexicographical Order proof of concept.
+Is there some case where comparing only the first and last in lexicographical order would not work out?
 
--> What if the first and last in lexographical order are shorter than the rest of the strings?
+-> What if the first and last in lexicographical order are shorter than the rest of the strings?
 
 'aabz'
 'aaba'
 'aabcd'
 
-Since, lexographical order matches first based on alphabetical order and secondarily measures the length of the string, if the first and last are shorter than the other values, they would necessarily diverge or else the last in lexographical order would be the longer string.
+Since, lexicographical order matches first based on alphabetical order and secondarily measures the length of the string, if the first and last are shorter than the other values, they would necessarily diverge or else the last in Lexicographical order would be the longer string.
 
--> What if the first and last in lexographical order are longer than the rest of the strings?
+-> What if the first and last in lexicographical order are longer than the rest of the strings?
 
 'aabb'
 'aac'
