@@ -31,7 +31,7 @@ If the result is greater than 10, we save 1 to a variable outside our loop.
 If it isn't we set our outside variable to 0 instead.
 """
 
-from listNode import ListNode, createFromList
+from Algorithms.LinkedLists.list_node import ListNode, createFromList
 
 
 class Solution:
