@@ -1,4 +1,4 @@
-from listNode import ListNode
+from Algorithms.LinkedLists.list_node import ListNode
 
 """
 Given a linked list, return true if all its values are unique and false otherwise.
@@ -14,7 +14,7 @@ def solution(node):
     valueSet = set()
 
     while node:
-        if node.value in valueSet:
+        if node.val in valueSet:
             return False
         else:
             valueSet.add(node.value)

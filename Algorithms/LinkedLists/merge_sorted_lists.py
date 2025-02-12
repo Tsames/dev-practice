@@ -23,9 +23,75 @@ Constraints:
 0 <= The length of the each list <= 100.
 -100 <= Node.val <= 100
 """
-
+# from listNode import ListNode, createFromList
 from typing import Optional
-from listNode import ListNode, createFromList
+
+class ListNode:
+    def __init__(self, val: int = None, next: Optional["ListNode"] = None):
+        self.val = val
+        self.next = next
+        
+
+def solution(list1: ListNode, list2: ListNode) -> ListNode:
+    '''
+    First we'll need a variable to hold the head of our new linked list so we can return it at the end. -> dummy_head
+    We will also need a variable to hold the current node that we are at when creating our new linked list -> curr
+    
+    Then we'll want to iterate as long as list1 and list2 are not both None
+    If list1 is not None, add the next node to our new list, then move the pointer further down the list
+    Repeat for list2
+    
+    return dummy_head.next
+    '''
+    dummy_head = curr = ListNode()
+    
+    while list1 or list2:
+        if list1 and list2:
+            
+            curr.next = list1
+            list1 = list1.next
+            
+        if list2:
+            curr.next = list2
+            list2 = list2.next
+            
+    return dummy_head.next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class Solution:
