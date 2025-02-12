@@ -18,7 +18,7 @@ Constraints:
 """
 
 from typing import Optional
-from listNode import ListNode, createFromList
+from Algorithms.LinkedLists.list_node import ListNode, createFromList
 
 
 class Solution:

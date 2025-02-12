@@ -25,7 +25,7 @@ Constraints:
 index is -1 or a valid index in the linked list.
 """
 from typing import Optional
-from listNode import ListNode, createFromList
+from Algorithms.LinkedLists.list_node import ListNode, createFromList
 
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:

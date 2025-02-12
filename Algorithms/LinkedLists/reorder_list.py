@@ -28,7 +28,52 @@ Constraints:
 1 <= Node.val <= 1000
 """
 
-from listNode import ListNode, createFromList
+
+
+'''
+The difficulty with this problem is that you cannot traverse backwards in a linked list.
+
+Instead, lets get two sub linked list.
+Half of the first one and then the other half reversed.
+Then it would be easy to interleave them in the desired manner.
+
+To split the original list we use a fast and slow pointer.
+Set the slow pointer to the original root node
+Set the fast pointer to the next node
+
+Reverse the second linked list
+'''
+
+def reorderLinkedList(root: ListNode) -> ListNode:
+    if not root or root.next == None:
+        return root
+    
+    slow = root
+    fast = root.next
+    
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from Algorithms.LinkedLists.list_node import ListNode, createFromList
 
 
 def reorder_with_linear_space(root: ListNode) -> ListNode:

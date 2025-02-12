@@ -1,4 +1,4 @@
-from listNode import ListNode
+from Algorithms.LinkedLists.list_node import ListNode
 
 """
 Given a linked list and a sorted array of indices, return the sum of nodes at the indices.
